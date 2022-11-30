@@ -68,8 +68,8 @@ public class CassandraProcessManager implements ICassandraProcess {
         env.put("CASSANDRA_LOG_DIR", config.getLogDirLocation());
     }
 
-    public void start(boolean join_ring) throws IOException {
-        logger.info("Starting cassandra server ....Join ring={}", join_ring);
+    public void start(boolean joinRing) throws IOException {
+        logger.info("Starting cassandra server ....Join ring={}", joinRing);
         instanceState.markLastAttemptedStartTime();
         instanceState.setShouldCassandraBeAlive(true);
 
@@ -89,7 +89,7 @@ public class CassandraProcessManager implements ICassandraProcess {
 
         Map<String, String> env = startCass.environment();
         setEnv(env);
-        env.put("cassandra.join_ring", join_ring ? "true" : "false");
+        env.put("cassandra.join_ring", joinRing ? "true" : "false");
 
         startCass.directory(new File("/"));
         startCass.redirectErrorStream(true);
@@ -105,7 +105,9 @@ public class CassandraProcessManager implements ICassandraProcess {
                 logger.info("Cassandra server has been started");
                 instanceState.setCassandraProcessAlive(true);
                 this.cassMonitorMetrics.incCassStart();
-            } else logger.error("Unable to start cassandra server. Error code: {}", code);
+            } else {
+                logger.error("Unable to start cassandra server. Error code: {}", code);
+            }
 
             logProcessOutput(starter);
         } catch (Exception e) {
@@ -116,7 +118,9 @@ public class CassandraProcessManager implements ICassandraProcess {
     protected List<String> getStartCommand() {
         List<String> startCmd = new LinkedList<>();
         for (String param : config.getCassStartupScript().split(" ")) {
-            if (StringUtils.isNotBlank(param)) startCmd.add(param);
+            if (StringUtils.isNotBlank(param)) {
+                startCmd.add(param);
+            }
         }
         return startCmd;
     }
@@ -136,7 +140,9 @@ public class CassandraProcessManager implements ICassandraProcess {
         final byte[] buffer = new byte[512];
         final ByteArrayOutputStream baos = new ByteArrayOutputStream(buffer.length);
         int cnt;
-        while ((cnt = inputStream.read(buffer)) != -1) baos.write(buffer, 0, cnt);
+        while ((cnt = inputStream.read(buffer)) != -1) {
+            baos.write(buffer, 0, cnt);
+        }
         return baos.toString();
     }
 
@@ -153,7 +159,9 @@ public class CassandraProcessManager implements ICassandraProcess {
             }
         }
         for (String param : config.getCassStopScript().split(" ")) {
-            if (StringUtils.isNotBlank(param)) command.add(param);
+            if (StringUtils.isNotBlank(param)) {
+                command.add(param);
+            }
         }
         ProcessBuilder stopCass = new ProcessBuilder(command);
         stopCass.directory(new File("/"));

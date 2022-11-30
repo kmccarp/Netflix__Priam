@@ -36,7 +36,9 @@ import org.slf4j.LoggerFactory;
  */
 public class BackupNotificationMgr implements EventObserver<BackupEvent> {
 
-    public static final String SUCCESS_VAL = "success", FAILED_VAL = "failed", STARTED = "started";
+    public static final String SUCCESS_VAL = "success";
+    public static final String FAILED_VAL = "failed";
+    public static final String STARTED = "started";
     private static final Logger logger = LoggerFactory.getLogger(BackupNotificationMgr.class);
     private final IConfiguration config;
     private final IBackupRestoreConfig backupRestoreConfig;

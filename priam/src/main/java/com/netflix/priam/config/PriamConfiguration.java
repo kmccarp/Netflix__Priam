@@ -19,7 +19,7 @@ package com.netflix.priam.config;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.netflix.priam.configSource.IConfigSource;
+import com.netflix.priam.configsource.IConfigSource;
 import com.netflix.priam.identity.config.InstanceInfo;
 import com.netflix.priam.scheduler.UnsupportedTypeException;
 import com.netflix.priam.tuner.GCType;

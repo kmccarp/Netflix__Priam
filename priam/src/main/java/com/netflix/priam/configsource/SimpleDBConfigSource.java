@@ -14,7 +14,7 @@
  * limitations under the License.
  *
  */
-package com.netflix.priam.configSource;
+package com.netflix.priam.configsource;
 
 import com.amazonaws.services.simpledb.AmazonSimpleDB;
 import com.amazonaws.services.simpledb.AmazonSimpleDBClient;
@@ -78,8 +78,8 @@ public final class SimpleDBConfigSource extends AbstractConfigSource {
                 asgName.lastIndexOf('-') > 0 ? asgName.substring(0, asgName.indexOf('-')) : asgName;
         logger.info("appid used to fetch properties is: {}", appid);
         do {
-            String ALL_QUERY = "select * from " + DOMAIN + " where " + Attributes.APP_ID + "='%s'";
-            SelectRequest request = new SelectRequest(String.format(ALL_QUERY, appid));
+            String allQuery = "select * from " + DOMAIN + " where " + Attributes.APP_ID + "='%s'";
+            SelectRequest request = new SelectRequest(String.format(allQuery, appid));
             request.setNextToken(nextToken);
             SelectResult result = simpleDBClient.select(request);
             nextToken = result.getNextToken();
@@ -102,14 +102,22 @@ public final class SimpleDBConfigSource extends AbstractConfigSource {
         String dc = "";
         while (attrs.hasNext()) {
             Attribute att = attrs.next();
-            if (att.getName().equals(Attributes.PROPERTY)) prop = att.getValue();
-            else if (att.getName().equals(Attributes.PROPERTY_VALUE)) value = att.getValue();
-            else if (att.getName().equals(Attributes.REGION)) dc = att.getValue();
+            if (att.getName().equals(Attributes.PROPERTY)) {
+                prop = att.getValue();
+            } else if (att.getName().equals(Attributes.PROPERTY_VALUE)) {
+                value = att.getValue();
+            } else if (att.getName().equals(Attributes.REGION)) {
+                dc = att.getValue();
+            }
         }
         // Ignore, if not this region
-        if (StringUtils.isNotBlank(dc) && !dc.equals(getRegion())) return;
+        if (StringUtils.isNotBlank(dc) && !dc.equals(getRegion())) {
+            return;
+        }
         // Override only if region is specified
-        if (data.containsKey(prop) && StringUtils.isBlank(dc)) return;
+        if (data.containsKey(prop) && StringUtils.isBlank(dc)) {
+            return;
+        }
         data.put(prop, value);
     }
 

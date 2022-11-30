@@ -36,11 +36,12 @@ public class TestDateUtils {
         // Start and end should be a day apart.
         Assert.assertEquals(
                 dateRange.getEndTime(), dateRange.getStartTime().plus(1, ChronoUnit.DAYS));
-        if (Duration.between(dateRange.getEndTime(), now).getSeconds() > 5)
+        if (Duration.between(dateRange.getEndTime(), now).getSeconds() > 5) {
             throw new AssertionError(
                     String.format(
                             "End date: %s and now: %s should be almost same",
                             dateRange.getEndTime(), now));
+        }
     }
 
     @Test
@@ -51,11 +52,12 @@ public class TestDateUtils {
         // Start and end should be a day apart.
         Assert.assertEquals(
                 dateRange.getEndTime(), dateRange.getStartTime().plus(1, ChronoUnit.DAYS));
-        if (Duration.between(dateRange.getEndTime(), now).getSeconds() > 5)
+        if (Duration.between(dateRange.getEndTime(), now).getSeconds() > 5) {
             throw new AssertionError(
                     String.format(
                             "End date: %s and now: %s should be almost same",
                             dateRange.getEndTime(), now));
+        }
     }
 
     @Test

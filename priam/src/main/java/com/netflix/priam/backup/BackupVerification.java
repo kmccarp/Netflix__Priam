@@ -56,11 +56,10 @@ public class BackupVerification {
     }
 
     public IMetaProxy getMetaProxy(BackupVersion backupVersion) {
-        switch (backupVersion) {
-            case SNAPSHOT_BACKUP:
-                return metaV1Proxy;
-            case SNAPSHOT_META_SERVICE:
-                return metaV2Proxy;
+        if (backupVersion == BackupVersion.SNAPSHOT_BACKUP) {
+            return metaV1Proxy;
+        } else if (backupVersion == BackupVersion.SNAPSHOT_META_SERVICE) {
+            return metaV2Proxy;
         }
 
         return null;
@@ -81,7 +80,9 @@ public class BackupVerification {
 
         List<BackupMetadata> metadata =
                 backupStatusMgr.getLatestBackupMetadata(backupVersion, dateRange);
-        if (metadata == null || metadata.isEmpty()) return Optional.empty();
+        if (metadata == null || metadata.isEmpty()) {
+            return Optional.empty();
+        }
         for (BackupMetadata backupMetadata : metadata) {
             if (backupMetadata.getLastValidated() != null && !force) {
                 // Backup is already validated. Nothing to do.
@@ -96,11 +97,12 @@ public class BackupVerification {
             }
             BackupVerificationResult backupVerificationResult =
                     verifyBackup(metaProxy, backupMetadata);
-            if (logger.isDebugEnabled())
+            if (logger.isDebugEnabled()) {
                 logger.debug(
                         "BackupVerification: metadata: {}, result: {}",
                         backupMetadata,
                         backupVerificationResult);
+            }
             if (backupVerificationResult.valid) {
                 backupMetadata.setLastValidated(new Date(DateUtil.getInstant().toEpochMilli()));
                 backupStatusMgr.update(backupMetadata);
@@ -129,16 +131,19 @@ public class BackupVerification {
 
         List<BackupMetadata> metadata =
                 backupStatusMgr.getLatestBackupMetadata(backupVersion, dateRange);
-        if (metadata == null || metadata.isEmpty()) return result;
+        if (metadata == null || metadata.isEmpty()) {
+            return result;
+        }
         for (BackupMetadata backupMetadata : metadata) {
             if (backupMetadata.getLastValidated() == null) {
                 BackupVerificationResult backupVerificationResult =
                         verifyBackup(metaProxy, backupMetadata);
-                if (logger.isDebugEnabled())
+                if (logger.isDebugEnabled()) {
                     logger.debug(
                             "BackupVerification: metadata: {}, result: {}",
                             backupMetadata,
                             backupVerificationResult);
+                }
                 if (backupVerificationResult.valid) {
                     backupMetadata.setLastValidated(new Date(DateUtil.getInstant().toEpochMilli()));
                     backupStatusMgr.update(backupMetadata);

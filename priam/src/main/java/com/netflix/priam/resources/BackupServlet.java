@@ -188,7 +188,7 @@ public class BackupServlet {
         JSONObject object = new JSONObject();
         List<String> snapshots = new ArrayList<>();
 
-        if (metadata != null && !metadata.isEmpty())
+        if (metadata != null && !metadata.isEmpty()) {
             snapshots.addAll(
                     metadata.stream()
                             .filter(
@@ -200,6 +200,7 @@ public class BackupServlet {
                                     backupMetadata ->
                                             DateUtil.formatyyyyMMddHHmm(backupMetadata.getStart()))
                             .collect(Collectors.toList()));
+        }
 
         object.put("Snapshots", snapshots);
         return Response.ok(object.toString(), MediaType.APPLICATION_JSON).build();
@@ -249,7 +250,9 @@ public class BackupServlet {
             JSONArray jArray = new JSONArray();
             while (it.hasNext()) {
                 AbstractBackupPath p = it.next();
-                if (!filter.isEmpty() && BackupFileType.valueOf(filter) != p.getType()) continue;
+                if (!filter.isEmpty() && BackupFileType.valueOf(filter) != p.getType()) {
+                    continue;
+                }
                 JSONObject backupJSON = new JSONObject();
                 backupJSON.put("bucket", config.getBackupPrefix());
                 backupJSON.put("filename", p.getRemotePath());

@@ -56,9 +56,9 @@ public class SnapshotBackup extends AbstractBackup {
     private final IBackupStatusMgr snapshotStatusMgr;
     private final BackupRestoreUtil backupRestoreUtil;
     private final ForgottenFilesManager forgottenFilesManager;
-    private String snapshotName = null;
+    private String snapshotName;
     private Instant snapshotInstant = DateUtil.getInstant();
-    private List<AbstractBackupPath> abstractBackupPaths = null;
+    private List<AbstractBackupPath> abstractBackupPaths;
     private final CassandraOperations cassandraOperations;
     private final BackupHelper backupHelper;
     private static final Lock lock = new ReentrantLock();
@@ -165,7 +165,9 @@ public class SnapshotBackup extends AbstractBackup {
 
     private File getValidSnapshot(File snpDir, String snapshotName) {
         for (File snapshotDir : snpDir.listFiles())
-            if (snapshotDir.getName().matches(snapshotName)) return snapshotDir;
+            if (snapshotDir.getName().matches(snapshotName)) {
+                return snapshotDir;
+            }
         return null;
     }
 
@@ -175,7 +177,7 @@ public class SnapshotBackup extends AbstractBackup {
     }
 
     public static boolean isBackupEnabled(IConfiguration config) throws Exception {
-        return (getTimer(config) != null);
+        return getTimer(config) != null;
     }
 
     public static TaskTimer getTimer(IConfiguration config) throws Exception {
@@ -191,7 +193,7 @@ public class SnapshotBackup extends AbstractBackup {
         Set<Path> backupPaths = AbstractBackup.getBackupDirectories(configuration, SNAPSHOT_FOLDER);
         for (Path backupDirPath : backupPaths)
             try (DirectoryStream<Path> directoryStream =
-                    Files.newDirectoryStream(backupDirPath, path -> Files.isDirectory(path))) {
+                    Files.newDirectoryStream(backupDirPath, Files::isDirectory)) {
                 for (Path backupDir : directoryStream) {
                     if (isValidBackupDir(backupDir)) {
                         FileUtils.deleteDirectory(backupDir.toFile());
@@ -223,6 +225,6 @@ public class SnapshotBackup extends AbstractBackup {
     private static boolean isValidBackupDir(Path backupDir) {
         String backupDirName = backupDir.toFile().getName();
         // Check if it of format yyyyMMddHHmm
-        return (DateUtil.getDate(backupDirName) != null);
+        return DateUtil.getDate(backupDirName) != null;
     }
 }

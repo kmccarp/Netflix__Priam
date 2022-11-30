@@ -23,11 +23,13 @@ import org.slf4j.LoggerFactory;
 
 /** POJO to encapsulate the metadata for a snapshot Created by aagrawal on 1/31/17. */
 public final class BackupMetadata implements Serializable {
+    private static final long serialVersionUID = 1;
     private static final Logger logger = LoggerFactory.getLogger(BackupMetadata.class);
 
     private String snapshotDate;
     private String token;
-    private Date start, completed;
+    private Date start;
+    private Date completed;
     private Status status;
     private boolean cassandraSnapshotSuccess;
     private Date lastValidated;
@@ -35,11 +37,12 @@ public final class BackupMetadata implements Serializable {
     private String snapshotLocation;
 
     public BackupMetadata(BackupVersion backupVersion, String token, Date start) throws Exception {
-        if (start == null || token == null || StringUtils.isEmpty(token))
+        if (start == null || token == null || StringUtils.isEmpty(token)) {
             throw new Exception(
                     String.format(
                             "Invalid Input: Token: %s or start date: %s is null or empty.",
                             token, start));
+        }
         this.backupVersion = backupVersion;
         this.snapshotDate = DateUtil.formatyyyyMMdd(start);
         this.token = token;
@@ -50,8 +53,12 @@ public final class BackupMetadata implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || this.getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || this.getClass() != o.getClass()) {
+            return false;
+        }
 
         BackupMetadata that = (BackupMetadata) o;
 

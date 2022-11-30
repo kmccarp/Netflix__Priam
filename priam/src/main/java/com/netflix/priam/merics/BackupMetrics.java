@@ -27,16 +27,17 @@ public class BackupMetrics {
      * Distribution summary will provide the metric like count (how many uploads were made), max no.
      * of bytes uploaded and total amount of bytes uploaded.
      */
-    private final DistributionSummary uploadRate, downloadRate;
+    private final DistributionSummary uploadRate;
+    private final DistributionSummary downloadRate;
 
-    private final Counter validUploads,
-            validDownloads,
-            invalidUploads,
-            invalidDownloads,
-            snsNotificationSuccess,
-            snsNotificationFailure,
-            forgottenFiles,
-            backupVerificationFailure;
+    private final Counter validUploads;
+    private final Counter validDownloads;
+    private final Counter invalidUploads;
+    private final Counter invalidDownloads;
+    private final Counter snsNotificationSuccess;
+    private final Counter snsNotificationFailure;
+    private final Counter forgottenFiles;
+    private final Counter backupVerificationFailure;
     public static final String uploadQueueSize = Metrics.METRIC_PREFIX + "upload.queue.size";
     public static final String downloadQueueSize = Metrics.METRIC_PREFIX + "download.queue.size";
 

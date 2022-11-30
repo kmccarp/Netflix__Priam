@@ -32,7 +32,7 @@ public class NFSeedProvider implements SeedProvider {
 
     @Override
     public List<InetAddress> getSeeds() {
-        List<InetAddress> seeds = new ArrayList<InetAddress>();
+        List<InetAddress> seeds = new ArrayList<>();
         try {
             String priamSeeds =
                     DataFetcher.fetchData(

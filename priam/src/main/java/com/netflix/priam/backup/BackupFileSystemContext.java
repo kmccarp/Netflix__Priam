@@ -19,7 +19,8 @@ import com.netflix.priam.config.IConfiguration;
 
 public class BackupFileSystemContext implements IFileSystemContext {
 
-    private IBackupFileSystem fs = null, encryptedFs = null;
+    private IBackupFileSystem fs;
+    private IBackupFileSystem encryptedFs;
 
     @Inject
     public BackupFileSystemContext(

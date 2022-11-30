@@ -77,7 +77,7 @@ public class SnapshotMetaTask extends AbstractBackup {
     private MetaFileWriterBuilder.DataStep dataStep;
     private final IMetaProxy metaProxy;
     private final CassandraOperations cassandraOperations;
-    private String snapshotName = null;
+    private String snapshotName;
     private static final Lock lock = new ReentrantLock();
     private final IBackupStatusMgr snapshotStatusMgr;
     private final InstanceIdentity instanceIdentity;
@@ -151,7 +151,7 @@ public class SnapshotMetaTask extends AbstractBackup {
 
     public static boolean isBackupEnabled(IBackupRestoreConfig backupRestoreConfig)
             throws Exception {
-        return (getTimer(backupRestoreConfig) != null);
+        return getTimer(backupRestoreConfig) != null;
     }
 
     String generateSnapshotName(Instant snapshotInstant) {
@@ -244,11 +244,14 @@ public class SnapshotMetaTask extends AbstractBackup {
 
     private File getValidSnapshot(File snapshotDir, String snapshotName) {
         File[] snapshotDirectories = snapshotDir.listFiles();
-        if (snapshotDirectories != null)
+        if (snapshotDirectories != null) {
             for (File fileName : snapshotDirectories)
                 if (fileName.exists()
                         && fileName.isDirectory()
-                        && fileName.getName().matches(snapshotName)) return fileName;
+                        && fileName.getName().matches(snapshotName)) {
+                    return fileName;
+                }
+        }
         return null;
     }
 
@@ -267,7 +270,9 @@ public class SnapshotMetaTask extends AbstractBackup {
             for (File snapshotDirectory : snapshotDirectories) {
                 // Is it a valid SNAPSHOT_PREFIX
                 if (!snapshotDirectory.getName().startsWith(SNAPSHOT_PREFIX)
-                        || !snapshotDirectory.isDirectory()) continue;
+                        || !snapshotDirectory.isDirectory()) {
+                    continue;
+                }
 
                 if (FileUtils.sizeOfDirectory(snapshotDirectory) == 0) {
                     FileUtils.deleteQuietly(snapshotDirectory);
@@ -313,7 +318,9 @@ public class SnapshotMetaTask extends AbstractBackup {
     }
 
     private Void deleteIfEmpty(File dir) {
-        if (FileUtils.sizeOfDirectory(dir) == 0) FileUtils.deleteQuietly(dir);
+        if (FileUtils.sizeOfDirectory(dir) == 0) {
+            FileUtils.deleteQuietly(dir);
+        }
         return null;
     }
 

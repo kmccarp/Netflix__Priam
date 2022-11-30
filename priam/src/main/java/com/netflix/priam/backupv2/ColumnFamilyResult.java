@@ -42,7 +42,9 @@ public class ColumnFamilyResult {
     }
 
     public void addSstable(SSTableResult sstable) {
-        if (sstables == null) sstables = new ArrayList<>();
+        if (sstables == null) {
+            sstables = new ArrayList<>();
+        }
         sstables.add(sstable);
     }
 

@@ -61,7 +61,9 @@ public class DseTuner extends StandardTuner {
 
     private void writeCassandraSnitchProperties() {
         final NodeType nodeType = dseConfig.getNodeType();
-        if (nodeType == NodeType.REAL_TIME_QUERY) return;
+        if (nodeType == NodeType.REAL_TIME_QUERY) {
+            return;
+        }
 
         Reader reader = null;
         try {
@@ -70,10 +72,18 @@ public class DseTuner extends StandardTuner {
             Properties properties = new Properties();
             properties.load(reader);
             String suffix = "";
-            if (nodeType == NodeType.SEARCH) suffix = "_solr";
-            if (nodeType == NodeType.ANALYTIC_HADOOP) suffix = "_hadoop";
-            if (nodeType == NodeType.ANALYTIC_HADOOP_SPARK) suffix = "_hadoop_spark";
-            if (nodeType == NodeType.ANALYTIC_SPARK) suffix = "_spark";
+            if (nodeType == NodeType.SEARCH) {
+                suffix = "_solr";
+            }
+            if (nodeType == NodeType.ANALYTIC_HADOOP) {
+                suffix = "_hadoop";
+            }
+            if (nodeType == NodeType.ANALYTIC_HADOOP_SPARK) {
+                suffix = "_hadoop_spark";
+            }
+            if (nodeType == NodeType.ANALYTIC_SPARK) {
+                suffix = "_spark";
+            }
 
             properties.put("dc_suffix", suffix);
             properties.store(new FileWriter(filePath), "");

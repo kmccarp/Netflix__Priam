@@ -150,7 +150,7 @@ public class TokenRetrieverTest {
         List<String> myliveInstances =
                 liveInstances
                         .stream()
-                        .filter(x -> !x.equalsIgnoreCase("127.0.0.3"))
+                        .filter(x -> !"127.0.0.3".equalsIgnoreCase(x))
                         .collect(Collectors.toList());
         String gossipResponse = getStatus(myliveInstances, tokenToEndpointMap);
 
@@ -438,7 +438,9 @@ public class TokenRetrieverTest {
 
     private List<PriamInstance> getInstances(int noOfInstances) {
         List<PriamInstance> allInstances = Lists.newArrayList();
-        for (int i = 1; i <= noOfInstances; i++) allInstances.add(createByIndex(i));
+        for (int i = 1; i <= noOfInstances; i++) {
+            allInstances.add(createByIndex(i));
+        }
         return allInstances;
     }
 

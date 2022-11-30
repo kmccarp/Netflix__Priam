@@ -43,7 +43,9 @@ public class SecurityGroupAdmin {
             @QueryParam("ip") String ipAddr,
             @QueryParam("fromPort") int fromPort,
             @QueryParam("toPort") int toPort) {
-        if (!ipAddr.endsWith(CIDR_TAG)) ipAddr += CIDR_TAG;
+        if (!ipAddr.endsWith(CIDR_TAG)) {
+            ipAddr += CIDR_TAG;
+        }
         try {
             membership.addACL(Collections.singletonList(ipAddr), fromPort, toPort);
         } catch (Exception e) {
@@ -58,7 +60,9 @@ public class SecurityGroupAdmin {
             @QueryParam("ip") String ipAddr,
             @QueryParam("fromPort") int fromPort,
             @QueryParam("toPort") int toPort) {
-        if (!ipAddr.endsWith(CIDR_TAG)) ipAddr += CIDR_TAG;
+        if (!ipAddr.endsWith(CIDR_TAG)) {
+            ipAddr += CIDR_TAG;
+        }
         try {
             membership.removeACL(Collections.singletonList(ipAddr), fromPort, toPort);
         } catch (Exception e) {

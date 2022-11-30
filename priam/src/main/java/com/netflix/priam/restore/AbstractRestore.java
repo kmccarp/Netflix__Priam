@@ -103,12 +103,12 @@ public abstract class AbstractRestore extends Task implements IRestoreStrategy {
         this.postRestoreHook = postRestoreHook;
     }
 
-    public static final boolean isRestoreEnabled(IConfiguration conf, InstanceInfo instanceInfo) {
+    public static boolean isRestoreEnabled(IConfiguration conf, InstanceInfo instanceInfo) {
         boolean isRestoreMode = StringUtils.isNotBlank(conf.getRestoreSnapshot());
         boolean isBackedupRac =
-                (CollectionUtils.isEmpty(conf.getBackupRacs())
-                        || conf.getBackupRacs().contains(instanceInfo.getRac()));
-        return (isRestoreMode && isBackedupRac);
+                CollectionUtils.isEmpty(conf.getBackupRacs())
+                        || conf.getBackupRacs().contains(instanceInfo.getRac());
+        return isRestoreMode && isBackedupRac;
     }
 
     public void setRestoreConfiguration(String restoreIncludeCFList, String restoreExcludeCFList) {
@@ -131,17 +131,20 @@ public abstract class AbstractRestore extends Task implements IRestoreStrategy {
             }
 
             File localFileHandler = temp.newRestoreFile();
-            if (logger.isDebugEnabled())
+            if (logger.isDebugEnabled()) {
                 logger.debug(
                         "Created local file name: "
                                 + localFileHandler.getAbsolutePath()
                                 + File.pathSeparator
                                 + localFileHandler.getName());
+            }
             futureList.add(downloadFile(temp));
         }
 
         // Wait for all download to finish that were started from this method.
-        if (waitForCompletion) waitForCompletion(futureList);
+        if (waitForCompletion) {
+            waitForCompletion(futureList);
+        }
 
         return futureList;
     }
@@ -153,7 +156,9 @@ public abstract class AbstractRestore extends Task implements IRestoreStrategy {
     private List<Future<Path>> downloadCommitLogs(
             Iterator<AbstractBackupPath> fsIterator, int lastN, boolean waitForCompletion)
             throws Exception {
-        if (fsIterator == null) return null;
+        if (fsIterator == null) {
+            return null;
+        }
 
         BoundedList<AbstractBackupPath> bl = new BoundedList(lastN);
         while (fsIterator.hasNext()) {
@@ -172,7 +177,9 @@ public abstract class AbstractRestore extends Task implements IRestoreStrategy {
 
     @Override
     public void execute() throws Exception {
-        if (!isRestoreEnabled(config, instanceIdentity.getInstanceInfo())) return;
+        if (!isRestoreEnabled(config, instanceIdentity.getInstanceInfo())) {
+            return;
+        }
 
         logger.info("Starting restore for {}", config.getRestoreSnapshot());
         final DateUtil.DateRange dateRange = new DateUtil.DateRange(config.getRestoreSnapshot());
@@ -197,7 +204,9 @@ public abstract class AbstractRestore extends Task implements IRestoreStrategy {
 
         Date endTime = new Date(dateRange.getEndTime().toEpochMilli());
         IMetaProxy metaProxy = metaV1Proxy;
-        if (backupRestoreConfig.enableV2Restore()) metaProxy = metaV2Proxy;
+        if (backupRestoreConfig.enableV2Restore()) {
+            metaProxy = metaV2Proxy;
+        }
 
         // Set the restore status.
         instanceState.getRestoreStatus().resetStatus();
@@ -224,7 +233,9 @@ public abstract class AbstractRestore extends Task implements IRestoreStrategy {
 
             // Cleanup local data
             File dataDir = new File(config.getDataFileLocation());
-            if (dataDir.exists() && dataDir.isDirectory()) FileUtils.cleanDirectory(dataDir);
+            if (dataDir.exists() && dataDir.isDirectory()) {
+                FileUtils.cleanDirectory(dataDir);
+            }
 
             // Find latest valid meta file.
             Optional<AbstractBackupPath> latestValidMetaFile =
@@ -282,10 +293,12 @@ public abstract class AbstractRestore extends Task implements IRestoreStrategy {
             instanceState.setRestoreStatus(Status.FINISHED);
 
             // Start cassandra if restore is successful.
-            if (!config.doesCassandraStartManually()) cassProcess.start(true);
-            else
+            if (!config.doesCassandraStartManually()) {
+                cassProcess.start(true);
+            } else {
                 logger.info(
                         "config.doesCassandraStartManually() is set to True, hence Cassandra needs to be started manually ...");
+            }
         } catch (Exception e) {
             instanceState.setRestoreStatus(Status.FAILED);
             instanceState.getRestoreStatus().setExecutionEndTime(LocalDateTime.now());

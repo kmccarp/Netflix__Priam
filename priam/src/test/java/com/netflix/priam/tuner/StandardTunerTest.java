@@ -64,7 +64,9 @@ public class StandardTunerTest {
         this.backupRestoreConfig = injector.getInstance(BackupRestoreConfig.class);
         this.config = injector.getInstance(IConfiguration.class);
         File targetDir = new File(config.getYamlLocation()).getParentFile();
-        if (!targetDir.exists()) targetDir.mkdirs();
+        if (!targetDir.exists()) {
+            targetDir.mkdirs();
+        }
     }
 
     @Test

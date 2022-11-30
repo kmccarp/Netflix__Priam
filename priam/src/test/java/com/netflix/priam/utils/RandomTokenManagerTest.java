@@ -146,8 +146,9 @@ public class RandomTokenManagerTest {
                         + "85070591730234615865843651857942052864,127605887595351923798765477786913079296";
         String[] tokens = expectedTokens.split(",");
         int splits = tokens.length;
-        for (int i = 0; i < splits; i++)
+        for (int i = 0; i < splits; i++) {
             assertEquals(new BigInteger(tokens[i]), tokenManager.initialToken(splits, i, 0));
+        }
     }
 
     @Test
@@ -163,8 +164,9 @@ public class RandomTokenManagerTest {
                         + "148873535527910577765226390751398592512,159507359494189904748456847233641349120";
         String[] tokens = expectedTokens.split(",");
         int splits = tokens.length;
-        for (int i = 0; i < splits; i++)
+        for (int i = 0; i < splits; i++) {
             assertEquals(new BigInteger(tokens[i]), tokenManager.initialToken(splits, i, 0));
+        }
     }
 
     @Test
@@ -173,7 +175,9 @@ public class RandomTokenManagerTest {
 
         for (String region1 : allRegions.split(","))
             for (String region2 : allRegions.split(",")) {
-                if (region1.equals(region2)) continue;
+                if (region1.equals(region2)) {
+                    continue;
+                }
                 assertFalse(
                         "Diffrence seems to be low",
                         Math.abs(

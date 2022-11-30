@@ -58,9 +58,10 @@ public class EC2RoleAssumptionCredential implements ICredential {
                     }
 
                     //
-                    if (StringUtils.isEmpty(roleArn))
+                    if (StringUtils.isEmpty(roleArn)) {
                         throw new NullPointerException(
                                 "Role ARN is null or empty probably due to missing config entry");
+                    }
 
                     /**
                      * Get handle to an implementation that uses AWS Security Token Service (STS) to

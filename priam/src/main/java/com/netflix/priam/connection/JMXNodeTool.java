@@ -48,8 +48,8 @@ import org.slf4j.LoggerFactory;
 @Singleton
 public class JMXNodeTool extends NodeProbe implements INodeToolObservable {
     private static final Logger logger = LoggerFactory.getLogger(JMXNodeTool.class);
-    private static volatile JMXNodeTool tool = null;
-    private MBeanServerConnection mbeanServerConn = null;
+    private static volatile JMXNodeTool tool;
+    private MBeanServerConnection mbeanServerConn;
 
     private static final Set<INodeToolObserver> observers = new HashSet<>();
 
@@ -81,19 +81,22 @@ public class JMXNodeTool extends NodeProbe implements INodeToolObservable {
      * @throws JMXConnectionException
      */
     public static JMXNodeTool instance(IConfiguration config) throws JMXConnectionException {
-        if (!testConnection()) tool = connect(config);
+        if (!testConnection()) {
+            tool = connect(config);
+        }
         return tool;
     }
 
     public static <T> T getRemoteBean(
             Class<T> clazz, String mbeanName, IConfiguration config, boolean mxbean)
             throws IOException, MalformedObjectNameException {
-        if (mxbean)
+        if (mxbean) {
             return ManagementFactory.newPlatformMXBeanProxy(
                     JMXNodeTool.instance(config).mbeanServerConn, mbeanName, clazz);
-        else
+        } else {
             return JMX.newMBeanProxy(
                     JMXNodeTool.instance(config).mbeanServerConn, new ObjectName(mbeanName), clazz);
+        }
     }
 
     /**
@@ -116,7 +119,9 @@ public class JMXNodeTool extends NodeProbe implements INodeToolObservable {
      */
     private static boolean testConnection() {
         // connecting first time hence return false.
-        if (tool == null) return false;
+        if (tool == null) {
+            return false;
+        }
 
         try {
             MBeanServerConnection serverConn = tool.mbeanServerConn;
@@ -229,9 +234,11 @@ public class JMXNodeTool extends NodeProbe implements INodeToolObservable {
                                                 config.getJmxPassword());
                             }
 
-                            Field fields[] = NodeProbe.class.getDeclaredFields();
+                            Field[] fields = NodeProbe.class.getDeclaredFields();
                             for (Field field : fields) {
-                                if (!field.getName().equals("mbeanServerConn")) continue;
+                                if (!"mbeanServerConn".equals(field.getName())) {
+                                    continue;
+                                }
                                 field.setAccessible(true);
                                 nodetool.mbeanServerConn =
                                         (MBeanServerConnection) field.get(nodetool);
@@ -343,9 +350,13 @@ public class JMXNodeTool extends NodeProbe implements INodeToolObservable {
 
             String state = "Normal";
 
-            if (joiningNodes.contains(primaryEndpoint)) state = "Joining";
-            else if (leavingNodes.contains(primaryEndpoint)) state = "Leaving";
-            else if (movingNodes.contains(primaryEndpoint)) state = "Moving";
+            if (joiningNodes.contains(primaryEndpoint)) {
+                state = "Joining";
+            } else if (leavingNodes.contains(primaryEndpoint)) {
+                state = "Leaving";
+            } else if (movingNodes.contains(primaryEndpoint)) {
+                state = "Moving";
+            }
 
             String load = loadMap.getOrDefault(primaryEndpoint, "?");
             String owns =
@@ -449,7 +460,9 @@ public class JMXNodeTool extends NodeProbe implements INodeToolObservable {
     /** @param observer to add to list of internal observers. This behavior is thread-safe. */
     @Override
     public void addObserver(INodeToolObserver observer) {
-        if (observer == null) throw new NullPointerException("Cannot not observer.");
+        if (observer == null) {
+            throw new NullPointerException("Cannot not observer.");
+        }
         synchronized (observers) {
             observers.add(observer); // if observer exist, it's a noop
         }

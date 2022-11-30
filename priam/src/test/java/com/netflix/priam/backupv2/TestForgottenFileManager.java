@@ -203,9 +203,9 @@ public class TestForgottenFileManager {
         cfFiles =
                 FileUtils.listFiles(new File(allFiles.get(0).getParent().toString()), null, false);
         Assert.assertEquals(6, cfFiles.size());
-        int temp_file_name = 1;
+        int tempFileName = 1;
         for (File file : cfFiles) {
-            file.getName().equals(allFiles.get(temp_file_name++).getFileName().toString());
+            file.getName().equals(allFiles.get(tempFileName++).getFileName().toString());
         }
 
         // Snapshot is untouched.

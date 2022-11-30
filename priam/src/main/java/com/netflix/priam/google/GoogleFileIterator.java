@@ -27,9 +27,9 @@ public class GoogleFileIterator implements Iterator<String> {
     private Iterator<String> iterator;
     private String bucketName;
     private String prefix;
-    private Storage.Objects objectsResoruceHandle = null;
-    private Storage.Objects.List listObjectsSrvcHandle = null;
-    private com.google.api.services.storage.model.Objects objectsContainerHandle = null;
+    private Storage.Objects objectsResoruceHandle;
+    private Storage.Objects.List listObjectsSrvcHandle;
+    private com.google.api.services.storage.model.Objects objectsContainerHandle;
 
     public GoogleFileIterator(Storage gcsStorageHandle, String bucket, String prefix) {
 
@@ -61,7 +61,9 @@ public class GoogleFileIterator implements Iterator<String> {
      * Fetch a page of results
      */
     private Iterator<String> createIterator() throws Exception {
-        if (listObjectsSrvcHandle == null) initListing();
+        if (listObjectsSrvcHandle == null) {
+            initListing();
+        }
         List<String> temp = Lists.newArrayList(); // a container of results
 
         // Sends the metadata request to the server and returns the parsed metadata response.
@@ -80,7 +82,7 @@ public class GoogleFileIterator implements Iterator<String> {
             return true;
         }
 
-        while (this.objectsContainerHandle.getNextPageToken() != null && !iterator.hasNext())
+        while (this.objectsContainerHandle.getNextPageToken() != null && !iterator.hasNext()) {
             try { // if here, you have iterated through all elements of the previous page, now, get
                 // the next page of results
                 this.listObjectsSrvcHandle.setPageToken(objectsContainerHandle.getNextPageToken());
@@ -90,6 +92,7 @@ public class GoogleFileIterator implements Iterator<String> {
                         "Exception encountered fetching elements, see previous messages for details.",
                         e);
             }
+        }
 
         return this.iterator.hasNext();
     }

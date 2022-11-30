@@ -111,7 +111,7 @@ public class CassandraConfig {
     public Response getReplacedIp() {
         try {
             metrics.incGetReplacedIp();
-            return Response.ok(String.valueOf(priamServer.getInstanceIdentity().getReplacedIp()))
+            return Response.ok(priamServer.getInstanceIdentity().getReplacedIp())
                     .build();
         } catch (Exception e) {
             logger.error("Error while executing get_replaced_ip", e);
@@ -122,7 +122,9 @@ public class CassandraConfig {
     @POST
     @Path("/set_replaced_ip")
     public Response setReplacedIp(@QueryParam("ip") String ip) {
-        if (StringUtils.isEmpty(ip)) return Response.status(Status.BAD_REQUEST).build();
+        if (StringUtils.isEmpty(ip)) {
+            return Response.status(Status.BAD_REQUEST).build();
+        }
 
         try {
             priamServer.getInstanceIdentity().setReplacedIp(ip);

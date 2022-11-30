@@ -70,8 +70,9 @@ public class IncrementalBackup extends AbstractBackup {
     /** Run every 10 Sec */
     public static TaskTimer getTimer(
             IConfiguration config, IBackupRestoreConfig backupRestoreConfig) {
-        if (IncrementalBackup.isEnabled(config, backupRestoreConfig))
+        if (IncrementalBackup.isEnabled(config, backupRestoreConfig)) {
             return new SimpleTimer(JOBNAME, 10L * 1000);
+        }
         return null;
     }
 
@@ -89,11 +90,11 @@ public class IncrementalBackup extends AbstractBackup {
         try {
             // Once backup 1.0 is gone, we should not check for enableV2Backups.
             enabled =
-                    (configuration.isIncrementalBackupEnabled()
+                    configuration.isIncrementalBackupEnabled()
                             && (SnapshotBackup.isBackupEnabled(configuration)
                                     || (backupRestoreConfig.enableV2Backups()
                                             && SnapshotMetaTask.isBackupEnabled(
-                                                    backupRestoreConfig))));
+                                                    backupRestoreConfig)));
             logger.info("Incremental backups are enabled: {}", enabled);
 
             if (!enabled) {
@@ -118,7 +119,7 @@ public class IncrementalBackup extends AbstractBackup {
         BackupFileType fileType =
                 backupRestoreConfig.enableV2Backups() ? BackupFileType.SST_V2 : BackupFileType.SST;
         // delete empty files to adapt to 2.1
-        FileFilter filter = (file) -> file.isFile() && file.canWrite() && file.length() == 0L;
+        FileFilter filter = file -> file.isFile() && file.canWrite() && file.length() == 0L;
         for (File file : Optional.ofNullable(backupDir.listFiles(filter)).orElse(new File[] {})) {
             FileUtils.deleteQuietly(file);
         }

@@ -60,18 +60,17 @@ public abstract class MetaFileReader {
         JsonReader jsonReader = new JsonReader(new FileReader(metaFilePath.toFile()));
         jsonReader.beginObject();
         while (jsonReader.hasNext()) {
-            switch (jsonReader.nextName()) {
-                case MetaFileInfo.META_FILE_INFO:
-                    metaFileInfo =
-                            GsonJsonSerializer.getGson().fromJson(jsonReader, MetaFileInfo.class);
-                    break;
-                case MetaFileInfo.META_FILE_DATA:
-                    jsonReader.beginArray();
-                    while (jsonReader.hasNext())
-                        process(
-                                GsonJsonSerializer.getGson()
-                                        .fromJson(jsonReader, ColumnFamilyResult.class));
-                    jsonReader.endArray();
+            if (MetaFileInfo.META_FILE_INFO.equals(jsonReader.nextName())) {
+                metaFileInfo =
+                        GsonJsonSerializer.getGson().fromJson(jsonReader, MetaFileInfo.class);
+            } else if (MetaFileInfo.META_FILE_DATA.equals(jsonReader.nextName())) {
+                jsonReader.beginArray();
+                while (jsonReader.hasNext()) {
+                    process(
+                            GsonJsonSerializer.getGson()
+                                    .fromJson(jsonReader, ColumnFamilyResult.class));
+                }
+                jsonReader.endArray();
             }
         }
         jsonReader.endObject();

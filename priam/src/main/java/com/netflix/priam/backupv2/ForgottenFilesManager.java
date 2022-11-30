@@ -75,7 +75,9 @@ public class ForgottenFilesManager {
             }
 
             // If there are no "extra" SSTables in CF data folder, we are done.
-            if (columnfamilyFiles.size() == 0) return;
+            if (columnfamilyFiles.isEmpty()) {
+                return;
+            }
 
             logger.warn(
                     "# of potential forgotten files: {} found for CF: {}",
@@ -144,21 +146,21 @@ public class ForgottenFilesManager {
 
         for (Path file : columnfamilyPaths) {
             try {
-                final Path symbolic_link =
+                final Path symbolicLink =
                         Paths.get(destDir.toFile().getAbsolutePath(), file.toFile().getName());
                 // Lets see if there is a symbolic link to this file already?
-                if (!Files.exists(symbolic_link)) {
+                if (!Files.exists(symbolicLink)) {
                     // If not, lets create one and work on next file.
-                    Files.createSymbolicLink(symbolic_link, file);
+                    Files.createSymbolicLink(symbolicLink, file);
                     continue;
-                } else if (Files.isSymbolicLink(symbolic_link)) {
+                } else if (Files.isSymbolicLink(symbolicLink)) {
                     // Symbolic link exists, is it older than our timeframe?
-                    Instant last_modified_time =
-                            Files.getLastModifiedTime(symbolic_link, LinkOption.NOFOLLOW_LINKS)
+                    Instant lastModifiedTime =
+                            Files.getLastModifiedTime(symbolicLink, LinkOption.NOFOLLOW_LINKS)
                                     .toInstant();
                     if (DateUtil.getInstant()
                             .isAfter(
-                                    last_modified_time.plus(
+                                    lastModifiedTime.plus(
                                             config.getForgottenFileGracePeriodDaysForRead(),
                                             ChronoUnit.DAYS))) {
                         // Eligible for move.
@@ -171,7 +173,7 @@ public class ForgottenFilesManager {
                             try {
                                 // Remove our symbolic link. Note that deletion of symbolic link
                                 // does not remove the original file.
-                                Files.delete(symbolic_link);
+                                Files.delete(symbolicLink);
                                 FileUtils.moveFileToDirectory(
                                         file.toFile(), destDir.toFile(), true);
                                 logger.warn(

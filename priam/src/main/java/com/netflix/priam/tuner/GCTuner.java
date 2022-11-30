@@ -72,15 +72,19 @@ public class GCTuner {
                             "-XX:NewRatio",
                             "-XX:G1RSetUpdatingPauseTimePercent"));
 
-    static final GCType getGCType(String option) {
-        if (cmsOptions.contains(option)) return GCType.CMS;
+    static GCType getGCType(String option) {
+        if (cmsOptions.contains(option)) {
+            return GCType.CMS;
+        }
 
-        if (g1gcOptions.contains(option)) return GCType.G1GC;
+        if (g1gcOptions.contains(option)) {
+            return GCType.G1GC;
+        }
 
         return null;
     }
 
-    static final GCType getGCType(JVMOption jvmOption) {
+    static GCType getGCType(JVMOption jvmOption) {
         return getGCType(jvmOption.getJvmOption());
     }
 }

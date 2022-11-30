@@ -203,7 +203,9 @@ public abstract class AbstractFileSystem implements IBackupFileSystem, EventGene
                     // Add to cache after successful upload.
                     // We only add SST_V2 as other file types are usually not checked, so no point
                     // evicting our SST_V2 results.
-                    if (path.getType() == BackupFileType.SST_V2) addObjectCache(remotePath);
+                    if (path.getType() == BackupFileType.SST_V2) {
+                        addObjectCache(remotePath);
+                    }
 
                     backupMetrics.recordUploadRate(uploadedFileSize);
                     backupMetrics.incrementValidUploads();
@@ -217,11 +219,12 @@ public abstract class AbstractFileSystem implements IBackupFileSystem, EventGene
                 logger.info(
                         "Successfully uploaded file: {} to location: {}", localPath, remotePath);
 
-                if (!FileUtils.deleteQuietly(localFile))
+                if (!FileUtils.deleteQuietly(localFile)) {
                     logger.warn(
                             String.format(
                                     "Failed to delete local file %s.",
                                     localFile.getAbsolutePath()));
+                }
 
             } catch (Exception e) {
                 backupMetrics.incrementInvalidUploads();
@@ -237,7 +240,9 @@ public abstract class AbstractFileSystem implements IBackupFileSystem, EventGene
                 // Remove the task from the list so if we try to upload file ever again, we can.
                 tasksQueued.remove(localPath);
             }
-        } else logger.info("Already in queue, no-op.  File: {}", localPath);
+        } else {
+            logger.info("Already in queue, no-op.  File: {}", localPath);
+        }
         return path;
     }
 
@@ -251,19 +256,25 @@ public abstract class AbstractFileSystem implements IBackupFileSystem, EventGene
         Boolean cacheResult = objectCache.getIfPresent(remotePath);
 
         // Cache hit. Return the value.
-        if (cacheResult != null) return cacheResult;
+        if (cacheResult != null) {
+            return cacheResult;
+        }
 
         // Cache miss - Check remote file system if object exist.
         boolean remoteFileExist = doesRemoteFileExist(remotePath);
 
-        if (remoteFileExist) addObjectCache(remotePath);
+        if (remoteFileExist) {
+            addObjectCache(remotePath);
+        }
 
         return remoteFileExist;
     }
 
     @Override
     public void deleteRemoteFiles(List<Path> remotePaths) throws BackupRestoreException {
-        if (remotePaths == null) return;
+        if (remotePaths == null) {
+            return;
+        }
 
         // Note that we are trying to implement write-thru cache here so it is good idea to
         // invalidate the cache first. This is important so that if there is any issue (because file
@@ -337,14 +348,18 @@ public abstract class AbstractFileSystem implements IBackupFileSystem, EventGene
 
     @Override
     public final void addObserver(EventObserver<BackupEvent> observer) {
-        if (observer == null) throw new NullPointerException("observer must not be null.");
+        if (observer == null) {
+            throw new NullPointerException("observer must not be null.");
+        }
 
         observers.addIfAbsent(observer);
     }
 
     @Override
     public void removeObserver(EventObserver<BackupEvent> observer) {
-        if (observer == null) throw new NullPointerException("observer must not be null.");
+        if (observer == null) {
+            throw new NullPointerException("observer must not be null.");
+        }
 
         observers.remove(observer);
     }

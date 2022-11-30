@@ -125,8 +125,9 @@ public class S3FileSystem extends S3FileSystemBase {
         String remotePath = path.getRemotePath();
         long chunkSize = getChunkSize(localPath);
         String prefix = config.getBackupPrefix();
-        if (logger.isDebugEnabled())
+        if (logger.isDebugEnabled()) {
             logger.debug("Uploading to {}/{} with chunk size {}", prefix, remotePath, chunkSize);
+        }
         File localFile = localPath.toFile();
         InitiateMultipartUploadRequest initRequest =
                 new InitiateMultipartUploadRequest(prefix, remotePath)
@@ -174,7 +175,9 @@ public class S3FileSystem extends S3FileSystemBase {
     protected long uploadFileImpl(AbstractBackupPath path, Instant target)
             throws BackupRestoreException {
         File localFile = Paths.get(path.getBackupFile().getAbsolutePath()).toFile();
-        if (localFile.length() >= config.getBackupChunkSize()) return uploadMultipart(path, target);
+        if (localFile.length() >= config.getBackupChunkSize()) {
+            return uploadMultipart(path, target);
+        }
         byte[] chunk = getFileContents(path);
         rateLimiter.acquire(chunk.length);
         dynamicRateLimiter.acquire(path, target, chunk.length);

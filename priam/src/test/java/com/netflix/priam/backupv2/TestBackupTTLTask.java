@@ -58,9 +58,12 @@ public class TestBackupTTLTask {
     public TestBackupTTLTask() {
         Injector injector = Guice.createInjector(new BRTestModule());
         configuration = injector.getInstance(IConfiguration.class);
-        if (backupTTLService == null) backupTTLService = injector.getInstance(BackupTTLTask.class);
-        if (backupFileSystem == null)
+        if (backupTTLService == null) {
+            backupTTLService = injector.getInstance(BackupTTLTask.class);
+        }
+        if (backupFileSystem == null) {
             backupFileSystem = injector.getInstance(FakeBackupFileSystem.class);
+        }
         pathProvider = injector.getProvider(AbstractBackupPath.class);
     }
 

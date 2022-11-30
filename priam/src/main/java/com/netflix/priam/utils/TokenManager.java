@@ -78,8 +78,8 @@ public class TokenManager implements ITokenManager {
     }
 
     @Override
-    public String createToken(int my_slot, int totalCount, String region) {
-        return initialToken(totalCount, my_slot, regionOffset(region)).toString();
+    public String createToken(int mySlot, int totalCount, String region) {
+        return initialToken(totalCount, mySlot, regionOffset(region)).toString();
     }
 
     @Override
@@ -91,12 +91,14 @@ public class TokenManager implements ITokenManager {
             int i = Math.abs(index) - 1;
             if ((i >= sortedTokens.size())
                     || (i > 0
-                            && sortedTokens
-                                            .get(i)
-                                            .subtract(tokenToSearch)
-                                            .compareTo(
-                                                    tokenToSearch.subtract(sortedTokens.get(i - 1)))
-                                    > 0)) --i;
+                    && sortedTokens
+                    .get(i)
+                    .subtract(tokenToSearch)
+                    .compareTo(
+                            tokenToSearch.subtract(sortedTokens.get(i - 1)))
+                    > 0)) {
+                --i;
+            }
             return sortedTokens.get(i);
         }
         return sortedTokens.get(index);
