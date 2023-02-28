@@ -47,20 +47,23 @@ import org.junit.Test;
 /** Created by aagrawal on 12/17/18. */
 public class TestBackupTTLTask {
 
-    private TestBackupUtils testBackupUtils = new TestBackupUtils();
-    private IConfiguration configuration;
+    private final TestBackupUtils testBackupUtils = new TestBackupUtils();
+    private final IConfiguration configuration;
     private static BackupTTLTask backupTTLService;
     private static FakeBackupFileSystem backupFileSystem;
-    private Provider<AbstractBackupPath> pathProvider;
+    private final Provider<AbstractBackupPath> pathProvider;
     private Path[] metas;
-    private Map<String, String> allFilesMap = new HashMap<>();
+    private final Map<String, String> allFilesMap = new HashMap<>();
 
     public TestBackupTTLTask() {
         Injector injector = Guice.createInjector(new BRTestModule());
         configuration = injector.getInstance(IConfiguration.class);
-        if (backupTTLService == null) backupTTLService = injector.getInstance(BackupTTLTask.class);
-        if (backupFileSystem == null)
+        if (backupTTLService == null) {
+            backupTTLService = injector.getInstance(BackupTTLTask.class);
+        }
+        if (backupFileSystem == null) {
             backupFileSystem = injector.getInstance(FakeBackupFileSystem.class);
+        }
         pathProvider = injector.getProvider(AbstractBackupPath.class);
     }
 

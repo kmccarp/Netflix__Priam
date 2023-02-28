@@ -78,8 +78,9 @@ public class SDBInstanceFactory implements IPriamInstanceFactory {
                     // clean up a very old data...
                     if (null != oldData
                             && oldData.getUpdatetime()
-                                    < (System.currentTimeMillis() - (3 * 60 * 1000)))
+                            < (System.currentTimeMillis() - (3 * 60 * 1000))) {
                         dao.deregisterInstance(oldData);
+                    }
                 } catch (Exception ex) {
                     // Do nothing
                     logger.error(ex.getMessage(), ex);

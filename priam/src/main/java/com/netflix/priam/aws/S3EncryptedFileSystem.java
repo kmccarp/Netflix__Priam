@@ -121,11 +121,12 @@ public class S3EncryptedFileSystem extends S3FileSystemBase {
 
         // Read chunks from src, compress it, and write to temp file
         File compressedDstFile = new File(localPath.toString() + ".compressed");
-        if (logger.isDebugEnabled())
+        if (logger.isDebugEnabled()) {
             logger.debug(
                     "Compressing {} with chunk size {}",
                     compressedDstFile.getAbsolutePath(),
                     chunkSize);
+        }
 
         try (InputStream in = new FileInputStream(localPath.toFile());
                 BufferedOutputStream compressedBos =
@@ -191,7 +192,9 @@ public class S3EncryptedFileSystem extends S3FileSystemBase {
             new S3PartUploader(s3Client, part, partETags).abortUpload();
             throw new BackupRestoreException("Error uploading file: " + localPath, e);
         } finally {
-            if (compressedDstFile.exists()) compressedDstFile.delete();
+            if (compressedDstFile.exists()) {
+                compressedDstFile.delete();
+            }
         }
     }
 }

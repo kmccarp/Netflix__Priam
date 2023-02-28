@@ -29,7 +29,7 @@ import org.slf4j.LoggerFactory;
 /** Class providing functionality for doubling the ring */
 public class DoubleRing {
     private static final Logger logger = LoggerFactory.getLogger(DoubleRing.class);
-    private static File TMP_BACKUP_FILE;
+    private static File tmpBackupFile;
     private final IConfiguration config;
     private final IPriamInstanceFactory factory;
     private final ITokenManager tokenManager;
@@ -72,19 +72,19 @@ public class DoubleRing {
                     data.getToken());
         }
 
-        int new_ring_size = local.size() * 2;
+        int newRingSize = local.size() * 2;
         for (PriamInstance data : getInstancesInSameRegion()) {
             // if max then rotate.
             int currentSlot = data.getId() - hash;
-            int new_slot =
-                    currentSlot + 3 > new_ring_size
-                            ? (currentSlot + 3) - new_ring_size
+            int newSlot =
+                    currentSlot + 3 > newRingSize
+                            ? (currentSlot + 3) - newRingSize
                             : currentSlot + 3;
             String token =
-                    tokenManager.createToken(new_slot, new_ring_size, instanceInfo.getRegion());
+                    tokenManager.createToken(newSlot, newRingSize, instanceInfo.getRegion());
             factory.create(
                     data.getApp(),
-                    new_slot + hash,
+                    newSlot + hash,
                     InstanceIdentity.DUMMY_INSTANCE_ID,
                     instanceInfo.getHostname(),
                     config.usePrivateIP() ? instanceInfo.getPrivateIP() : instanceInfo.getHostIP(),
@@ -105,12 +105,12 @@ public class DoubleRing {
     /** Backup the current state in case of failure */
     public void backup() throws IOException {
         // writing to the backup file.
-        TMP_BACKUP_FILE = File.createTempFile("Backup-instance-data", ".dat");
+        tmpBackupFile = File.createTempFile("Backup-instance-data", ".dat");
         try (ObjectOutputStream stream =
-                new ObjectOutputStream(new FileOutputStream(TMP_BACKUP_FILE))) {
+                new ObjectOutputStream(new FileOutputStream(tmpBackupFile))) {
             stream.writeObject(getInstancesInSameRegion());
             logger.info(
-                    "Wrote the backup of the instances to: {}", TMP_BACKUP_FILE.getAbsolutePath());
+                    "Wrote the backup of the instances to: {}", tmpBackupFile.getAbsolutePath());
         }
     }
 
@@ -125,7 +125,7 @@ public class DoubleRing {
 
         // read from the file.
         try (ObjectInputStream stream =
-                new ObjectInputStream(new FileInputStream(TMP_BACKUP_FILE))) {
+                new ObjectInputStream(new FileInputStream(tmpBackupFile))) {
             @SuppressWarnings("unchecked")
             Set<PriamInstance> allInstances = (Set<PriamInstance>) stream.readObject();
             for (PriamInstance data : allInstances)
@@ -140,7 +140,7 @@ public class DoubleRing {
                         data.getToken());
             logger.info(
                     "Successfully restored the Instances from the backup: {}",
-                    TMP_BACKUP_FILE.getAbsolutePath());
+                    tmpBackupFile.getAbsolutePath());
         }
     }
 }

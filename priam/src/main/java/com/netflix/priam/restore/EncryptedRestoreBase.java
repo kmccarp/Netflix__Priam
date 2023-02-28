@@ -190,7 +190,9 @@ public abstract class EncryptedRestoreBase extends AbstractRestore {
                         }
                         // if here, everything was successful for this object, lets remove unneeded
                         // file(s)
-                        if (tempFile.exists()) tempFile.delete();
+                        if (tempFile.exists()) {
+                            tempFile.delete();
+                        }
 
                         if (decryptedFile.exists()) {
                             decryptedFile.delete();

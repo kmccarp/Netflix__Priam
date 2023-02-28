@@ -122,8 +122,9 @@ public class JVMOptionsTuner {
     }
 
     private void setHeapSetting(String configuredValue, JVMOption option) {
-        if (!StringUtils.isEmpty(configuredValue))
+        if (!StringUtils.isEmpty(configuredValue)) {
             option.setCommented(false).setValue(configuredValue);
+        }
     }
 
     /**
@@ -141,27 +142,25 @@ public class JVMOptionsTuner {
             Map<String, JVMOption> excludeSet) {
 
         JVMOption option = JVMOption.parse(line);
-        if (option == null) return line;
+        if (option == null) {
+            return line;
+        }
 
         // Is parameter for heap setting.
         if (option.isHeapJVMOption()) {
             String configuredValue;
-            switch (option.getJvmOption()) {
-                    // Special handling for heap new size ("Xmn")
-                case "-Xmn":
-                    configuredValue = config.getHeapNewSize();
-                    break;
-                    // Set min and max heap size to same value
-                default:
-                    configuredValue = config.getHeapSize();
-                    break;
+            if ("-Xmn".equals(option.getJvmOption())) {
+                configuredValue = config.getHeapNewSize();
+            } else {
+                configuredValue = config.getHeapSize();
             }
             setHeapSetting(configuredValue, option);
         }
 
         // We don't want Xmn with G1GC, allow the GC to determine optimal young gen
-        if (option.getJvmOption().equals("-Xmn") && configuredGC == GCType.G1GC)
+        if ("-Xmn".equals(option.getJvmOption()) && configuredGC == GCType.G1GC) {
             option.setCommented(true);
+        }
 
         // Is parameter for GC.
         GCType gcType = GCTuner.getGCType(option);
@@ -178,25 +177,29 @@ public class JVMOptionsTuner {
         }
 
         // See if option is in exclude list.
-        if (excludeSet != null && excludeSet.containsKey(option.getJvmOption()))
+        if (excludeSet != null && excludeSet.containsKey(option.getJvmOption())) {
             option.setCommented(true);
+        }
 
         return option.toJVMOptionString();
     }
 
     private void validate(File jvmOptionsFile) throws Exception {
-        if (!jvmOptionsFile.exists())
+        if (!jvmOptionsFile.exists()) {
             throw new Exception(
                     "JVM Option File does not exist: " + jvmOptionsFile.getAbsolutePath());
+        }
 
-        if (jvmOptionsFile.isDirectory())
+        if (jvmOptionsFile.isDirectory()) {
             throw new Exception(
                     "JVM Option File is a directory: " + jvmOptionsFile.getAbsolutePath());
+        }
 
-        if (!jvmOptionsFile.canRead() || !jvmOptionsFile.canWrite())
+        if (!jvmOptionsFile.canRead() || !jvmOptionsFile.canWrite()) {
             throw new Exception(
                     "JVM Option File does not have right permission: "
                             + jvmOptionsFile.getAbsolutePath());
+        }
     }
 
     /**
@@ -206,8 +209,10 @@ public class JVMOptionsTuner {
      * @param property comma separated list of JVM options.
      * @return Map of (jvmOptionName, JVMOption).
      */
-    public static final Map<String, JVMOption> parseJVMOptions(String property) {
-        if (StringUtils.isEmpty(property)) return null;
+    public static Map<String, JVMOption> parseJVMOptions(String property) {
+        if (StringUtils.isEmpty(property)) {
+            return null;
+        }
         return new HashSet<>(Arrays.asList(property.split(",")))
                 .stream()
                 .map(JVMOption::parse)

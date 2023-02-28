@@ -38,8 +38,8 @@ import org.slf4j.LoggerFactory;
 /** Created by aagrawal on 11/23/18. */
 public class TestRemoteBackupPath {
     private static final Logger logger = LoggerFactory.getLogger(TestRemoteBackupPath.class);
-    private Provider<AbstractBackupPath> pathFactory;
-    private IConfiguration configuration;
+    private final Provider<AbstractBackupPath> pathFactory;
+    private final IConfiguration configuration;
 
     public TestRemoteBackupPath() {
         Injector injector = Guice.createInjector(new BRTestModule());

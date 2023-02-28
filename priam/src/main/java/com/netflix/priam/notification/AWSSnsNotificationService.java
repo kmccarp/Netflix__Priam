@@ -52,11 +52,11 @@ public class AWSSnsNotificationService implements INotificationService {
             InstanceInfo instanceInfo) {
         this.configuration = config;
         this.backupMetrics = backupMetrics;
-        String ec2_region = instanceInfo.getRegion();
+        String ec2Region = instanceInfo.getRegion();
         snsClient =
                 AmazonSNSClient.builder()
                         .withCredentials(iamCredential.getAwsCredentialProvider())
-                        .withRegion(ec2_region)
+                        .withRegion(ec2Region)
                         .build();
     }
 
@@ -64,8 +64,8 @@ public class AWSSnsNotificationService implements INotificationService {
     public void notify(
             final String msg, final Map<String, MessageAttributeValue> messageAttributes) {
         // e.g. arn:aws:sns:eu-west-1:1234:eu-west-1-cass-sample-backup
-        final String topic_arn = this.configuration.getBackupNotificationTopicArn();
-        if (!configuration.enableBackupNotification() || StringUtils.isEmpty(topic_arn)) {
+        final String topicArn = this.configuration.getBackupNotificationTopicArn();
+        if (!configuration.enableBackupNotification() || StringUtils.isEmpty(topicArn)) {
             return;
         }
 
@@ -76,7 +76,7 @@ public class AWSSnsNotificationService implements INotificationService {
                         @Override
                         public PublishResult retriableCall() throws Exception {
                             PublishRequest publishRequest =
-                                    new PublishRequest(topic_arn, msg)
+                                    new PublishRequest(topicArn, msg)
                                             .withMessageAttributes(messageAttributes);
                             return snsClient.publish(publishRequest);
                         }

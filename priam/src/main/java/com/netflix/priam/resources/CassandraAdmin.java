@@ -98,8 +98,9 @@ public class CassandraAdmin {
     public Response cassRefresh(@QueryParam(REST_HEADER_KEYSPACES) String keyspaces)
             throws IOException, ExecutionException, InterruptedException {
         logger.debug("node tool refresh is being called");
-        if (StringUtils.isBlank(keyspaces))
+        if (StringUtils.isBlank(keyspaces)) {
             return Response.status(400).entity("Missing keyspace in request").build();
+        }
 
         JMXNodeTool nodeTool;
         try {
@@ -315,12 +316,12 @@ public class CassandraAdmin {
             cObj.put("totalBytes", c.get("totalBytes"));
             cObj.put("taskType", c.get("taskType"));
             String percentComplete =
-                    new Long(c.get("totalBytes")) == 0
+                    Long.valueOf(c.get("totalBytes")) == 0
                             ? "n/a"
                             : new DecimalFormat("0.00")
                                             .format(
-                                                    (double) new Long(c.get("bytesComplete"))
-                                                            / new Long(c.get("totalBytes"))
+                                                    (double) Long.valueOf(c.get("bytesComplete"))
+                                                            / Long.valueOf(c.get("totalBytes"))
                                                             * 100)
                                     + "%";
             cObj.put("progress", percentComplete);
@@ -436,8 +437,9 @@ public class CassandraAdmin {
                     "Exception in fetching c* jmx tool .  Msgl: {}", e.getLocalizedMessage(), e);
             return Response.status(503).entity("JMXConnectionException").build();
         }
-        if (StringUtils.isBlank(keyspace) || StringUtils.isBlank(cfname))
+        if (StringUtils.isBlank(keyspace) || StringUtils.isBlank(cfname)) {
             return Response.status(400).entity("Missing keyspace/cfname in request").build();
+        }
 
         ColumnFamilyStoreMBean store = nodeTool.getCfsProxy(keyspace, cfname);
 

@@ -48,8 +48,8 @@ public class InstanceIdentity {
             new Predicate<PriamInstance>() {
                 @Override
                 public boolean apply(PriamInstance instance) {
-                    return (!instance.getInstanceId().equalsIgnoreCase(DUMMY_INSTANCE_ID)
-                            && !instance.getHostName().equals(myInstance.getHostName()));
+                    return !instance.getInstanceId().equalsIgnoreCase(DUMMY_INSTANCE_ID)
+                            && !instance.getHostName().equals(myInstance.getHostName());
                 }
             };
 
@@ -100,8 +100,9 @@ public class InstanceIdentity {
         // Handle single zone deployment
         if (config.getRacs().size() == 1) {
             // Return empty list if all nodes are not up
-            if (membership.getRacMembershipSize() != locMap.get(myInstance.getRac()).size())
+            if (membership.getRacMembershipSize() != locMap.get(myInstance.getRac()).size()) {
                 return seeds;
+            }
             // If seed node, return the next node in the list
             if (locMap.get(myInstance.getRac()).size() > 1
                     && locMap.get(myInstance.getRac())
@@ -110,8 +111,11 @@ public class InstanceIdentity {
                             .equals(myInstance.getHostIP())) {
                 PriamInstance instance = locMap.get(myInstance.getRac()).get(1);
                 if (instance != null && !isInstanceDummy(instance)) {
-                    if (config.isMultiDC()) seeds.add(instance.getHostIP());
-                    else seeds.add(instance.getHostName());
+                    if (config.isMultiDC()) {
+                        seeds.add(instance.getHostIP());
+                    } else {
+                        seeds.add(instance.getHostName());
+                    }
                 }
             }
         }
@@ -119,8 +123,11 @@ public class InstanceIdentity {
             PriamInstance instance =
                     Iterables.tryFind(locMap.get(loc), differentHostPredicate).orNull();
             if (instance != null && !isInstanceDummy(instance)) {
-                if (config.isMultiDC()) seeds.add(instance.getHostIP());
-                else seeds.add(instance.getHostName());
+                if (config.isMultiDC()) {
+                    seeds.add(instance.getHostIP());
+                } else {
+                    seeds.add(instance.getHostName());
+                }
             }
         }
         return seeds;
@@ -146,7 +153,9 @@ public class InstanceIdentity {
 
     public void setReplacedIp(String replacedIp) {
         this.replacedIp = replacedIp;
-        if (!replacedIp.isEmpty()) this.isReplace = true;
+        if (!replacedIp.isEmpty()) {
+            this.isReplace = true;
+        }
     }
 
     private static boolean isInstanceDummy(PriamInstance instance) {

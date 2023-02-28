@@ -69,7 +69,9 @@ public class PriamStartupAgent {
                 e.printStackTrace();
             }
 
-            if (token != null && seeds != null) break;
+            if (token != null && seeds != null) {
+                break;
+            }
             try {
                 Thread.sleep(5 * 1000);
             } catch (InterruptedException e1) {

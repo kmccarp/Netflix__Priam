@@ -37,7 +37,7 @@ class SchemaConstant {
                     DISTRIBUTED_KEYSPACE_NAME,
                     DSE_SYSTEM);
 
-    public static final boolean isSystemKeyspace(String keyspace) {
+    public static boolean isSystemKeyspace(String keyspace) {
         return SYSTEM_KEYSPACE_NAMES.contains(keyspace.toLowerCase());
     }
 }

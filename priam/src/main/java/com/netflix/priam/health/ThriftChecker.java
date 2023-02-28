@@ -34,7 +34,7 @@ public class ThriftChecker implements IThriftChecker {
         }
         if (process != null) {
             try (BufferedReader reader =
-                    new BufferedReader(new InputStreamReader(process.getInputStream())); ) {
+                    new BufferedReader(new InputStreamReader(process.getInputStream())) ) {
                 if (Integer.parseInt(reader.readLine()) == 0) {
                     logger.info(
                             "Could not find anything listening on the rpc port {}!",

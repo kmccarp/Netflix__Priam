@@ -78,7 +78,9 @@ public class SDBInstanceData {
                 new SelectRequest(String.format(INSTANCE_QUERY, app, dc, id))
                         .withConsistentRead(true);
         SelectResult result = simpleDBClient.select(request);
-        if (result.getItems().size() == 0) return null;
+        if (result.getItems().isEmpty()) {
+            return null;
+        }
         return transform(result.getItems().get(0));
     }
 
@@ -203,17 +205,25 @@ public class SDBInstanceData {
     public PriamInstance transform(Item item) {
         PriamInstance ins = new PriamInstance();
         for (Attribute att : item.getAttributes()) {
-            if (att.getName().equals(Attributes.INSTANCE_ID)) ins.setInstanceId(att.getValue());
-            else if (att.getName().equals(Attributes.TOKEN)) ins.setToken(att.getValue());
-            else if (att.getName().equals(Attributes.APP_ID)) ins.setApp(att.getValue());
-            else if (att.getName().equals(Attributes.ID))
+            if (att.getName().equals(Attributes.INSTANCE_ID)) {
+                ins.setInstanceId(att.getValue());
+            } else if (att.getName().equals(Attributes.TOKEN)) {
+                ins.setToken(att.getValue());
+            } else if (att.getName().equals(Attributes.APP_ID)) {
+                ins.setApp(att.getValue());
+            } else if (att.getName().equals(Attributes.ID)) {
                 ins.setId(Integer.parseInt(att.getValue()));
-            else if (att.getName().equals(Attributes.AVAILABILITY_ZONE)) ins.setRac(att.getValue());
-            else if (att.getName().equals(Attributes.ELASTIC_IP)) ins.setHostIP(att.getValue());
-            else if (att.getName().equals(Attributes.HOSTNAME)) ins.setHost(att.getValue());
-            else if (att.getName().equals(Attributes.LOCATION)) ins.setDC(att.getValue());
-            else if (att.getName().equals(Attributes.UPDATE_TS))
+            } else if (att.getName().equals(Attributes.AVAILABILITY_ZONE)) {
+                ins.setRac(att.getValue());
+            } else if (att.getName().equals(Attributes.ELASTIC_IP)) {
+                ins.setHostIP(att.getValue());
+            } else if (att.getName().equals(Attributes.HOSTNAME)) {
+                ins.setHost(att.getValue());
+            } else if (att.getName().equals(Attributes.LOCATION)) {
+                ins.setDC(att.getValue());
+            } else if (att.getName().equals(Attributes.UPDATE_TS)) {
                 ins.setUpdatetime(Long.parseLong(att.getValue()));
+            }
         }
         return ins;
     }

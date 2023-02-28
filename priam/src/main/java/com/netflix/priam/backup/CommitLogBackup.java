@@ -63,7 +63,9 @@ public class CommitLogBackup {
                 AbstractBackupPath bp = pathFactory.get();
                 bp.parseLocal(file, BackupFileType.CL);
 
-                if (snapshotName != null) bp.time = DateUtil.getDate(snapshotName);
+                if (snapshotName != null) {
+                    bp.time = DateUtil.getDate(snapshotName);
+                }
 
                 fs.uploadAndDelete(bp, false /* async */);
                 bps.add(bp);

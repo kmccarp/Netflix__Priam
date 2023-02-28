@@ -62,7 +62,9 @@ public abstract class Task implements Job {
     public void execute(JobExecutionContext context) throws JobExecutionException {
         executions.incrementAndGet();
         try {
-            if (status == STATE.RUNNING) return;
+            if (status == STATE.RUNNING) {
+                return;
+            }
             status = STATE.RUNNING;
             execute();
 
@@ -72,7 +74,9 @@ public abstract class Task implements Job {
             e.printStackTrace();
             errors.incrementAndGet();
         }
-        if (status != STATE.ERROR) status = STATE.DONE;
+        if (status != STATE.ERROR) {
+            status = STATE.DONE;
+        }
     }
 
     public STATE state() {

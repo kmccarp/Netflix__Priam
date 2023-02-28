@@ -32,7 +32,8 @@ public class Restorer {
     public static void main(String[] args) {
         try {
             Application.initialize();
-            Instant startTime, endTime;
+            Instant startTime;
+            Instant endTime;
             if (args.length < 2) {
                 displayHelp();
                 return;

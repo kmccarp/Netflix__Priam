@@ -35,7 +35,7 @@ import org.junit.Test;
 
 public class TestRestore {
     private static FakeBackupFileSystem filesystem;
-    private static ArrayList<String> fileList = new ArrayList<>();
+    private static final ArrayList<String> fileList = new ArrayList<>();
     private static FakeConfiguration conf;
     private static String region;
     private static Restore restore;
@@ -44,11 +44,19 @@ public class TestRestore {
     @BeforeClass
     public static void setup() throws InterruptedException, IOException {
         Injector injector = Guice.createInjector(new BRTestModule());
-        if (filesystem == null) filesystem = injector.getInstance(FakeBackupFileSystem.class);
-        if (conf == null) conf = (FakeConfiguration) injector.getInstance(IConfiguration.class);
+        if (filesystem == null) {
+            filesystem = injector.getInstance(FakeBackupFileSystem.class);
+        }
+        if (conf == null) {
+            conf = (FakeConfiguration) injector.getInstance(IConfiguration.class);
+        }
         region = injector.getInstance(InstanceInfo.class).getRegion();
-        if (restore == null) restore = injector.getInstance(Restore.class);
-        if (instanceState == null) instanceState = injector.getInstance(InstanceState.class);
+        if (restore == null) {
+            restore = injector.getInstance(Restore.class);
+        }
+        if (instanceState == null) {
+            instanceState = injector.getInstance(InstanceState.class);
+        }
     }
 
     private static void populateBackupFileSystem(String baseDir) {
