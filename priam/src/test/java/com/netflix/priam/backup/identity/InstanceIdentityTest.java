@@ -76,7 +76,9 @@ public class InstanceIdentityTest extends InstanceTestUtils {
         ImmutableList<PriamInstance> lst = factory.getAllIds(config.getAppName()).asList();
         for (int i = 0; i < lst.size(); i++) {
             System.out.println(lst.get(i));
-            if (0 == i % 2) continue;
+            if (0 == i % 2) {
+                continue;
+            }
             assertEquals(InstanceIdentity.DUMMY_INSTANCE_ID, lst.get(i).getInstanceId());
         }
         assertEquals(before * 2, lst.size());

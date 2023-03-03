@@ -15,7 +15,7 @@ package com.netflix.priam.config;
 
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableSet;
-import com.netflix.priam.configSource.IConfigSource;
+import com.netflix.priam.configsource.IConfigSource;
 import javax.inject.Inject;
 import org.apache.commons.lang3.StringUtils;
 

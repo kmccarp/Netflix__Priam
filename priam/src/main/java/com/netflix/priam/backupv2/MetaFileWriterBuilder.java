@@ -82,7 +82,7 @@ public class MetaFileWriterBuilder {
         String getRemoteMetaFilePath() throws Exception;
     }
 
-    public static class MetaFileWriter implements StartStep, DataStep, UploadStep {
+    public static final class MetaFileWriter implements StartStep, DataStep, UploadStep {
         private final Provider<AbstractBackupPath> pathFactory;
         private final IBackupFileSystem backupFileSystem;
 
@@ -148,9 +148,10 @@ public class MetaFileWriterBuilder {
                 ImmutableMultimap<String, AbstractBackupPath> sstables)
                 throws IOException {
 
-            if (jsonWriter == null)
+            if (jsonWriter == null) {
                 throw new NullPointerException(
                         "addColumnfamilyResult: Json Writer in MetaFileWriter is null. This should not happen!");
+            }
             ColumnFamilyResult result = toColumnFamilyResult(keyspace, columnFamily, sstables);
             jsonWriter.jsonValue(result.toString());
             return result;
@@ -163,9 +164,10 @@ public class MetaFileWriterBuilder {
          * @throws IOException if unable to write to file or if JSON is not valid
          */
         public MetaFileWriterBuilder.UploadStep endMetaFileGeneration() throws IOException {
-            if (jsonWriter == null)
+            if (jsonWriter == null) {
                 throw new NullPointerException(
                         "endMetaFileGeneration: Json Writer in MetaFileWriter is null. This should not happen!");
+            }
 
             jsonWriter.endArray();
             jsonWriter.endObject();

@@ -6,7 +6,7 @@ import java.util.Optional;
 public enum BackupFolder {
     SNAPSHOTS("snapshots"),
     BACKUPS("backups");
-    private String name;
+    private final String name;
 
     BackupFolder(String name) {
         this.name = name;

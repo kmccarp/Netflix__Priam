@@ -179,10 +179,12 @@ public class InstanceState {
     }
 
     public static class RestoreStatus {
-        private LocalDateTime startDateRange, endDateRange; // Date range to restore from
+        private LocalDateTime startDateRange;
+        private LocalDateTime endDateRange; // Date range to restore from
         // Start and end times of the actual restore execution.
         // Note these are referenced when this class is serialized to a String.
-        private LocalDateTime executionStartTime, executionEndTime;
+        private LocalDateTime executionStartTime;
+        private LocalDateTime executionEndTime;
         private String snapshotMetaFile; // Location of the snapshot meta file selected for restore.
         // the state of a restore.  Note: this is different than the "status" of a Task.
         private Status status;
