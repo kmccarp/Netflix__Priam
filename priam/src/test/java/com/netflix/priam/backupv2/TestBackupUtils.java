@@ -35,8 +35,8 @@ import org.apache.commons.io.FileUtils;
 
 /** Created by aagrawal on 12/17/18. */
 public class TestBackupUtils {
-    private MetaFileWriterBuilder metaFileWriterBuilder;
-    private Provider<AbstractBackupPath> pathProvider;
+    private final MetaFileWriterBuilder metaFileWriterBuilder;
+    private final Provider<AbstractBackupPath> pathProvider;
     protected final String keyspace = "keyspace1";
     protected final String columnfamily = "columnfamily1";
     private final String dataDir;

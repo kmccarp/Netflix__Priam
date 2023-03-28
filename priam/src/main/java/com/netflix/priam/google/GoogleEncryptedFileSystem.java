@@ -54,8 +54,8 @@ public class GoogleEncryptedFileSystem extends AbstractFileSystem {
     // represents our "service account" credentials we will use to access GCS
     private Credential credential;
     private Storage gcsStorageHandle;
-    private Storage.Objects objectsResoruceHandle = null;
-    private String srcBucketName;
+    private Storage.Objects objectsResoruceHandle;
+    private final String srcBucketName;
     private final IConfiguration config;
 
     private final ICredentialGeneric gcsCredential;
@@ -131,7 +131,7 @@ public class GoogleEncryptedFileSystem extends AbstractFileSystem {
         synchronized (this) {
             if (this.credential == null) {
 
-                String service_acct_email =
+                String serviceAcctEmail =
                         new String(this.gcsCredential.getValue(KEY.GCS_SERVICE_ID));
 
                 if (this.config.getGcsServiceAccountPrivateKeyLoc() == null
@@ -165,7 +165,7 @@ public class GoogleEncryptedFileSystem extends AbstractFileSystem {
                         new GoogleCredential.Builder()
                                 .setTransport(this.httpTransport)
                                 .setJsonFactory(JSON_FACTORY)
-                                .setServiceAccountId(service_acct_email)
+                                .setServiceAccountId(serviceAcctEmail)
                                 .setServiceAccountScopes(scopes)
                                 .setServiceAccountPrivateKeyFromP12File(gcsPrivateKeyHandle)
                                 .build();

@@ -25,7 +25,9 @@ public class Application {
     private static Injector injector;
 
     static Injector getInjector() {
-        if (injector == null) injector = Guice.createInjector(new LightGuiceModule());
+        if (injector == null) {
+            injector = Guice.createInjector(new LightGuiceModule());
+        }
         return injector;
     }
 

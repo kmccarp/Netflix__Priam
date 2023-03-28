@@ -15,7 +15,7 @@
  *
  */
 
-package com.netflix.priam.configSource;
+package com.netflix.priam.configsource;
 
 import org.junit.Assert;
 import org.junit.Test;

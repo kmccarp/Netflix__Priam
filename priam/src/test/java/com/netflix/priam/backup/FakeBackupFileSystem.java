@@ -102,8 +102,9 @@ public class FakeBackupFileSystem extends AbstractFileSystem {
         flist.stream()
                 .forEach(
                         abstractBackupPath -> {
-                            if (abstractBackupPath.getRemotePath().startsWith(prefix))
+                            if (abstractBackupPath.getRemotePath().startsWith(prefix)) {
                                 items.add(abstractBackupPath.getRemotePath());
+                            }
                         });
         return items.iterator();
     }
@@ -120,8 +121,9 @@ public class FakeBackupFileSystem extends AbstractFileSystem {
     @Override
     public boolean doesRemoteFileExist(Path remotePath) {
         for (AbstractBackupPath abstractBackupPath : flist) {
-            if (abstractBackupPath.getRemotePath().equalsIgnoreCase(remotePath.toString()))
+            if (abstractBackupPath.getRemotePath().equalsIgnoreCase(remotePath.toString())) {
                 return true;
+            }
         }
         return false;
     }
