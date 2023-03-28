@@ -32,7 +32,7 @@ public class S3PartUploader extends BoundedExponentialRetryCallable<Void> {
     private final AmazonS3 client;
     private final DataPart dataPart;
     private final List<PartETag> partETags;
-    private AtomicInteger partsUploaded = null; // num of data parts successfully uploaded
+    private AtomicInteger partsUploaded; // num of data parts successfully uploaded
 
     private static final Logger logger = LoggerFactory.getLogger(S3PartUploader.class);
     private static final int MAX_RETRIES = 5;
@@ -65,11 +65,14 @@ public class S3PartUploader extends BoundedExponentialRetryCallable<Void> {
         req.setInputStream(new ByteArrayInputStream(dataPart.getPartData()));
         UploadPartResult res = client.uploadPart(req);
         PartETag partETag = res.getPartETag();
-        if (!partETag.getETag().equals(SystemUtils.toHex(dataPart.getMd5())))
+        if (!partETag.getETag().equals(SystemUtils.toHex(dataPart.getMd5()))) {
             throw new BackupRestoreException(
                     "Unable to match MD5 for part " + dataPart.getPartNo());
+        }
         partETags.add(partETag);
-        if (this.partsUploaded != null) this.partsUploaded.incrementAndGet();
+        if (this.partsUploaded != null) {
+            this.partsUploaded.incrementAndGet();
+        }
         return null;
     }
 

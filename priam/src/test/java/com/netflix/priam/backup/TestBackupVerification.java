@@ -133,13 +133,13 @@ public class TestBackupVerification {
         List<BackupVerificationResult> backupVerificationResults =
                 backupVerification.verifyAllBackups(
                         BackupVersion.SNAPSHOT_BACKUP, new DateRange(Instant.now(), Instant.now()));
-        Assert.assertFalse(backupVerificationResults.size() > 0);
+        Assert.assertFalse(!backupVerificationResults.isEmpty());
 
         backupVerificationResults =
                 backupVerification.verifyAllBackups(
                         BackupVersion.SNAPSHOT_META_SERVICE,
                         new DateRange(Instant.now(), Instant.now()));
-        Assert.assertFalse(backupVerificationResults.size() > 0);
+        Assert.assertFalse(!backupVerificationResults.isEmpty());
     }
 
     private void setUp() throws Exception {

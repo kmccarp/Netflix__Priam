@@ -51,7 +51,9 @@ public class JVMOptionTunerTest {
                         .filter(returncode -> (returncode != 0))
                         .count();
 
-        if (failedVerification > 0) throw new Exception("Failed validation for CMS");
+        if (failedVerification > 0) {
+            throw new Exception("Failed validation for CMS");
+        }
     }
 
     @Test
@@ -73,7 +75,9 @@ public class JVMOptionTunerTest {
                         .filter(returncode -> (returncode != 0))
                         .count();
 
-        if (failedVerification > 0) throw new Exception("Failed validation for G1GC");
+        if (failedVerification > 0) {
+            throw new Exception("Failed validation for G1GC");
+        }
     }
 
     @Test
@@ -207,11 +211,11 @@ public class JVMOptionTunerTest {
     }
 
     private class GCConfiguration extends FakeConfiguration {
-        private GCType gcType;
-        private String configuredJVMExclude;
-        private String configuredJVMUpsert;
-        private String configuredHeapNewSize;
-        private String configuredHeapSize;
+        private final GCType gcType;
+        private final String configuredJVMExclude;
+        private final String configuredJVMUpsert;
+        private final String configuredHeapNewSize;
+        private final String configuredHeapSize;
 
         GCConfiguration(
                 GCType gcType,

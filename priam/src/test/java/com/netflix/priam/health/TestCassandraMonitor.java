@@ -50,13 +50,17 @@ public class TestCassandraMonitor {
         Injector injector = Guice.createInjector(new BRTestModule());
         config = injector.getInstance(IConfiguration.class);
         thriftChecker = injector.getInstance(ThriftChecker.class);
-        if (instanceState == null) instanceState = injector.getInstance(InstanceState.class);
-        if (cassMonitorMetrics == null)
+        if (instanceState == null) {
+            instanceState = injector.getInstance(InstanceState.class);
+        }
+        if (cassMonitorMetrics == null) {
             cassMonitorMetrics = injector.getInstance(CassMonitorMetrics.class);
-        if (monitor == null)
+        }
+        if (monitor == null) {
             monitor =
                     new CassandraMonitor(
                             config, instanceState, cassProcess, cassMonitorMetrics, thriftChecker);
+        }
     }
 
     @Test

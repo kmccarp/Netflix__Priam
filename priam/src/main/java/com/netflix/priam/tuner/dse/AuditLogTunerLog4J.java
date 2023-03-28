@@ -102,7 +102,9 @@ public class AuditLogTunerLog4J implements IAuditLogTuner {
                     } else {
                         if (line.startsWith("#")) {
                             // make sure there's only one # at the beginning of the line
-                            while (line.charAt(1) == '#') line = line.substring(1);
+                            while (line.charAt(1) == '#') {
+                                line = line.substring(1);
+                            }
                         } else {
                             line = "#" + line;
                         }

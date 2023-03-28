@@ -22,7 +22,7 @@ import java.io.IOException;
 public class FakeCassandraProcess implements ICassandraProcess {
 
     @Override
-    public void start(boolean join_ring) throws IOException {
+    public void start(boolean joinRing) throws IOException {
         // do nothing
     }
 

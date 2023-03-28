@@ -43,11 +43,11 @@ import org.junit.Test;
 
 /** Created by aagrawal on 12/5/18. */
 public class TestMetaV2Proxy {
-    private FakeBackupFileSystem fs;
-    private IConfiguration configuration;
-    private TestBackupUtils backupUtils;
-    private IMetaProxy metaProxy;
-    private Provider<AbstractBackupPath> abstractBackupPathProvider;
+    private final FakeBackupFileSystem fs;
+    private final IConfiguration configuration;
+    private final TestBackupUtils backupUtils;
+    private final IMetaProxy metaProxy;
+    private final Provider<AbstractBackupPath> abstractBackupPathProvider;
 
     public TestMetaV2Proxy() {
         Injector injector = Guice.createInjector(new BRTestModule());
