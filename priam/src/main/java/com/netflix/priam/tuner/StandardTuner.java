@@ -184,8 +184,9 @@ public class StandardTuner implements ICassandraTuner {
             yaml.put("key_cache_size_in_mb", Integer.valueOf(keyCacheSize));
 
             final String keyCount = config.getKeyCacheKeysToSave();
-            if (!StringUtils.isEmpty(keyCount))
+            if (!StringUtils.isEmpty(keyCount)) {
                 yaml.put("key_cache_keys_to_save", Integer.valueOf(keyCount));
+            }
         }
 
         final String rowCacheSize = config.getRowCacheSizeInMB();
@@ -193,19 +194,24 @@ public class StandardTuner implements ICassandraTuner {
             yaml.put("row_cache_size_in_mb", Integer.valueOf(rowCacheSize));
 
             final String rowCount = config.getRowCacheKeysToSave();
-            if (!StringUtils.isEmpty(rowCount))
+            if (!StringUtils.isEmpty(rowCount)) {
                 yaml.put("row_cache_keys_to_save", Integer.valueOf(rowCount));
+            }
         }
     }
 
     String derivePartitioner(String fromYaml, String fromConfig) {
-        if (fromYaml == null || fromYaml.isEmpty()) return fromConfig;
+        if (fromYaml == null || fromYaml.isEmpty()) {
+            return fromConfig;
+        }
         // this check is to prevent against overwriting an existing yaml file that has
         // a partitioner not RandomPartitioner or (as of cass 1.2) Murmur3Partitioner.
         // basically we don't want to hose existing deployments by changing the partitioner
         // unexpectedly on them
         final String lowerCase = fromYaml.toLowerCase();
-        if (lowerCase.contains("randomparti") || lowerCase.contains("murmur")) return fromConfig;
+        if (lowerCase.contains("randomparti") || lowerCase.contains("murmur")) {
+            return fromConfig;
+        }
         return fromYaml;
     }
 
@@ -220,7 +226,9 @@ public class StandardTuner implements ICassandraTuner {
     }
 
     protected void configureCommitLogBackups() {
-        if (!config.isBackingUpCommitLogs()) return;
+        if (!config.isBackingUpCommitLogs()) {
+            return;
+        }
         Properties props = new Properties();
         props.put("archive_command", config.getCommitLogBackupArchiveCmd());
         props.put("restore_command", config.getCommitLogBackupRestoreCmd());
@@ -285,7 +293,7 @@ public class StandardTuner implements ICassandraTuner {
                 } else {
                     // split the cassandra key. We will get the group and get the key name.
                     String[] cassKeySplit = cassKey.split("\\.");
-                    Map cassKeyMap = ((Map) map.getOrDefault(cassKeySplit[0], new HashMap()));
+                    Map cassKeyMap = (Map) map.getOrDefault(cassKeySplit[0], new HashMap());
                     map.putIfAbsent(cassKeySplit[0], cassKeyMap);
                     logger.info(
                             "Updating yaml: PriamKey: [{}], Key: [{}], OldValue: [{}], NewValue: [{}]",

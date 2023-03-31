@@ -25,7 +25,8 @@ import javax.inject.Singleton;
  */
 @Singleton
 public class NodeToolFlushMeasurement implements IMeasurement {
-    private final Counter failure, success;
+    private final Counter failure;
+    private final Counter success;
 
     @Inject
     public NodeToolFlushMeasurement(Registry registry) {

@@ -114,7 +114,9 @@ public class CassandraMonitor extends Task {
                 IOUtils.closeQuietly(process.getErrorStream());
             }
 
-            if (input != null) IOUtils.closeQuietly(input);
+            if (input != null) {
+                IOUtils.closeQuietly(input);
+            }
         }
 
         try {
@@ -149,14 +151,16 @@ public class CassandraMonitor extends Task {
     }
 
     private void checkDirectory(File directory) {
-        if (!directory.exists())
+        if (!directory.exists()) {
             throw new IllegalStateException(
                     String.format("Directory: %s does not exist", directory));
+        }
 
-        if (!directory.canRead() || !directory.canWrite())
+        if (!directory.canRead() || !directory.canWrite()) {
             throw new IllegalStateException(
                     String.format(
                             "Directory: %s does not have read/write permissions.", directory));
+        }
     }
 
     public static TaskTimer getTimer() {

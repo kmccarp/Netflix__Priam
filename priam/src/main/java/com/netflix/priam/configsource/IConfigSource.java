@@ -14,7 +14,7 @@
  * limitations under the License.
  *
  */
-package com.netflix.priam.configSource;
+package com.netflix.priam.configsource;
 
 import com.google.inject.ImplementedBy;
 import java.util.List;
