@@ -70,13 +70,16 @@ public class Compaction extends IClusterManagement<String> {
         allColumnfamilies.forEach(
                 (keyspaceName, columnfamilies) -> {
                     if (SchemaConstant.isSystemKeyspace(
-                            keyspaceName)) // no need to compact system keyspaces.
-                    return;
+                            keyspaceName)) { // no need to compact system keyspaces.
+                        return;
+                    }
 
                     if (excludeFilter != null && excludeFilter.containsKey(keyspaceName)) {
                         List<String> excludeCFFilter = excludeFilter.get(keyspaceName);
                         // Is CF list null/empty? If yes, then exclude all CF's for this keyspace.
-                        if (excludeCFFilter == null || excludeCFFilter.isEmpty()) return;
+                        if (excludeCFFilter == null || excludeCFFilter.isEmpty()) {
+                            return;
+                        }
 
                         columnfamilies =
                                 (List<String>)
@@ -86,7 +89,9 @@ public class Compaction extends IClusterManagement<String> {
                     if (includeFilter != null) {
                         // Include filter is not empty and this keyspace is not provided in include
                         // filter. Ignore processing of this keyspace.
-                        if (!includeFilter.containsKey(keyspaceName)) return;
+                        if (!includeFilter.containsKey(keyspaceName)) {
+                            return;
+                        }
 
                         List<String> includeCFFilter = includeFilter.get(keyspaceName);
                         // If include filter is empty or null, it means include all.
@@ -94,16 +99,18 @@ public class Compaction extends IClusterManagement<String> {
                         // one which are configured to compact.
                         if (includeCFFilter != null
                                 && !includeCFFilter
-                                        .isEmpty()) // If include filter is empty or null, it means
+                                .isEmpty()) { // If include filter is empty or null, it means
                             // include all.
                             columnfamilies =
                                     (List<String>)
                                             CollectionUtils.intersection(
                                                     columnfamilies, includeCFFilter);
+                        }
                     }
 
-                    if (columnfamilies != null && !columnfamilies.isEmpty())
+                    if (columnfamilies != null && !columnfamilies.isEmpty()) {
                         result.put(keyspaceName, columnfamilies);
+                    }
                 });
 
         return result;
@@ -115,11 +122,12 @@ public class Compaction extends IClusterManagement<String> {
     protected String runTask() throws Exception {
         final Map<String, List<String>> columnfamilies = getCompactionFilterCfs(config);
 
-        if (!columnfamilies.isEmpty())
+        if (!columnfamilies.isEmpty()) {
             for (Map.Entry<String, List<String>> entry : columnfamilies.entrySet()) {
                 cassandraOperations.forceKeyspaceCompaction(
                         entry.getKey(), entry.getValue().toArray(new String[0]));
             }
+        }
 
         return columnfamilies.toString();
     }

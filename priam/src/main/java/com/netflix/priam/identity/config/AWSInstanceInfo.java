@@ -36,7 +36,7 @@ public class AWSInstanceInfo implements InstanceInfo {
     static final String LOCAL_HOSTNAME_URL = "/latest/meta-data/local-hostname";
     static final String PUBLIC_HOSTIP_URL = "/latest/meta-data/public-ipv4";
     static final String LOCAL_HOSTIP_URL = "/latest/meta-data/local-ipv4";
-    private JSONObject identityDocument = null;
+    private JSONObject identityDocument;
     private String privateIp;
     private String hostIP;
     private String rac;
@@ -81,8 +81,12 @@ public class AWSInstanceInfo implements InstanceInfo {
         DescribeAvailabilityZonesResult res = client.describeAvailabilityZones();
         List<String> zone = Lists.newArrayList();
         for (AvailabilityZone reg : res.getAvailabilityZones()) {
-            if (reg.getState().equals("available")) zone.add(reg.getZoneName());
-            if (zone.size() == 3) break;
+            if ("available".equals(reg.getState())) {
+                zone.add(reg.getZoneName());
+            }
+            if (zone.size() == 3) {
+                break;
+            }
         }
         return ImmutableList.copyOf(zone);
     }
@@ -121,9 +125,11 @@ public class AWSInstanceInfo implements InstanceInfo {
     @Override
     public String getVpcId() {
         String nacId = getMac();
-        if (StringUtils.isEmpty(nacId)) return null;
+        if (StringUtils.isEmpty(nacId)) {
+            return null;
+        }
 
-        if (vpcId == null)
+        if (vpcId == null) {
             try {
                 vpcId = EC2MetadataUtils.getNetworkInterfaces().get(0).getVpcId();
             } catch (Exception e) {
@@ -131,6 +137,7 @@ public class AWSInstanceInfo implements InstanceInfo {
                         "Vpc id does not exist for running instance, not fatal as running instance maybe not be in vpc.  Msg: {}",
                         e.getLocalizedMessage());
             }
+        }
 
         return vpcId;
     }
@@ -152,8 +159,9 @@ public class AWSInstanceInfo implements InstanceInfo {
                     for (Reservation resr : res.getReservations()) {
                         for (Instance ins : resr.getInstances()) {
                             for (com.amazonaws.services.ec2.model.Tag tag : ins.getTags()) {
-                                if (tag.getKey().equals("aws:autoscaling:groupName"))
+                                if ("aws:autoscaling:groupName".equals(tag.getKey())) {
                                     return tag.getValue();
+                                }
                             }
                         }
                     }

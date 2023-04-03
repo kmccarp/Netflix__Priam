@@ -64,15 +64,21 @@ public class TestS3FileSystem {
     private static final Logger logger = LoggerFactory.getLogger(TestS3FileSystem.class);
     private static final File DIR = new File("target/data/KS1/CF1/backups/201108082320/");
     private static BackupMetrics backupMetrics;
-    private static String region;
+    private static final String region;
     private static IConfiguration configuration;
 
     public TestS3FileSystem() {
-        if (injector == null) injector = Guice.createInjector(new BRTestModule());
+        if (injector == null) {
+            injector = Guice.createInjector(new BRTestModule());
+        }
 
-        if (backupMetrics == null) backupMetrics = injector.getInstance(BackupMetrics.class);
+        if (backupMetrics == null) {
+            backupMetrics = injector.getInstance(BackupMetrics.class);
+        }
 
-        if (configuration == null) configuration = injector.getInstance(IConfiguration.class);
+        if (configuration == null) {
+            configuration = injector.getInstance(IConfiguration.class);
+        }
 
         InstanceInfo instanceInfo = injector.getInstance(InstanceInfo.class);
         region = instanceInfo.getRegion();
@@ -82,7 +88,9 @@ public class TestS3FileSystem {
     public static void setUp() {
         new MockS3PartUploader();
         new MockAmazonS3Client();
-        if (!DIR.exists()) DIR.mkdirs();
+        if (!DIR.exists()) {
+            DIR.mkdirs();
+        }
     }
 
     @AfterClass
@@ -227,10 +235,10 @@ public class TestS3FileSystem {
 
     // Mock Nodeprobe class
     static class MockS3PartUploader extends MockUp<S3PartUploader> {
-        static int compattempts = 0;
-        static int partAttempts = 0;
-        static boolean partFailure = false;
-        static boolean completionFailure = false;
+        static int compattempts;
+        static int partAttempts;
+        static boolean partFailure;
+        static boolean completionFailure;
         private static List<PartETag> partETags;
 
         @Mock
@@ -241,7 +249,9 @@ public class TestS3FileSystem {
         @Mock
         private Void uploadPart() throws AmazonClientException, BackupRestoreException {
             ++partAttempts;
-            if (partFailure) throw new BackupRestoreException("Test exception");
+            if (partFailure) {
+                throw new BackupRestoreException("Test exception");
+            }
             partETags.add(new PartETag(0, null));
             return null;
         }
@@ -249,7 +259,9 @@ public class TestS3FileSystem {
         @Mock
         public CompleteMultipartUploadResult completeUpload() throws BackupRestoreException {
             ++compattempts;
-            if (completionFailure) throw new BackupRestoreException("Test exception");
+            if (completionFailure) {
+                throw new BackupRestoreException("Test exception");
+            }
 
             return null;
         }
@@ -269,9 +281,9 @@ public class TestS3FileSystem {
     }
 
     static class MockAmazonS3Client extends MockUp<AmazonS3Client> {
-        private boolean ruleAvailable = false;
+        private boolean ruleAvailable;
         static BucketLifecycleConfiguration bconf;
-        static boolean emulateError = false;
+        static boolean emulateError;
 
         @Mock
         public InitiateMultipartUploadResult initiateMultipartUpload(
@@ -301,7 +313,9 @@ public class TestS3FileSystem {
         @Mock
         public DeleteObjectsResult deleteObjects(DeleteObjectsRequest var1)
                 throws SdkClientException, AmazonServiceException {
-            if (emulateError) throw new AmazonServiceException("Unable to reach AWS");
+            if (emulateError) {
+                throw new AmazonServiceException("Unable to reach AWS");
+            }
             return null;
         }
 
@@ -317,7 +331,9 @@ public class TestS3FileSystem {
         static void setRuleAvailable(boolean ruleAvailable) {
             if (ruleAvailable) {
                 bconf = new BucketLifecycleConfiguration();
-                if (bconf.getRules() == null) bconf.setRules(Lists.newArrayList());
+                if (bconf.getRules() == null) {
+                    bconf.setRules(Lists.newArrayList());
+                }
 
                 List<BucketLifecycleConfiguration.Rule> rules = bconf.getRules();
                 String clusterPath = "casstestbackup/" + region + "/fake-app/";
@@ -326,10 +342,11 @@ public class TestS3FileSystem {
                         rules.stream()
                                 .filter(rule -> rule.getId().equalsIgnoreCase(clusterPath))
                                 .collect(Collectors.toList());
-                if (potentialRules == null || potentialRules.isEmpty())
+                if (potentialRules == null || potentialRules.isEmpty()) {
                     rules.add(
                             getBucketLifecycleConfig(
                                     clusterPath, configuration.getBackupRetentionDays()));
+                }
             }
         }
 

@@ -33,7 +33,7 @@ public enum BackupVersion {
     private static final Logger logger = LoggerFactory.getLogger(BackupVersion.class);
 
     private final int backupVersion;
-    private static Map<Integer, BackupVersion> map = new HashMap<>();
+    private static final Map<Integer, BackupVersion> map = new HashMap<>();
 
     static {
         for (BackupVersion backupVersion : BackupVersion.values()) {
