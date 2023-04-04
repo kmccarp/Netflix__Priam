@@ -23,12 +23,12 @@ import java.util.List;
  * are all null and false.
  */
 public class BackupVerificationResult {
-    public boolean valid = false;
-    public String remotePath = null;
-    public Instant snapshotInstant = null;
-    public boolean manifestAvailable = false;
+    public boolean valid;
+    public String remotePath;
+    public Instant snapshotInstant;
+    public boolean manifestAvailable;
     public List<String> filesInMetaOnly = new ArrayList<>();
-    public int filesMatched = 0;
+    public int filesMatched;
 
     @Override
     public String toString() {

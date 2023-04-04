@@ -38,8 +38,8 @@ public class TokenRetriever implements ITokenRetriever {
     private final ITokenManager tokenManager;
 
     // Instance information contains other information like ASG/vpc-id etc.
-    private InstanceInfo myInstanceInfo;
-    private boolean isTokenPregenerated = false;
+    private final InstanceInfo myInstanceInfo;
+    private boolean isTokenPregenerated;
     private String replacedIp;
     private PriamInstance priamInstance;
 
@@ -116,7 +116,7 @@ public class TokenRetriever implements ITokenRetriever {
                         replacedIp = getReplacedIpForAssignedToken(liveNodes, instance.get());
                     }
                 }
-                return instance.map(i -> claimToken(i)).orElse(null);
+                return instance.map(this::claimToken).orElse(null);
             }
         }.call();
     }
@@ -139,10 +139,10 @@ public class TokenRetriever implements ITokenRetriever {
                         instances.stream().filter(i -> !isNew(i)).findFirst();
                 candidate.ifPresent(i -> replacedIp = getReplacedIpForExistingToken(allIds, i));
                 if (replacedIp == null) {
-                    candidate = instances.stream().filter(i -> isNew(i)).findFirst();
+                    candidate = instances.stream().filter(this::isNew).findFirst();
                     candidate.ifPresent(i -> isTokenPregenerated = true);
                 }
-                return candidate.map(i -> claimToken(i)).orElse(null);
+                return candidate.map(this::claimToken).orElse(null);
             }
         }.call();
     }
@@ -319,7 +319,7 @@ public class TokenRetriever implements ITokenRetriever {
     private Optional<PriamInstance> findInstance(ImmutableSet<PriamInstance> instances) {
         return instances
                 .stream()
-                .filter((i) -> i.getInstanceId().equals(myInstanceInfo.getInstanceId()))
+                .filter(i -> i.getInstanceId().equals(myInstanceInfo.getInstanceId()))
                 .findFirst();
     }
 

@@ -25,8 +25,8 @@ import java.util.Set;
 
 public class FakeMembership implements IMembership {
 
-    private ImmutableSet<String> instances;
-    private Set<String> acl;
+    private final ImmutableSet<String> instances;
+    private final Set<String> acl;
 
     public FakeMembership(List<String> priamInstances) {
         this.instances = ImmutableSet.copyOf(priamInstances);

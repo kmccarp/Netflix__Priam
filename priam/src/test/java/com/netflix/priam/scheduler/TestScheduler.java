@@ -88,7 +88,7 @@ public class TestScheduler {
             super(config);
         }
 
-        static int count = 0;
+        static int count;
 
         @Override
         public void execute() {
