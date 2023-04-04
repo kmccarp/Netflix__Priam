@@ -46,7 +46,9 @@ public interface IDseConfiguration {
 
         public static NodeType getByAltName(String altName) {
             for (NodeType nt : NodeType.values()) {
-                if (nt.altName.toLowerCase().equals(altName)) return nt;
+                if (nt.altName.toLowerCase().equals(altName)) {
+                    return nt;
+                }
             }
             throw new IllegalArgumentException("Unknown node type: " + altName);
         }

@@ -46,9 +46,11 @@ public class TestBackupFile {
                 new File("target/data/Keyspace1/Standard1/", "Keyspace1-Standard1-ia-5-Data.db");
         if (!file.exists()) {
             File dir1 = new File("target/data/Keyspace1/Standard1/");
-            if (!dir1.exists()) dir1.mkdirs();
+            if (!dir1.exists()) {
+                dir1.mkdirs();
+            }
             byte b = 8;
-            long oneKB = (1024L);
+            long oneKB = 1024L;
             System.out.println(oneKB);
             BufferedOutputStream bos1 = new BufferedOutputStream(new FileOutputStream(file));
             for (long i = 0; i < oneKB; i++) {

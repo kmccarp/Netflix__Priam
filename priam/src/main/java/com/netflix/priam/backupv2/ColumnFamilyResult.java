@@ -24,8 +24,8 @@ import java.util.Set;
  * 7/1/18.
  */
 public class ColumnFamilyResult {
-    private String keyspaceName;
-    private String columnfamilyName;
+    private final String keyspaceName;
+    private final String columnfamilyName;
     private List<SSTableResult> sstables = new ArrayList<>();
 
     public ColumnFamilyResult(String keyspaceName, String columnfamilyName) {
@@ -42,7 +42,9 @@ public class ColumnFamilyResult {
     }
 
     public void addSstable(SSTableResult sstable) {
-        if (sstables == null) sstables = new ArrayList<>();
+        if (sstables == null) {
+            sstables = new ArrayList<>();
+        }
         sstables.add(sstable);
     }
 

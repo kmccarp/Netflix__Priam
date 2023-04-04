@@ -45,7 +45,9 @@ public class DseTunerTest {
         auditLogTunerLog4j = new AuditLogTunerLog4J(config, dseConfig);
 
         File targetDir = new File(config.getCassHome() + "/conf");
-        if (!targetDir.exists()) targetDir.mkdirs();
+        if (!targetDir.exists()) {
+            targetDir.mkdirs();
+        }
 
         targetFile = new File(config.getCassHome() + AuditLogTunerLog4J.AUDIT_LOG_FILE);
         Files.copy(new File("src/test/resources/" + AuditLogTunerLog4J.AUDIT_LOG_FILE), targetFile);

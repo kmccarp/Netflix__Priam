@@ -48,8 +48,9 @@ public class TestCassandraOperations {
             }
         };
         Injector injector = Guice.createInjector(new BRTestModule());
-        if (cassandraOperations == null)
+        if (cassandraOperations == null) {
             cassandraOperations = injector.getInstance(CassandraOperations.class);
+        }
     }
 
     @Test
@@ -74,10 +75,12 @@ public class TestCassandraOperations {
                             Assert.assertEquals("us-east", gossipInfo.get("DC"));
                             Assert.assertNotNull(gossipInfo.get("PUBLIC_IP"));
                             Assert.assertEquals("1565153", gossipInfo.get("HEARTBEAT"));
-                            if (gossipInfo.get("STATUS").equalsIgnoreCase("NORMAL"))
+                            if ("NORMAL".equalsIgnoreCase(gossipInfo.get("STATUS"))) {
                                 Assert.assertNotNull(gossipInfo.get("TOKENS"));
-                            if (gossipInfo.get("PUBLIC_IP").equalsIgnoreCase("127.0.0.1"))
+                            }
+                            if ("127.0.0.1".equalsIgnoreCase(gossipInfo.get("PUBLIC_IP"))) {
                                 Assert.assertEquals("[123,234]", gossipInfo.get("TOKENS"));
+                            }
                         });
     }
 }
