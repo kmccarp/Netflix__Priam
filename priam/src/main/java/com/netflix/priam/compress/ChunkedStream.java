@@ -54,7 +54,7 @@ public class ChunkedStream implements Iterator<byte[]> {
     @Override
     public byte[] next() {
         try {
-            byte data[] = new byte[BYTES_TO_READ];
+            byte[] data = new byte[BYTES_TO_READ];
             int count;
             while ((count = origin.read(data, 0, data.length)) != -1) {
                 switch (compression) {
@@ -67,7 +67,9 @@ public class ChunkedStream implements Iterator<byte[]> {
                     default:
                         throw new IllegalArgumentException("Snappy compression only.");
                 }
-                if (bos.size() >= chunkSize) return returnSafe();
+                if (bos.size() >= chunkSize) {
+                    return returnSafe();
+                }
             }
             // We don't have anything else to read hence set to false.
             return done();
@@ -77,7 +79,9 @@ public class ChunkedStream implements Iterator<byte[]> {
     }
 
     private byte[] done() throws IOException {
-        if (compression == CompressionType.SNAPPY) snappy.flush();
+        if (compression == CompressionType.SNAPPY) {
+            snappy.flush();
+        }
         byte[] return_ = bos.toByteArray();
         hasnext = false;
         IOUtils.closeQuietly(snappy);

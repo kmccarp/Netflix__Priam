@@ -39,9 +39,14 @@ public class DseProcessManager extends CassandraProcessManager {
         super.setEnv(env);
 
         NodeType nodeType = dseConfig.getNodeType();
-        if (nodeType == NodeType.ANALYTIC_HADOOP) env.put("CLUSTER_TYPE", "-t");
-        else if (nodeType == NodeType.ANALYTIC_SPARK) env.put("CLUSTER_TYPE", "-k");
-        else if (nodeType == NodeType.ANALYTIC_HADOOP_SPARK) env.put("CLUSTER_TYPE", "-k -t");
-        else if (nodeType == NodeType.SEARCH) env.put("CLUSTER_TYPE", "-s");
+        if (nodeType == NodeType.ANALYTIC_HADOOP) {
+            env.put("CLUSTER_TYPE", "-t");
+        } else if (nodeType == NodeType.ANALYTIC_SPARK) {
+            env.put("CLUSTER_TYPE", "-k");
+        } else if (nodeType == NodeType.ANALYTIC_HADOOP_SPARK) {
+            env.put("CLUSTER_TYPE", "-k -t");
+        } else if (nodeType == NodeType.SEARCH) {
+            env.put("CLUSTER_TYPE", "-s");
+        }
     }
 }

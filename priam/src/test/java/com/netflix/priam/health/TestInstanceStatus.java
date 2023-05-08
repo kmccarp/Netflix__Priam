@@ -122,8 +122,11 @@ public class TestInstanceStatus {
             instanceState.setIsRequiredDirectoriesExist(isRequiredDirectoriesExist);
             instanceState.setShouldCassandraBeAlive(shouldCassandraBeAlive);
 
-            if (isRestoring) instanceState.setRestoreStatus(Status.STARTED);
-            else instanceState.setRestoreStatus(Status.FINISHED);
+            if (isRestoring) {
+                instanceState.setRestoreStatus(Status.STARTED);
+            } else {
+                instanceState.setRestoreStatus(Status.FINISHED);
+            }
 
             return instanceState;
         }

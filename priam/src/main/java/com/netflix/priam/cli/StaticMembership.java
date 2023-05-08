@@ -55,8 +55,9 @@ public class StaticMembership implements IMembership {
         for (String name : config.stringPropertyNames()) {
             if (name.startsWith(INSTANCES_PRE)) {
                 racCount += 1;
-                if (name.equals(INSTANCES_PRE + racName))
+                if (name.equals(INSTANCES_PRE + racName)) {
                     racMembership = ImmutableSet.copyOf(config.getProperty(name).split(","));
+                }
             }
         }
     }
@@ -73,7 +74,9 @@ public class StaticMembership implements IMembership {
 
     @Override
     public int getRacMembershipSize() {
-        if (racMembership == null) return 0;
+        if (racMembership == null) {
+            return 0;
+        }
         return racMembership.size();
     }
 

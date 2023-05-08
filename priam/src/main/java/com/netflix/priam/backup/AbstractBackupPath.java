@@ -84,7 +84,7 @@ public abstract class AbstractBackupPath implements Comparable<AbstractBackupPat
     protected String region;
     protected Date time;
     private long size; // uncompressed file size
-    private long compressedFileSize = 0;
+    private long compressedFileSize;
     protected final InstanceIdentity instanceIdentity;
     protected final IConfiguration config;
     protected File backupFile;
@@ -151,7 +151,9 @@ public abstract class AbstractBackupPath implements Comparable<AbstractBackupPat
         String sString = DateUtil.formatyyyyMMddHHmm(start); // formatDate(start);
         String eString = DateUtil.formatyyyyMMddHHmm(end); // formatDate(end);
         int diff = StringUtils.indexOfDifference(sString, eString);
-        if (diff < 0) return sString;
+        if (diff < 0) {
+            return sString;
+        }
         return sString.substring(0, diff);
     }
 
@@ -172,7 +174,9 @@ public abstract class AbstractBackupPath implements Comparable<AbstractBackupPat
         }
 
         File parent = new File(return_.getParent());
-        if (!parent.exists()) parent.mkdirs();
+        if (!parent.exists()) {
+            parent.mkdirs();
+        }
         return return_;
     }
 
