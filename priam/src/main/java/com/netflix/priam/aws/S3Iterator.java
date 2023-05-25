@@ -53,13 +53,19 @@ public class S3Iterator implements Iterator<String> {
         ListObjectsRequest listReq = new ListObjectsRequest();
         listReq.setBucketName(bucket);
         listReq.setPrefix(prefix);
-        if (StringUtils.isNotBlank(delimiter)) listReq.setDelimiter(delimiter);
-        if (StringUtils.isNotBlank(marker)) listReq.setMarker(marker);
+        if (StringUtils.isNotBlank(delimiter)) {
+            listReq.setDelimiter(delimiter);
+        }
+        if (StringUtils.isNotBlank(marker)) {
+            listReq.setMarker(marker);
+        }
         objectListing = s3Client.listObjects(listReq);
     }
 
     private Iterator<String> createIterator() {
-        if (objectListing == null) initListing();
+        if (objectListing == null) {
+            initListing();
+        }
         List<String> temp = Lists.newArrayList();
         for (S3ObjectSummary summary : objectListing.getObjectSummaries()) {
             temp.add(summary.getKey());
