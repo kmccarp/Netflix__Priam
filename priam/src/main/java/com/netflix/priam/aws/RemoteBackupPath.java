@@ -115,7 +115,7 @@ public class RemoteBackupPath extends AbstractBackupPath {
         fileName = remotePath.getName(index).toString();
         parts.add(fileName);
         this.backupFile =
-                Paths.get(config.getDataFileLocation(), parts.toArray(new String[] {})).toFile();
+                Paths.get(config.getDataFileLocation(), parts.toArray(new String[]{})).toFile();
     }
 
     private String getV1Location() {

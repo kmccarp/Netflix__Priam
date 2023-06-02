@@ -93,5 +93,6 @@ public class ChunkedStream implements Iterator<byte[]> {
     }
 
     @Override
-    public void remove() {}
+    public void remove() {
+    }
 }

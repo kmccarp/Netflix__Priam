@@ -38,7 +38,8 @@ public class PriamConfiguration implements IConfiguration {
     private final IConfigSource config;
     private static final Logger logger = LoggerFactory.getLogger(PriamConfiguration.class);
 
-    @JsonIgnore private InstanceInfo instanceInfo;
+    @JsonIgnore
+    private InstanceInfo instanceInfo;
 
     @Inject
     public PriamConfiguration(IConfigSource config, InstanceInfo instanceInfo) {

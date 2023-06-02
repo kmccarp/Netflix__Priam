@@ -36,8 +36,10 @@ import org.junit.Test;
 /** Created by aagrawal on 3/1/19. */
 public class TestCassandraOperations {
     private final String gossipInfo1 = "src/test/resources/gossipInfoSample_1.txt";
-    @Mocked private NodeProbe nodeProbe;
-    @Mocked private JMXNodeTool jmxNodeTool;
+    @Mocked
+    private NodeProbe nodeProbe;
+    @Mocked
+    private JMXNodeTool jmxNodeTool;
     private static CassandraOperations cassandraOperations;
 
     public TestCassandraOperations() {

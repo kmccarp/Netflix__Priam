@@ -23,5 +23,6 @@ public interface ICassandraTuner {
 
     void updateAutoBootstrap(String yamlLocation, boolean autobootstrap) throws IOException;
 
-    default void updateJVMOptions() throws Exception {};
+    default void updateJVMOptions() throws Exception {
+    }
 }

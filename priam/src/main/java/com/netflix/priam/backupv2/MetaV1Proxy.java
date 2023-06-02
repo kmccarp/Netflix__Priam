@@ -183,5 +183,6 @@ public class MetaV1Proxy implements IMetaProxy {
     }
 
     @Override
-    public void cleanupOldMetaFiles() {}
+    public void cleanupOldMetaFiles() {
+    }
 }

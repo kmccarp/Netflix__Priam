@@ -102,9 +102,7 @@ public final class SimpleDBConfigSource extends AbstractConfigSource {
         String dc = "";
         while (attrs.hasNext()) {
             Attribute att = attrs.next();
-            if (att.getName().equals(Attributes.PROPERTY)) prop = att.getValue();
-            else if (att.getName().equals(Attributes.PROPERTY_VALUE)) value = att.getValue();
-            else if (att.getName().equals(Attributes.REGION)) dc = att.getValue();
+            if (att.getName().equals(Attributes.PROPERTY)) prop = att.getValue();else if (att.getName().equals(Attributes.PROPERTY_VALUE)) value = att.getValue();else if (att.getName().equals(Attributes.REGION)) dc = att.getValue();
         }
         // Ignore, if not this region
         if (StringUtils.isNotBlank(dc) && !dc.equals(getRegion())) return;

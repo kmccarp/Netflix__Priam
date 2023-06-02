@@ -132,13 +132,13 @@ public class BackupRestoreUtil {
         if (excludeFilter != null)
             if (excludeFilter.containsKey(keyspace)
                     && (excludeFilter.get(keyspace).isEmpty()
-                            || excludeFilter.get(keyspace).contains(columnFamilyName))) {
+                    || excludeFilter.get(keyspace).contains(columnFamilyName))) {
                 return true;
             }
         if (includeFilter != null)
             return !(includeFilter.containsKey(keyspace)
                     && (includeFilter.get(keyspace).isEmpty()
-                            || includeFilter.get(keyspace).contains(columnFamilyName)));
+                    || includeFilter.get(keyspace).contains(columnFamilyName)));
         return false;
     }
 }

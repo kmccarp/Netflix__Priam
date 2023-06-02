@@ -37,7 +37,8 @@ import org.junit.rules.TemporaryFolder;
 public class PriamConfigurationPersisterTest {
     private static PriamConfigurationPersister persister;
 
-    @Rule public TemporaryFolder folder = new TemporaryFolder();
+    @Rule
+    public TemporaryFolder folder = new TemporaryFolder();
 
     private FakeConfiguration fakeConfiguration;
 

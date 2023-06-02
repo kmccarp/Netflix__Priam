@@ -41,11 +41,11 @@ public class FakePriamInstanceFactory implements IPriamInstanceFactory {
         return appName.endsWith("-dead")
                 ? ImmutableSet.of()
                 : ImmutableSet.copyOf(
-                        instances
-                                .values()
-                                .stream()
-                                .sorted(Comparator.comparingInt(PriamInstance::getId))
-                                .collect(Collectors.toList()));
+                instances
+                        .values()
+                        .stream()
+                        .sorted(Comparator.comparingInt(PriamInstance::getId))
+                        .collect(Collectors.toList()));
     }
 
     @Override

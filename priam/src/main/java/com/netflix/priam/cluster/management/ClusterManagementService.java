@@ -1,4 +1,5 @@
 package com.netflix.priam.cluster.management;
+
 /*
  * Copyright 2019 Netflix, Inc.
  *
@@ -41,8 +42,10 @@ public class ClusterManagementService implements IService {
     }
 
     @Override
-    public void updateServicePre() throws Exception {}
+    public void updateServicePre() throws Exception {
+    }
 
     @Override
-    public void updateServicePost() throws Exception {}
+    public void updateServicePost() throws Exception {
+    }
 }

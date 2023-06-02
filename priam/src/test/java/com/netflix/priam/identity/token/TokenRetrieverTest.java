@@ -47,7 +47,8 @@ import org.junit.jupiter.api.Assertions;
 
 /** Created by aagrawal on 3/1/19. */
 public class TokenRetrieverTest {
-    @Mocked private IMembership membership;
+    @Mocked
+    private IMembership membership;
     private IPriamInstanceFactory factory;
     private InstanceInfo instanceInfo;
     private IConfiguration configuration;

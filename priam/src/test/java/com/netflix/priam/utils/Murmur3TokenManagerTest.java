@@ -179,8 +179,8 @@ public class Murmur3TokenManagerTest {
                 assertFalse(
                         "Diffrence seems to be low",
                         Math.abs(
-                                        tokenManager.regionOffset(region1)
-                                                - tokenManager.regionOffset(region2))
+                                tokenManager.regionOffset(region1)
+                                        - tokenManager.regionOffset(region2))
                                 < 100);
             }
     }

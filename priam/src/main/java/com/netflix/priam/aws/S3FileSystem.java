@@ -85,9 +85,9 @@ public class S3FileSystem extends S3FileSystemBase {
         long size = super.getFileSize(remotePath);
         final int bufferSize = Math.toIntExact(Math.min(MAX_BUFFER_SIZE, size));
         try (BufferedInputStream is =
-                        new BufferedInputStream(
-                                new RangeReadInputStream(s3Client, getShard(), size, remotePath),
-                                bufferSize);
+                new BufferedInputStream(
+                        new RangeReadInputStream(s3Client, getShard(), size, remotePath),
+                        bufferSize);
                 BufferedOutputStream os =
                         new BufferedOutputStream(new FileOutputStream(localFile))) {
             if (path.getCompression() == CompressionType.NONE) {

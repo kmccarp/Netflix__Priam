@@ -81,9 +81,9 @@ public class CassandraMonitor extends Task {
             // with pgrep as it has limitation of 4K command list (cassandra command can go upto 5-6
             // KB as cassandra lists all the libraries in command.
             final String[] cmd = {
-                "/bin/sh",
-                "-c",
-                "ps -ef |grep -v -P \"\\sgrep\\s\" | grep " + config.getCassProcessName()
+                    "/bin/sh",
+                    "-c",
+                    "ps -ef |grep -v -P \"\\sgrep\\s\" | grep " + config.getCassProcessName()
             };
             process = Runtime.getRuntime().exec(cmd);
             input = new BufferedReader(new InputStreamReader(process.getInputStream()));
@@ -125,7 +125,7 @@ public class CassandraMonitor extends Task {
                     long msNow = System.currentTimeMillis();
                     if (rate == 0
                             || ((instanceState.getLastAttemptedStartTime() + rate * 1000)
-                                    < msNow)) {
+                            < msNow)) {
                         cassMonitorMetrics.incCassAutoStart();
                         cassProcess.start(true);
                         instanceState.markLastAttemptedStartTime();

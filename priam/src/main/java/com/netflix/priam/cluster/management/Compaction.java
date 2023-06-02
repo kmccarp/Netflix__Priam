@@ -71,7 +71,7 @@ public class Compaction extends IClusterManagement<String> {
                 (keyspaceName, columnfamilies) -> {
                     if (SchemaConstant.isSystemKeyspace(
                             keyspaceName)) // no need to compact system keyspaces.
-                    return;
+                        return;
 
                     if (excludeFilter != null && excludeFilter.containsKey(keyspaceName)) {
                         List<String> excludeCFFilter = excludeFilter.get(keyspaceName);
@@ -94,7 +94,7 @@ public class Compaction extends IClusterManagement<String> {
                         // one which are configured to compact.
                         if (includeCFFilter != null
                                 && !includeCFFilter
-                                        .isEmpty()) // If include filter is empty or null, it means
+                                .isEmpty()) // If include filter is empty or null, it means
                             // include all.
                             columnfamilies =
                                     (List<String>)

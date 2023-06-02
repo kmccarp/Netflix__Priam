@@ -14,7 +14,8 @@ public class TestThriftChecker {
     private FakeConfiguration config;
     private ThriftChecker thriftChecker;
 
-    @Mocked private Process mockProcess;
+    @Mocked
+    private Process mockProcess;
 
     @Before
     public void TestThriftChecker() {
@@ -47,7 +48,7 @@ public class TestThriftChecker {
         // Mock out the ps call
         final Runtime r = Runtime.getRuntime();
         String[] cmd = {
-            "/bin/sh", "-c", "ss -tuln | grep -c " + config.getThriftPort(), " 2>/dev/null"
+                "/bin/sh", "-c", "ss -tuln | grep -c " + config.getThriftPort(), " 2>/dev/null"
         };
         new Expectations(r) {
             {
@@ -72,7 +73,7 @@ public class TestThriftChecker {
         // Mock out the ps call
         final Runtime r = Runtime.getRuntime();
         String[] cmd = {
-            "/bin/sh", "-c", "ss -tuln | grep -c " + config.getThriftPort(), " 2>/dev/null"
+                "/bin/sh", "-c", "ss -tuln | grep -c " + config.getThriftPort(), " 2>/dev/null"
         };
         new Expectations(r) {
             {

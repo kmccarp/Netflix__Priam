@@ -91,9 +91,9 @@ public class IncrementalBackup extends AbstractBackup {
             enabled =
                     (configuration.isIncrementalBackupEnabled()
                             && (SnapshotBackup.isBackupEnabled(configuration)
-                                    || (backupRestoreConfig.enableV2Backups()
-                                            && SnapshotMetaTask.isBackupEnabled(
-                                                    backupRestoreConfig))));
+                            || (backupRestoreConfig.enableV2Backups()
+                            && SnapshotMetaTask.isBackupEnabled(
+                            backupRestoreConfig))));
             logger.info("Incremental backups are enabled: {}", enabled);
 
             if (!enabled) {
@@ -119,7 +119,7 @@ public class IncrementalBackup extends AbstractBackup {
                 backupRestoreConfig.enableV2Backups() ? BackupFileType.SST_V2 : BackupFileType.SST;
         // delete empty files to adapt to 2.1
         FileFilter filter = (file) -> file.isFile() && file.canWrite() && file.length() == 0L;
-        for (File file : Optional.ofNullable(backupDir.listFiles(filter)).orElse(new File[] {})) {
+        for (File file : Optional.ofNullable(backupDir.listFiles(filter)).orElse(new File[]{})) {
             FileUtils.deleteQuietly(file);
         }
         // upload SSTables and components

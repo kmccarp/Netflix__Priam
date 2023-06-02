@@ -99,8 +99,7 @@ public class RestoreContext {
                 String sourceType, boolean acceptNullOrEmpty, boolean acceptIllegalValue)
                 throws UnsupportedTypeException {
             if (StringUtils.isEmpty(sourceType))
-                if (acceptNullOrEmpty) return null;
-                else {
+                if (acceptNullOrEmpty) return null;else {
                     String message =
                             String.format(
                                     "%s is not a supported SourceType. Supported values are %s",

@@ -55,8 +55,7 @@ public enum GCType {
             String gcType, boolean acceptNullOrEmpty, boolean acceptIllegalValue)
             throws UnsupportedTypeException {
         if (StringUtils.isEmpty(gcType))
-            if (acceptNullOrEmpty) return null;
-            else {
+            if (acceptNullOrEmpty) return null;else {
                 String message =
                         String.format(
                                 "%s is not a supported GC Type. Supported values are %s",

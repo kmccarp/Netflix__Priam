@@ -22,8 +22,8 @@ public class ThriftChecker implements IThriftChecker {
             return true;
         }
         String[] cmd =
-                new String[] {
-                    "/bin/sh", "-c", "ss -tuln | grep -c " + config.getThriftPort(), " 2>/dev/null"
+                new String[]{
+                        "/bin/sh", "-c", "ss -tuln | grep -c " + config.getThriftPort(), " 2>/dev/null"
                 };
         Process process = null;
         try {
@@ -34,7 +34,7 @@ public class ThriftChecker implements IThriftChecker {
         }
         if (process != null) {
             try (BufferedReader reader =
-                    new BufferedReader(new InputStreamReader(process.getInputStream())); ) {
+                    new BufferedReader(new InputStreamReader(process.getInputStream()));) {
                 if (Integer.parseInt(reader.readLine()) == 0) {
                     logger.info(
                             "Could not find anything listening on the rpc port {}!",

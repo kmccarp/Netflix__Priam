@@ -87,9 +87,9 @@ public class FakeBackupFileSystem extends AbstractFileSystem {
 
             if ((path.time.after(start) && path.time.before(till))
                     || path.time.equals(start)
-                            && path.baseDir.equals(baseDir)
-                            && path.clusterName.equals(clusterName)
-                            && path.region.equals(region)) {
+                    && path.baseDir.equals(baseDir)
+                    && path.clusterName.equals(clusterName)
+                    && path.region.equals(region)) {
                 tmpList.add(path);
             }
         }

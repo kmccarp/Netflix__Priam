@@ -216,9 +216,9 @@ public class JMXNodeTool extends NodeProbe implements INodeToolObservable {
                         public JMXNodeTool retriableCall() throws Exception {
                             JMXNodeTool nodetool;
                             if ((config.getJmxUsername() == null
-                                            || config.getJmxUsername().isEmpty())
+                                    || config.getJmxUsername().isEmpty())
                                     && (config.getJmxPassword() == null
-                                            || config.getJmxPassword().isEmpty())) {
+                                    || config.getJmxPassword().isEmpty())) {
                                 nodetool = new JMXNodeTool("localhost", config.getJmxPort());
                             } else {
                                 nodetool =
@@ -343,9 +343,7 @@ public class JMXNodeTool extends NodeProbe implements INodeToolObservable {
 
             String state = "Normal";
 
-            if (joiningNodes.contains(primaryEndpoint)) state = "Joining";
-            else if (leavingNodes.contains(primaryEndpoint)) state = "Leaving";
-            else if (movingNodes.contains(primaryEndpoint)) state = "Moving";
+            if (joiningNodes.contains(primaryEndpoint)) state = "Joining";else if (leavingNodes.contains(primaryEndpoint)) state = "Leaving";else if (movingNodes.contains(primaryEndpoint)) state = "Moving";
 
             String load = loadMap.getOrDefault(primaryEndpoint, "?");
             String owns =
@@ -407,7 +405,7 @@ public class JMXNodeTool extends NodeProbe implements INodeToolObservable {
         /*if (primaryRange)
             forceKeyspaceRepairPrimaryRange(keyspace, isSequential, localDataCenterOnly, new String[0]);
         else
-        	forceKeyspaceRepair(keyspace, isSequential, localDataCenterOnly, new String[0]);*/
+            forceKeyspaceRepair(keyspace, isSequential, localDataCenterOnly, new String[0]);*/
 
     }
 

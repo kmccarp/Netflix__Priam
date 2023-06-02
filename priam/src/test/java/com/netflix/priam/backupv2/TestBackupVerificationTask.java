@@ -42,10 +42,13 @@ import org.junit.jupiter.api.Assertions;
 
 /** Created by aagrawal on 2/1/19. */
 public class TestBackupVerificationTask {
-    @Inject private BackupVerificationTask backupVerificationService;
+    @Inject
+    private BackupVerificationTask backupVerificationService;
     private Counter badVerifications;
-    @Mocked private BackupVerification backupVerification;
-    @Mocked private BackupNotificationMgr backupNotificationMgr;
+    @Mocked
+    private BackupVerification backupVerification;
+    @Mocked
+    private BackupNotificationMgr backupNotificationMgr;
 
     @Before
     public void setUp() {
@@ -92,7 +95,8 @@ public class TestBackupVerificationTask {
         }
     }
 
-    private static final class MockBackupNotificationMgr extends MockUp<BackupNotificationMgr> {}
+    private static final class MockBackupNotificationMgr extends MockUp<BackupNotificationMgr> {
+    }
 
     @Test
     public void throwError() {

@@ -77,7 +77,8 @@ public abstract class AbstractRestore extends Task implements IRestoreStrategy {
     @Named("v2")
     IMetaProxy metaV2Proxy;
 
-    @Inject IBackupRestoreConfig backupRestoreConfig;
+    @Inject
+    IBackupRestoreConfig backupRestoreConfig;
 
     public AbstractRestore(
             IConfiguration config,

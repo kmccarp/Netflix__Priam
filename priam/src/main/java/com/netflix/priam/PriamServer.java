@@ -137,10 +137,12 @@ public class PriamServer implements IService {
     }
 
     @Override
-    public void updateServicePre() throws Exception {}
+    public void updateServicePre() throws Exception {
+    }
 
     @Override
-    public void updateServicePost() throws Exception {}
+    public void updateServicePost() throws Exception {
+    }
 
     public InstanceIdentity getInstanceIdentity() {
         return instanceIdentity;

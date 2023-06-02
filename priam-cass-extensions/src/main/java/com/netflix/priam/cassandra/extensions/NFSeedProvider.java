@@ -28,7 +28,8 @@ import org.slf4j.LoggerFactory;
 public class NFSeedProvider implements SeedProvider {
     private static final Logger logger = LoggerFactory.getLogger(NFSeedProvider.class);
 
-    public NFSeedProvider(Map<String, String> args) {}
+    public NFSeedProvider(Map<String, String> args) {
+    }
 
     @Override
     public List<InetAddress> getSeeds() {

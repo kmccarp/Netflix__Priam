@@ -69,7 +69,7 @@ public class Flush extends IClusterManagement<String> {
             }
 
             if (SchemaConstant.isSystemKeyspace(keyspace)) // no need to flush system keyspaces.
-            continue;
+                continue;
 
             try {
                 cassandraOperations.forceKeyspaceFlush(keyspace);

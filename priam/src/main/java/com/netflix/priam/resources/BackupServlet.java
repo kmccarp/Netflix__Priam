@@ -51,10 +51,12 @@ public class BackupServlet {
     private final IBackupFileSystem backupFs;
     private final SnapshotBackup snapshotBackup;
     private final BackupVerification backupVerification;
-    @Inject private PriamScheduler scheduler;
+    @Inject
+    private PriamScheduler scheduler;
     private final IBackupStatusMgr completedBkups;
     private final BackupService backupService;
-    @Inject private MetaData metaData;
+    @Inject
+    private MetaData metaData;
 
     @Inject
     public BackupServlet(

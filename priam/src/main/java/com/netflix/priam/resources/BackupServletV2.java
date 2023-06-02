@@ -154,11 +154,11 @@ public class BackupServletV2 {
                         latestValidMetaFile.get(), dateRange, metaProxy));
 
         return Response.ok(
-                        GsonJsonSerializer.getGson()
-                                .toJson(
-                                        allFiles.stream()
-                                                .map(AbstractBackupPath::getRemotePath)
-                                                .collect(Collectors.toList())))
+                GsonJsonSerializer.getGson()
+                        .toJson(
+                                allFiles.stream()
+                                        .map(AbstractBackupPath::getRemotePath)
+                                        .collect(Collectors.toList())))
                 .build();
     }
 }

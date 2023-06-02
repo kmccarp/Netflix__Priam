@@ -81,5 +81,6 @@ public class BackupService implements IService {
     }
 
     @Override
-    public void updateServicePost() throws Exception {}
+    public void updateServicePost() throws Exception {
+    }
 }

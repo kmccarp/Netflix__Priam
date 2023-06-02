@@ -134,18 +134,22 @@ public abstract class S3FileSystemBase extends AbstractFileSystem {
         }
 
         @Override
-        public void visit(LifecycleTagPredicate lifecycleTagPredicate) {}
+        public void visit(LifecycleTagPredicate lifecycleTagPredicate) {
+        }
 
         @Override
         public void visit(
-                LifecycleObjectSizeGreaterThanPredicate lifecycleObjectSizeGreaterThanPredicate) {}
+                LifecycleObjectSizeGreaterThanPredicate lifecycleObjectSizeGreaterThanPredicate) {
+        }
 
         @Override
-        public void visit(LifecycleAndOperator lifecycleAndOperator) {}
+        public void visit(LifecycleAndOperator lifecycleAndOperator) {
+        }
 
         @Override
         public void visit(
-                LifecycleObjectSizeLessThanPredicate lifecycleObjectSizeLessThanPredicate) {}
+                LifecycleObjectSizeLessThanPredicate lifecycleObjectSizeLessThanPredicate) {
+        }
     }
 
     private Optional<Rule> getBucketLifecycleRule(List<Rule> rules, String prefix) {

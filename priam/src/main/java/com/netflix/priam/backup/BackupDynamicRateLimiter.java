@@ -27,8 +27,8 @@ public class BackupDynamicRateLimiter implements DynamicRateLimiter {
     public void acquire(AbstractBackupPath path, Instant target, int permits) {
         if (target.equals(Instant.EPOCH)
                 || !path.getBackupFile()
-                        .getAbsolutePath()
-                        .contains(AbstractBackup.SNAPSHOT_FOLDER)) {
+                .getAbsolutePath()
+                .contains(AbstractBackup.SNAPSHOT_FOLDER)) {
             return;
         }
         long secondsRemaining = Duration.between(clock.instant(), target).getSeconds();

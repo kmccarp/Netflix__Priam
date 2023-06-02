@@ -72,22 +72,22 @@ public class TestBackupHelperImpl {
         @Parameterized.Parameters
         public static Collection<Object[]> data() {
             return Arrays.asList(
-                    new Object[][] {
-                        {BackupsToCompress.NONE, COMPRESSED_DATA, CompressionType.NONE},
-                        {BackupsToCompress.NONE, COMPRESSION_INFO, CompressionType.NONE},
-                        {BackupsToCompress.NONE, UNCOMPRESSED_DATA, CompressionType.NONE},
-                        {BackupsToCompress.NONE, RANDOM_DATA, CompressionType.NONE},
-                        {BackupsToCompress.NONE, RANDOM_COMPONENT, CompressionType.NONE},
-                        {BackupsToCompress.ALL, COMPRESSED_DATA, CompressionType.SNAPPY},
-                        {BackupsToCompress.ALL, COMPRESSION_INFO, CompressionType.SNAPPY},
-                        {BackupsToCompress.ALL, UNCOMPRESSED_DATA, CompressionType.SNAPPY},
-                        {BackupsToCompress.ALL, RANDOM_DATA, CompressionType.SNAPPY},
-                        {BackupsToCompress.ALL, RANDOM_COMPONENT, CompressionType.SNAPPY},
-                        {BackupsToCompress.IF_REQUIRED, COMPRESSED_DATA, CompressionType.NONE},
-                        {BackupsToCompress.IF_REQUIRED, COMPRESSION_INFO, CompressionType.NONE},
-                        {BackupsToCompress.IF_REQUIRED, UNCOMPRESSED_DATA, CompressionType.SNAPPY},
-                        {BackupsToCompress.IF_REQUIRED, RANDOM_DATA, CompressionType.SNAPPY},
-                        {BackupsToCompress.IF_REQUIRED, RANDOM_COMPONENT, CompressionType.SNAPPY},
+                    new Object[][]{
+                            {BackupsToCompress.NONE, COMPRESSED_DATA, CompressionType.NONE},
+                            {BackupsToCompress.NONE, COMPRESSION_INFO, CompressionType.NONE},
+                            {BackupsToCompress.NONE, UNCOMPRESSED_DATA, CompressionType.NONE},
+                            {BackupsToCompress.NONE, RANDOM_DATA, CompressionType.NONE},
+                            {BackupsToCompress.NONE, RANDOM_COMPONENT, CompressionType.NONE},
+                            {BackupsToCompress.ALL, COMPRESSED_DATA, CompressionType.SNAPPY},
+                            {BackupsToCompress.ALL, COMPRESSION_INFO, CompressionType.SNAPPY},
+                            {BackupsToCompress.ALL, UNCOMPRESSED_DATA, CompressionType.SNAPPY},
+                            {BackupsToCompress.ALL, RANDOM_DATA, CompressionType.SNAPPY},
+                            {BackupsToCompress.ALL, RANDOM_COMPONENT, CompressionType.SNAPPY},
+                            {BackupsToCompress.IF_REQUIRED, COMPRESSED_DATA, CompressionType.NONE},
+                            {BackupsToCompress.IF_REQUIRED, COMPRESSION_INFO, CompressionType.NONE},
+                            {BackupsToCompress.IF_REQUIRED, UNCOMPRESSED_DATA, CompressionType.SNAPPY},
+                            {BackupsToCompress.IF_REQUIRED, RANDOM_DATA, CompressionType.SNAPPY},
+                            {BackupsToCompress.IF_REQUIRED, RANDOM_COMPONENT, CompressionType.SNAPPY},
                     });
         }
 

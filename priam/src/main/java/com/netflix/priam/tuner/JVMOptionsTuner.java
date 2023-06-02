@@ -147,11 +147,11 @@ public class JVMOptionsTuner {
         if (option.isHeapJVMOption()) {
             String configuredValue;
             switch (option.getJvmOption()) {
-                    // Special handling for heap new size ("Xmn")
+                // Special handling for heap new size ("Xmn")
                 case "-Xmn":
                     configuredValue = config.getHeapNewSize();
                     break;
-                    // Set min and max heap size to same value
+                // Set min and max heap size to same value
                 default:
                     configuredValue = config.getHeapSize();
                     break;

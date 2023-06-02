@@ -41,9 +41,12 @@ public class TestCassandraMonitor {
 
     private IConfiguration config;
 
-    @Mocked private Process mockProcess;
-    @Mocked private NodeProbe nodeProbe;
-    @Mocked private ICassandraProcess cassProcess;
+    @Mocked
+    private Process mockProcess;
+    @Mocked
+    private NodeProbe nodeProbe;
+    @Mocked
+    private ICassandraProcess cassProcess;
 
     @Before
     public void setUp() {
@@ -96,9 +99,9 @@ public class TestCassandraMonitor {
         // Mock out the ps call
         final Runtime r = Runtime.getRuntime();
         String[] cmd = {
-            "/bin/sh",
-            "-c",
-            "ps -ef |grep -v -P \"\\sgrep\\s\" | grep " + config.getCassProcessName()
+                "/bin/sh",
+                "-c",
+                "ps -ef |grep -v -P \"\\sgrep\\s\" | grep " + config.getCassProcessName()
         };
         new Expectations(r) {
             {
@@ -139,9 +142,9 @@ public class TestCassandraMonitor {
         // Mock out the ps call
         final Runtime r = Runtime.getRuntime();
         String[] cmd = {
-            "/bin/sh",
-            "-c",
-            "ps -ef |grep -v -P \"\\sgrep\\s\" | grep " + config.getCassProcessName()
+                "/bin/sh",
+                "-c",
+                "ps -ef |grep -v -P \"\\sgrep\\s\" | grep " + config.getCassProcessName()
         };
         new Expectations(r) {
             {
@@ -159,6 +162,7 @@ public class TestCassandraMonitor {
         monitor.execute();
         monitor.execute();
 
-        new Verifications() {};
+        new Verifications() {
+        };
     }
 }

@@ -66,11 +66,11 @@ public class TestCompression {
 
         try {
             try (ZipOutputStream out =
-                            new ZipOutputStream(
-                                    new BufferedOutputStream(new FileOutputStream(zipFileName)));
+                    new ZipOutputStream(
+                            new BufferedOutputStream(new FileOutputStream(zipFileName)));
                     BufferedInputStream source =
                             new BufferedInputStream(
-                                    new FileInputStream(randomContentFile), 2048); ) {
+                                    new FileInputStream(randomContentFile), 2048);) {
                 byte data[] = new byte[2048];
                 ZipEntry entry = new ZipEntry(randomContentFile.getName());
                 out.putNextEntry(entry);
@@ -86,7 +86,7 @@ public class TestCompression {
             while (e.hasMoreElements()) {
                 ZipEntry entry = (ZipEntry) e.nextElement();
                 try (BufferedInputStream is =
-                                new BufferedInputStream(zipfile.getInputStream(entry));
+                        new BufferedInputStream(zipfile.getInputStream(entry));
                         BufferedOutputStream dest1 =
                                 new BufferedOutputStream(
                                         new FileOutputStream(decompressedTempOutput), 2048)) {

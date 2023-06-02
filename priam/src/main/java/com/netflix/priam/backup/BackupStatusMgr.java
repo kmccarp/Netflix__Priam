@@ -214,15 +214,15 @@ public abstract class BackupStatusMgr implements IBackupStatusMgr {
                 .filter(
                         backupMetadata ->
                                 backupMetadata
-                                                        .getStart()
-                                                        .toInstant()
-                                                        .compareTo(dateRange.getStartTime())
-                                                >= 0
+                                        .getStart()
+                                        .toInstant()
+                                        .compareTo(dateRange.getStartTime())
+                                        >= 0
                                         && backupMetadata
-                                                        .getStart()
-                                                        .toInstant()
-                                                        .compareTo(dateRange.getEndTime())
-                                                <= 0)
+                                        .getStart()
+                                        .toInstant()
+                                        .compareTo(dateRange.getEndTime())
+                                        <= 0)
                 .sorted(Comparator.comparing(BackupMetadata::getStart).reversed())
                 .collect(Collectors.toList());
     }

@@ -100,14 +100,14 @@ public class TestMetaV2Proxy {
         List<String> fileToAdd = getRemoteFakeFiles();
         fileToAdd.add(
                 Paths.get(
-                                getPrefix(),
-                                AbstractBackupPath.BackupFileType.SST_V2.toString(),
-                                "1859817645000",
-                                "keyspace1",
-                                "columnfamily1",
-                                "SNAPPY",
-                                "PLAINTEXT",
-                                "file9.Data.db")
+                        getPrefix(),
+                        AbstractBackupPath.BackupFileType.SST_V2.toString(),
+                        "1859817645000",
+                        "keyspace1",
+                        "columnfamily1",
+                        "SNAPPY",
+                        "PLAINTEXT",
+                        "file9.Data.db")
                         .toString());
 
         metaPath = backupUtils.createMeta(fileToAdd, snapshotInstant);
@@ -160,7 +160,8 @@ public class TestMetaV2Proxy {
     }
 
     @Test
-    public void testFindLatestValidMetaFile() {}
+    public void testFindLatestValidMetaFile() {
+    }
 
     private String getPrefix() {
         return "casstestbackup/1049_fake-app/1808575600";
@@ -262,25 +263,25 @@ public class TestMetaV2Proxy {
         FileUtils.cleanDirectory(dataDir.toFile());
         FileUtils.write(
                 Paths.get(
-                                configuration.getDataFileLocation(),
-                                MetaFileInfo.getMetaFileName(DateUtil.getInstant()))
+                        configuration.getDataFileLocation(),
+                        MetaFileInfo.getMetaFileName(DateUtil.getInstant()))
                         .toFile(),
                 "dummy",
                 "UTF-8");
 
         FileUtils.write(
                 Paths.get(
-                                configuration.getDataFileLocation(),
-                                MetaFileInfo.getMetaFileName(
-                                        DateUtil.getInstant().minus(10, ChronoUnit.MINUTES)))
+                        configuration.getDataFileLocation(),
+                        MetaFileInfo.getMetaFileName(
+                                DateUtil.getInstant().minus(10, ChronoUnit.MINUTES)))
                         .toFile(),
                 "dummy",
                 "UTF-8");
 
         FileUtils.write(
                 Paths.get(
-                                configuration.getDataFileLocation(),
-                                MetaFileInfo.getMetaFileName(DateUtil.getInstant()) + ".tmp")
+                        configuration.getDataFileLocation(),
+                        MetaFileInfo.getMetaFileName(DateUtil.getInstant()) + ".tmp")
                         .toFile(),
                 "dummy",
                 "UTF-8");

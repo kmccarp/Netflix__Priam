@@ -245,8 +245,8 @@ public class CassandraAdmin {
             return Response.status(503).entity("JMXConnectionException").build();
         }
         return Response.ok(
-                        new JSONArray().put(nodeTool.getReleaseVersion()),
-                        MediaType.APPLICATION_JSON)
+                new JSONArray().put(nodeTool.getReleaseVersion()),
+                MediaType.APPLICATION_JSON)
                 .build();
     }
 
@@ -318,11 +318,11 @@ public class CassandraAdmin {
                     new Long(c.get("totalBytes")) == 0
                             ? "n/a"
                             : new DecimalFormat("0.00")
-                                            .format(
-                                                    (double) new Long(c.get("bytesComplete"))
-                                                            / new Long(c.get("totalBytes"))
-                                                            * 100)
-                                    + "%";
+                            .format(
+                                    (double) new Long(c.get("bytesComplete"))
+                                            / new Long(c.get("totalBytes"))
+                                            * 100)
+                            + "%";
             cObj.put("progress", percentComplete);
             compStats.put(cObj);
         }
@@ -392,13 +392,13 @@ public class CassandraAdmin {
             return Response.status(503).entity("JMXConnectionException").build();
         }
         return Response.ok(
-                        new JSONObject()
-                                .put(
-                                        "status",
-                                        (nodeTool.isThriftServerRunning()
-                                                ? "running"
-                                                : "not running")),
-                        MediaType.APPLICATION_JSON)
+                new JSONObject()
+                        .put(
+                                "status",
+                                (nodeTool.isThriftServerRunning()
+                                        ? "running"
+                                        : "not running")),
+                MediaType.APPLICATION_JSON)
                 .build();
     }
 

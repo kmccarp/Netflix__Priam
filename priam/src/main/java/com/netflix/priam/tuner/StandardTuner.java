@@ -166,7 +166,8 @@ public class StandardTuner implements ICassandraTuner {
      *
      * @param map
      */
-    protected void addCustomCassParams(Map map) {}
+    protected void addCustomCassParams(Map map) {
+    }
 
     /**
      * Overridable by derived classes to inject a wrapper snitch.

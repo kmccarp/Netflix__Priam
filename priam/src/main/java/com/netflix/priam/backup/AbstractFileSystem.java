@@ -327,7 +327,7 @@ public abstract class AbstractFileSystem implements IBackupFileSystem {
                 transformIterator,
                 abstractBackupPath ->
                         (abstractBackupPath.getTime().after(start)
-                                        && abstractBackupPath.getTime().before(till))
+                                && abstractBackupPath.getTime().before(till))
                                 || abstractBackupPath.getTime().equals(start));
     }
 

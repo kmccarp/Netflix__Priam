@@ -118,15 +118,15 @@ public class StreamingTest {
     @Test
     public void testIgnoreIndexFiles() {
         String[] testInputs =
-                new String[] {
-                    "User_Authentication_Audit.User_Authentication_Audit_appkey_idx-hc-93-Digest.sha1",
-                    "User_Authentication_Audit.User_Authentication_Audit_appkey_idx-hc-93-Filter.db",
-                    "User_Authentication_Audit.User_Authentication_Audit_appkey_idx-hc-93-Data.db",
-                    "User_Authentication_Audit.User_Authentication_Audit_appkey_idx-hc-93-Statistics.db",
-                    "CS_Agents.CS_Agents_supervisorEmpSk_idx-hc-1-Filter.db",
-                    "CS_Agents.CS_Agents_supervisorEmpSk_idx-hc-1-Digest.sha1",
-                    "CS_Agents.CS_Agents_supervisorEmpSk_idx-hc-1-Statistics.db",
-                    "CS_Agents.CS_Agents_supervisorEmpSk_idx-hc-1-Data.db"
+                new String[]{
+                        "User_Authentication_Audit.User_Authentication_Audit_appkey_idx-hc-93-Digest.sha1",
+                        "User_Authentication_Audit.User_Authentication_Audit_appkey_idx-hc-93-Filter.db",
+                        "User_Authentication_Audit.User_Authentication_Audit_appkey_idx-hc-93-Data.db",
+                        "User_Authentication_Audit.User_Authentication_Audit_appkey_idx-hc-93-Statistics.db",
+                        "CS_Agents.CS_Agents_supervisorEmpSk_idx-hc-1-Filter.db",
+                        "CS_Agents.CS_Agents_supervisorEmpSk_idx-hc-1-Digest.sha1",
+                        "CS_Agents.CS_Agents_supervisorEmpSk_idx-hc-1-Statistics.db",
+                        "CS_Agents.CS_Agents_supervisorEmpSk_idx-hc-1-Data.db"
                 };
     }
 }

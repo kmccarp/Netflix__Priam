@@ -65,7 +65,8 @@ public class NullBackupFileSystem extends AbstractFileSystem {
 
     @Override
     protected void downloadFileImpl(AbstractBackupPath path, String suffix)
-            throws BackupRestoreException {}
+            throws BackupRestoreException {
+    }
 
     @Override
     protected boolean doesRemoteFileExist(Path remotePath) {

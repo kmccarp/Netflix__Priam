@@ -91,12 +91,12 @@ public class TokenManager implements ITokenManager {
             int i = Math.abs(index) - 1;
             if ((i >= sortedTokens.size())
                     || (i > 0
-                            && sortedTokens
-                                            .get(i)
-                                            .subtract(tokenToSearch)
-                                            .compareTo(
-                                                    tokenToSearch.subtract(sortedTokens.get(i - 1)))
-                                    > 0)) --i;
+                    && sortedTokens
+                    .get(i)
+                    .subtract(tokenToSearch)
+                    .compareTo(
+                            tokenToSearch.subtract(sortedTokens.get(i - 1)))
+                    > 0)) --i;
             return sortedTokens.get(i);
         }
         return sortedTokens.get(index);

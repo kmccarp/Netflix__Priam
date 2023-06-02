@@ -105,9 +105,9 @@ public class InstanceIdentity {
             // If seed node, return the next node in the list
             if (locMap.get(myInstance.getRac()).size() > 1
                     && locMap.get(myInstance.getRac())
-                            .get(0)
-                            .getHostIP()
-                            .equals(myInstance.getHostIP())) {
+                    .get(0)
+                    .getHostIP()
+                    .equals(myInstance.getHostIP())) {
                 PriamInstance instance = locMap.get(myInstance.getRac()).get(1);
                 if (instance != null && !isInstanceDummy(instance)) {
                     if (config.isMultiDC()) seeds.add(instance.getHostIP());

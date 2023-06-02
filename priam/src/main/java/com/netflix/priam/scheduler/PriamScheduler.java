@@ -80,22 +80,22 @@ public class PriamScheduler {
 
         // we know Priam doesn't do too many new tasks, so this is probably easy/safe/simple
         new Thread(
-                        () -> {
-                            try {
-                                sleeper.sleepQuietly(delayInSeconds * 1000L);
-                                scheduler.scheduleJob(job, timer.getTrigger());
-                            } catch (SchedulerException e) {
-                                logger.warn(
-                                        "problem occurred while scheduling a job with name {}",
-                                        name,
-                                        e);
-                            } catch (ParseException e) {
-                                logger.warn(
-                                        "problem occurred while parsing a job with name {}",
-                                        name,
-                                        e);
-                            }
-                        })
+                () -> {
+                    try {
+                        sleeper.sleepQuietly(delayInSeconds * 1000L);
+                        scheduler.scheduleJob(job, timer.getTrigger());
+                    } catch (SchedulerException e) {
+                        logger.warn(
+                                "problem occurred while scheduling a job with name {}",
+                                name,
+                                e);
+                    } catch (ParseException e) {
+                        logger.warn(
+                                "problem occurred while parsing a job with name {}",
+                                name,
+                                e);
+                    }
+                })
                 .start();
     }
 

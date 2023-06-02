@@ -149,52 +149,52 @@ public class CassandraOperations implements ICassandraOperations {
                                 String gossipInfoSubLines[] = gossipInfoLine.split("\\r?\\n");
                                 if (gossipInfoSubLines.length
                                         > 2) // Random check for existence of some lines
-                                {
-                                    gossipMap.put("PUBLIC_IP", gossipInfoSubLines[0].trim());
-                                    if (gossipMap.get("PUBLIC_IP") != null) {
-                                        returnPublicIpSourceIpMap.add(gossipMap);
-                                    }
+                                    {
+                                        gossipMap.put("PUBLIC_IP", gossipInfoSubLines[0].trim());
+                                        if (gossipMap.get("PUBLIC_IP") != null) {
+                                            returnPublicIpSourceIpMap.add(gossipMap);
+                                        }
 
-                                    for (String gossipInfoSubLine : gossipInfoSubLines) {
-                                        String gossipLineEntry[] = gossipInfoSubLine.split(":");
-                                        if (gossipLineEntry.length == 2) {
-                                            gossipMap.put(
-                                                    gossipLineEntry[0].trim().toUpperCase(),
-                                                    gossipLineEntry[1].trim());
-                                        } else if (gossipLineEntry.length == 3) {
-                                            if (gossipLineEntry[0]
-                                                    .trim()
-                                                    .equalsIgnoreCase("STATUS")) {
-                                                // Special handling for STATUS as C* puts first
-                                                // token in STATUS or "true".
+                                        for (String gossipInfoSubLine : gossipInfoSubLines) {
+                                            String gossipLineEntry[] = gossipInfoSubLine.split(":");
+                                            if (gossipLineEntry.length == 2) {
                                                 gossipMap.put(
                                                         gossipLineEntry[0].trim().toUpperCase(),
-                                                        gossipLineEntry[2].split(",")[0].trim());
-                                            } else if (gossipLineEntry[0]
-                                                    .trim()
-                                                    .equalsIgnoreCase("TOKENS")) {
-                                                // Special handling for tokens as it is always
-                                                // "hidden".
-                                                try {
+                                                        gossipLineEntry[1].trim());
+                                            } else if (gossipLineEntry.length == 3) {
+                                                if (gossipLineEntry[0]
+                                                        .trim()
+                                                        .equalsIgnoreCase("STATUS")) {
+                                                    // Special handling for STATUS as C* puts first
+                                                    // token in STATUS or "true".
                                                     gossipMap.put(
                                                             gossipLineEntry[0].trim().toUpperCase(),
-                                                            nodeTool.getTokens(
-                                                                            gossipMap.get(
-                                                                                    "PUBLIC_IP"))
-                                                                    .toString());
-                                                } catch (Exception e) {
-                                                    logger.warn(
-                                                            "Unable to find TOKEN(s) for the IP: {}",
-                                                            gossipMap.get("PUBLIC_IP"));
+                                                            gossipLineEntry[2].split(",")[0].trim());
+                                                } else if (gossipLineEntry[0]
+                                                        .trim()
+                                                        .equalsIgnoreCase("TOKENS")) {
+                                                    // Special handling for tokens as it is always
+                                                    // "hidden".
+                                                    try {
+                                                        gossipMap.put(
+                                                                gossipLineEntry[0].trim().toUpperCase(),
+                                                                nodeTool.getTokens(
+                                                                        gossipMap.get(
+                                                                                "PUBLIC_IP"))
+                                                                        .toString());
+                                                    } catch (Exception e) {
+                                                        logger.warn(
+                                                                "Unable to find TOKEN(s) for the IP: {}",
+                                                                gossipMap.get("PUBLIC_IP"));
+                                                    }
+                                                } else {
+                                                    gossipMap.put(
+                                                            gossipLineEntry[0].trim().toUpperCase(),
+                                                            gossipLineEntry[2].trim());
                                                 }
-                                            } else {
-                                                gossipMap.put(
-                                                        gossipLineEntry[0].trim().toUpperCase(),
-                                                        gossipLineEntry[2].trim());
                                             }
                                         }
                                     }
-                                }
                             });
 
         } catch (Exception e) {

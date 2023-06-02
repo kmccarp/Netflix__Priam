@@ -105,10 +105,10 @@ public class TestBackup {
     @Test
     public void testClusterSpecificColumnFamiliesSkippedFrom21() throws Exception {
         String[] columnFamilyDirs = {
-            "schema_columns-296e9c049bec30c5828dc17d3df2132a",
-            "local-7ad54392bcdd45d684174c047860b347",
-            "peers-37c71aca7ac2383ba74672528af04d4f",
-            "LocationInfo-9f5c6374d48633299a0a5094bf9ad1e4"
+                "schema_columns-296e9c049bec30c5828dc17d3df2132a",
+                "local-7ad54392bcdd45d684174c047860b347",
+                "peers-37c71aca7ac2383ba74672528af04d4f",
+                "LocationInfo-9f5c6374d48633299a0a5094bf9ad1e4"
         };
         testClusterSpecificColumnFamiliesSkipped(columnFamilyDirs);
     }
@@ -225,7 +225,7 @@ public class TestBackup {
                 File file = new File(filePath);
                 genTestFile(file);
                 if (!filePath.contains("Keyspace1-Standard1-ia-6-Data.db")) // skip
-                expectedFiles.add(file.getAbsolutePath());
+                    expectedFiles.add(file.getAbsolutePath());
             }
         }
 

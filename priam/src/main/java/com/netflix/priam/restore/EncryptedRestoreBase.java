@@ -126,9 +126,9 @@ public abstract class EncryptedRestoreBase extends AbstractRestore {
                         // == object downloaded successfully from source, decrypt it.
                         File decryptedFile = new File(tempFile.getAbsolutePath() + ".decrypted");
                         try (OutputStream fOut =
-                                        new BufferedOutputStream(
-                                                new FileOutputStream(
-                                                        decryptedFile)); // destination file after
+                                new BufferedOutputStream(
+                                        new FileOutputStream(
+                                                decryptedFile)); // destination file after
                                 // decryption)
                                 InputStream in =
                                         new BufferedInputStream(
@@ -168,8 +168,8 @@ public abstract class EncryptedRestoreBase extends AbstractRestore {
                                     decryptedFile.getAbsolutePath());
 
                             try (InputStream is =
-                                            new BufferedInputStream(
-                                                    new FileInputStream(decryptedFile));
+                                    new BufferedInputStream(
+                                            new FileInputStream(decryptedFile));
                                     BufferedOutputStream finalDestination =
                                             new BufferedOutputStream(
                                                     new FileOutputStream(restoreLocation))) {

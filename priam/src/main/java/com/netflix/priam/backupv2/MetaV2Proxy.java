@@ -73,8 +73,8 @@ public class MetaV2Proxy implements IMetaProxy {
         if (dateRange != null && dateRange.getEndTime() == null)
             match = dateRange.getStartTime().toEpochMilli() + "";
         return Paths.get(
-                        abstractBackupPath.remoteV2Prefix(location, backupFileType).toString(),
-                        match)
+                abstractBackupPath.remoteV2Prefix(location, backupFileType).toString(),
+                match)
                 .toString();
     }
 
@@ -104,15 +104,15 @@ public class MetaV2Proxy implements IMetaProxy {
                 transformIterator,
                 abstractBackupPath ->
                         (abstractBackupPath.getLastModified().isAfter(dateRange.getStartTime())
-                                        && abstractBackupPath
-                                                .getLastModified()
-                                                .isBefore(dateRange.getEndTime()))
+                                && abstractBackupPath
+                                .getLastModified()
+                                .isBefore(dateRange.getEndTime()))
                                 || abstractBackupPath
-                                        .getLastModified()
-                                        .equals(dateRange.getStartTime())
+                                .getLastModified()
+                                .equals(dateRange.getStartTime())
                                 || abstractBackupPath
-                                        .getLastModified()
-                                        .equals(dateRange.getEndTime()));
+                                .getLastModified()
+                                .equals(dateRange.getEndTime()));
     }
 
     @Override
@@ -132,9 +132,9 @@ public class MetaV2Proxy implements IMetaProxy {
             abstractBackupPath.parseRemote(iterator.next());
             logger.debug("Meta file found: {}", abstractBackupPath);
             if (abstractBackupPath.getLastModified().toEpochMilli()
-                            >= dateRange.getStartTime().toEpochMilli()
+                    >= dateRange.getStartTime().toEpochMilli()
                     && abstractBackupPath.getLastModified().toEpochMilli()
-                            <= dateRange.getEndTime().toEpochMilli()) {
+                    <= dateRange.getEndTime().toEpochMilli()) {
                 metas.add(abstractBackupPath);
             }
         }

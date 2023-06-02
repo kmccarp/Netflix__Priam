@@ -83,10 +83,12 @@ public class StaticMembership implements IMembership {
     }
 
     @Override
-    public void addACL(Collection<String> listIPs, int from, int to) {}
+    public void addACL(Collection<String> listIPs, int from, int to) {
+    }
 
     @Override
-    public void removeACL(Collection<String> listIPs, int from, int to) {}
+    public void removeACL(Collection<String> listIPs, int from, int to) {
+    }
 
     @Override
     public ImmutableSet<String> listACL(int from, int to) {
@@ -94,5 +96,6 @@ public class StaticMembership implements IMembership {
     }
 
     @Override
-    public void expandRacMembership(int count) {}
+    public void expandRacMembership(int count) {
+    }
 }

@@ -412,7 +412,8 @@ public class SnapshotMetaTask extends AbstractBackup {
         FutureCallback<AbstractBackupPath> callback =
                 new FutureCallback<AbstractBackupPath>() {
                     @Override
-                    public void onSuccess(AbstractBackupPath result) {}
+                    public void onSuccess(AbstractBackupPath result) {
+                    }
 
                     @Override
                     public void onFailure(Throwable t) {
