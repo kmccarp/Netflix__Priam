@@ -148,8 +148,9 @@ public class Murmur3TokenManagerTest {
                 "-9223372036854775808,-4611686018427387904," + "0,4611686018427387904";
         String[] tokens = expectedTokens.split(",");
         int splits = tokens.length;
-        for (int i = 0; i < splits; i++)
+        for (int i = 0; i < splits; i++) {
             assertEquals(new BigInteger(tokens[i]), tokenManager.initialToken(splits, i, 0));
+        }
     }
 
     @Test
@@ -165,8 +166,9 @@ public class Murmur3TokenManagerTest {
                         + "6917529027641081856,8070450532247928832";
         String[] tokens = expectedTokens.split(",");
         int splits = tokens.length;
-        for (int i = 0; i < splits; i++)
+        for (int i = 0; i < splits; i++) {
             assertEquals(new BigInteger(tokens[i]), tokenManager.initialToken(splits, i, 0));
+        }
     }
 
     @Test
@@ -175,7 +177,9 @@ public class Murmur3TokenManagerTest {
 
         for (String region1 : allRegions.split(","))
             for (String region2 : allRegions.split(",")) {
-                if (region1.equals(region2)) continue;
+                if (region1.equals(region2)) {
+                    continue;
+                }
                 assertFalse(
                         "Diffrence seems to be low",
                         Math.abs(

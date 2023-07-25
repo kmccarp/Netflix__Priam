@@ -42,11 +42,12 @@ import org.junit.Test;
  * @author Praveen Sadhu
  */
 public class TestFileIterator {
-    private static Date startTime, endTime;
+    private static Date startTime;
+    private static Date endTime;
 
     private static S3FileSystem s3FileSystem;
     private static String region;
-    private static String bucket = "TESTBUCKET";
+    private static final String bucket = "TESTBUCKET";
 
     @BeforeClass
     public static void setup() throws InterruptedException, IOException {
@@ -89,19 +90,23 @@ public class TestFileIterator {
     static class MockObjectListing extends MockUp<ObjectListing> {
         static boolean truncated = true;
         static boolean firstcall = true;
-        static boolean simfilter = false; // Simulate filtering
+        static boolean simfilter; // Simulate filtering
 
         @Mock
         public List<S3ObjectSummary> getObjectSummaries() {
             if (firstcall) {
                 firstcall = false;
-                if (simfilter) return getObjectSummaryEmpty();
+                if (simfilter) {
+                    return getObjectSummaryEmpty();
+                }
                 return getObjectSummary();
             } else {
                 if (simfilter) {
                     simfilter = false; // reset
                     return getObjectSummaryEmpty();
-                } else truncated = false;
+                } else {
+                    truncated = false;
+                }
                 return getNextObjectSummary();
             }
         }
@@ -120,7 +125,9 @@ public class TestFileIterator {
 
         Iterator<AbstractBackupPath> fileIterator = s3FileSystem.list(bucket, stime, etime);
         Set<String> files = new HashSet<>();
-        while (fileIterator.hasNext()) files.add(fileIterator.next().getRemotePath());
+        while (fileIterator.hasNext()) {
+            files.add(fileIterator.next().getRemotePath());
+        }
         Assert.assertEquals(0, files.size());
     }
 
@@ -133,7 +140,9 @@ public class TestFileIterator {
         Iterator<AbstractBackupPath> fileIterator = s3FileSystem.list(bucket, startTime, endTime);
 
         Set<String> files = new HashSet<>();
-        while (fileIterator.hasNext()) files.add(fileIterator.next().getRemotePath());
+        while (fileIterator.hasNext()) {
+            files.add(fileIterator.next().getRemotePath());
+        }
         Assert.assertEquals(3, files.size());
         Assert.assertTrue(
                 files.contains(
@@ -166,7 +175,9 @@ public class TestFileIterator {
         Iterator<AbstractBackupPath> fileIterator = s3FileSystem.list(bucket, startTime, endTime);
 
         Set<String> files = new HashSet<>();
-        while (fileIterator.hasNext()) files.add(fileIterator.next().getRemotePath());
+        while (fileIterator.hasNext()) {
+            files.add(fileIterator.next().getRemotePath());
+        }
         Assert.assertEquals(5, files.size());
         Assert.assertTrue(
                 files.contains(
@@ -215,7 +226,9 @@ public class TestFileIterator {
         Iterator<AbstractBackupPath> fileIterator = s3FileSystem.list(bucket, startTime, endTime);
 
         Set<String> files = new HashSet<>();
-        while (fileIterator.hasNext()) files.add(fileIterator.next().getRemotePath());
+        while (fileIterator.hasNext()) {
+            files.add(fileIterator.next().getRemotePath());
+        }
         Assert.assertEquals(2, files.size());
         Assert.assertFalse(
                 files.contains(
@@ -268,8 +281,12 @@ public class TestFileIterator {
                         endTime);
 
         Set<String> files = new HashSet<>();
-        while (fileIterator.hasNext()) files.add(fileIterator.next().getRemotePath());
-        while (fileIterator.hasNext()) files.add(fileIterator.next().getRemotePath());
+        while (fileIterator.hasNext()) {
+            files.add(fileIterator.next().getRemotePath());
+        }
+        while (fileIterator.hasNext()) {
+            files.add(fileIterator.next().getRemotePath());
+        }
 
         Assert.assertEquals(5, files.size());
         Assert.assertTrue(

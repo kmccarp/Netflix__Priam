@@ -69,9 +69,12 @@ public class MetaV2Proxy implements IMetaProxy {
         Path location = fs.getPrefix();
         AbstractBackupPath abstractBackupPath = abstractBackupPathProvider.get();
         String match = StringUtils.EMPTY;
-        if (dateRange != null) match = dateRange.match();
-        if (dateRange != null && dateRange.getEndTime() == null)
+        if (dateRange != null) {
+            match = dateRange.match();
+        }
+        if (dateRange != null && dateRange.getEndTime() == null) {
             match = dateRange.getStartTime().toEpochMilli() + "";
+        }
         return Paths.get(
                         abstractBackupPath.remoteV2Prefix(location, backupFileType).toString(),
                         match)
@@ -141,7 +144,7 @@ public class MetaV2Proxy implements IMetaProxy {
 
         metas.sort(Collections.reverseOrder());
 
-        if (metas.size() == 0) {
+        if (metas.isEmpty()) {
             logger.info(
                     "No meta file found on remote file system for the time period: {}", dateRange);
         }
@@ -197,7 +200,7 @@ public class MetaV2Proxy implements IMetaProxy {
             result.manifestAvailable = true;
 
             metaFileBackupValidator.readMeta(metaFile);
-            result.valid = (result.filesInMetaOnly.isEmpty());
+            result.valid = result.filesInMetaOnly.isEmpty();
         } catch (FileNotFoundException fne) {
             logger.error(fne.getLocalizedMessage());
         } catch (IOException ioe) {
@@ -207,7 +210,9 @@ public class MetaV2Proxy implements IMetaProxy {
         } catch (BackupRestoreException bre) {
             logger.error("Error while trying to download the manifest file: {}", metaBackupPath);
         } finally {
-            if (metaFile != null) FileUtils.deleteQuietly(metaFile.toFile());
+            if (metaFile != null) {
+                FileUtils.deleteQuietly(metaFile.toFile());
+            }
         }
         return result;
     }

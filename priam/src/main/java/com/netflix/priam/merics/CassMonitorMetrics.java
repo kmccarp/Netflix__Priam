@@ -23,8 +23,13 @@ import javax.inject.Singleton;
 /** @author vchella */
 @Singleton
 public class CassMonitorMetrics {
-    private final Gauge cassStop, cassAutoStart, cassStart;
-    private final AtomicLong getSeedsCnt, getTokenCnt, getReplacedIpCnt, doubleRingCnt;
+    private final Gauge cassStop;
+    private final Gauge cassAutoStart;
+    private final Gauge cassStart;
+    private final AtomicLong getSeedsCnt;
+    private final AtomicLong getTokenCnt;
+    private final AtomicLong getReplacedIpCnt;
+    private final AtomicLong doubleRingCnt;
 
     @Inject
     public CassMonitorMetrics(Registry registry) {

@@ -48,16 +48,16 @@ import org.junit.jupiter.api.Assertions;
 /** Created by aagrawal on 3/1/19. */
 public class TokenRetrieverTest {
     @Mocked private IMembership membership;
-    private IPriamInstanceFactory factory;
-    private InstanceInfo instanceInfo;
-    private IConfiguration configuration;
+    private final IPriamInstanceFactory factory;
+    private final InstanceInfo instanceInfo;
+    private final IConfiguration configuration;
 
-    private Map<String, String> tokenToEndpointMap =
+    private final Map<String, String> tokenToEndpointMap =
             IntStream.range(0, 6)
                     .boxed()
                     .collect(
                             Collectors.toMap(String::valueOf, e -> String.format("127.0.0.%s", e)));
-    private ImmutableList<String> liveInstances = ImmutableList.copyOf(tokenToEndpointMap.values());
+    private final ImmutableList<String> liveInstances = ImmutableList.copyOf(tokenToEndpointMap.values());
 
     public TokenRetrieverTest() {
         Injector injector = Guice.createInjector(new BRTestModule());
@@ -150,7 +150,7 @@ public class TokenRetrieverTest {
         List<String> myliveInstances =
                 liveInstances
                         .stream()
-                        .filter(x -> !x.equalsIgnoreCase("127.0.0.3"))
+                        .filter(x -> !"127.0.0.3".equalsIgnoreCase(x))
                         .collect(Collectors.toList());
         String gossipResponse = getStatus(myliveInstances, tokenToEndpointMap);
 
@@ -475,7 +475,9 @@ public class TokenRetrieverTest {
 
     private List<PriamInstance> getInstances(int noOfInstances) {
         List<PriamInstance> allInstances = Lists.newArrayList();
-        for (int i = 1; i <= noOfInstances; i++) allInstances.add(createByIndex(i));
+        for (int i = 1; i <= noOfInstances; i++) {
+            allInstances.add(createByIndex(i));
+        }
         return allInstances;
     }
 

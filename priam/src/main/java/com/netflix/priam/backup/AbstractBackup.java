@@ -52,14 +52,20 @@ public abstract class AbstractBackup extends Task {
         }
         logger.debug("Scanning for backup in: {}", dataDir.getAbsolutePath());
         File[] keyspaceDirectories = dataDir.listFiles();
-        if (keyspaceDirectories == null) return;
+        if (keyspaceDirectories == null) {
+            return;
+        }
 
         for (File keyspaceDir : keyspaceDirectories) {
-            if (keyspaceDir.isFile()) continue;
+            if (keyspaceDir.isFile()) {
+                continue;
+            }
 
             logger.debug("Entering {} keyspace..", keyspaceDir.getName());
             File[] columnFamilyDirectories = keyspaceDir.listFiles();
-            if (columnFamilyDirectories == null) continue;
+            if (columnFamilyDirectories == null) {
+                continue;
+            }
 
             for (File columnFamilyDir : columnFamilyDirectories) {
                 File backupDir = new File(columnFamilyDir, monitoringFolder);
@@ -104,15 +110,17 @@ public abstract class AbstractBackup extends Task {
     public static Set<Path> getBackupDirectories(IConfiguration config, String monitoringFolder)
             throws Exception {
         HashSet<Path> backupPaths = new HashSet<>();
-        if (config.getDataFileLocation() == null) return backupPaths;
+        if (config.getDataFileLocation() == null) {
+            return backupPaths;
+        }
         Path dataPath = Paths.get(config.getDataFileLocation());
-        if (Files.exists(dataPath) && Files.isDirectory(dataPath))
+        if (Files.exists(dataPath) && Files.isDirectory(dataPath)) {
             try (DirectoryStream<Path> directoryStream =
-                    Files.newDirectoryStream(dataPath, path -> Files.isDirectory(path))) {
+                    Files.newDirectoryStream(dataPath, Files::isDirectory)) {
                 for (Path keyspaceDirPath : directoryStream) {
                     try (DirectoryStream<Path> keyspaceStream =
                             Files.newDirectoryStream(
-                                    keyspaceDirPath, path -> Files.isDirectory(path))) {
+                                    keyspaceDirPath, Files::isDirectory)) {
                         for (Path columnfamilyDirPath : keyspaceStream) {
                             Path backupDirPath =
                                     Paths.get(columnfamilyDirPath.toString(), monitoringFolder);
@@ -124,6 +132,7 @@ public abstract class AbstractBackup extends Task {
                     }
                 }
             }
+        }
         return backupPaths;
     }
 

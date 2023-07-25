@@ -171,8 +171,9 @@ public class TestBackupStatusMgr {
         // Ensure that list is always maintained from latest to eldest
         Date latest = null;
         for (BackupMetadata backupMetadata : metadataList) {
-            if (latest == null) latest = backupMetadata.getStart();
-            else {
+            if (latest == null) {
+                latest = backupMetadata.getStart();
+            } else {
                 Assert.assertTrue(backupMetadata.getStart().before(latest));
                 latest = backupMetadata.getStart();
             }

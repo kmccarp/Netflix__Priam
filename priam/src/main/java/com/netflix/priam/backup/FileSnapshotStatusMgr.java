@@ -86,13 +86,17 @@ public class FileSnapshotStatusMgr extends BackupStatusMgr {
             e.printStackTrace();
         }
 
-        if (backupMetadataMap == null) backupMetadataMap = new MaxSizeHashMap<>(capacity);
+        if (backupMetadataMap == null) {
+            backupMetadataMap = new MaxSizeHashMap<>(capacity);
+        }
     }
 
     @Override
     public void save(BackupMetadata backupMetadata) {
         File snapshotFile = new File(filename);
-        if (!snapshotFile.exists()) snapshotFile.getParentFile().mkdirs();
+        if (!snapshotFile.exists()) {
+            snapshotFile.getParentFile().mkdirs();
+        }
 
         // Will save entire list to file.
         try (final ObjectOutputStream out =
