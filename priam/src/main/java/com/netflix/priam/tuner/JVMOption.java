@@ -46,10 +46,14 @@ public class JVMOption {
 
     public String toJVMOptionString() {
         final StringBuilder sb = new StringBuilder();
-        if (isCommented) sb.append("#");
+        if (isCommented) {
+            sb.append("#");
+        }
         sb.append(jvmOption);
         if (value != null) {
-            if (!isHeapJVMOption) sb.append("=");
+            if (!isHeapJVMOption) {
+                sb.append("=");
+            }
             sb.append(value);
         }
         return sb.toString();
@@ -57,8 +61,12 @@ public class JVMOption {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         JVMOption jvmOption1 = (JVMOption) o;
         return isCommented == jvmOption1.isCommented
                 && isHeapJVMOption == jvmOption1.isHeapJVMOption
@@ -86,7 +94,9 @@ public class JVMOption {
     }
 
     public JVMOption setValue(String value) {
-        if (!StringUtils.isEmpty(value)) this.value = value;
+        if (!StringUtils.isEmpty(value)) {
+            this.value = value;
+        }
         return this;
     }
 
@@ -114,7 +124,7 @@ public class JVMOption {
         // See if it is heap JVM option.
         Matcher matcher = heapPattern.matcher(line);
         if (matcher.matches()) {
-            boolean isCommented = (matcher.group(1) != null);
+            boolean isCommented = matcher.group(1) != null;
             return new JVMOption(matcher.group(2))
                     .setCommented(isCommented)
                     .setValue(matcher.group(3))
@@ -124,7 +134,7 @@ public class JVMOption {
         // See if other heap option.
         matcher = pattern.matcher(line);
         if (matcher.matches()) {
-            boolean isCommented = (matcher.group(1) != null);
+            boolean isCommented = matcher.group(1) != null;
             return new JVMOption(matcher.group(2))
                     .setCommented(isCommented)
                     .setValue(matcher.group(3));

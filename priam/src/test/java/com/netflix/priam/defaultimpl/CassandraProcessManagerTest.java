@@ -51,7 +51,9 @@ public class CassandraProcessManagerTest {
             Assert.assertTrue(0 != exitValue);
             cpm.logProcessOutput(p);
         } catch (IOException ioe) {
-            if (p != null) cpm.logProcessOutput(p);
+            if (p != null) {
+                cpm.logProcessOutput(p);
+            }
         }
     }
 

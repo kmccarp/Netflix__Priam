@@ -75,10 +75,14 @@ public abstract class BackupStatusMgr implements IBackupStatusMgr {
 
     @Override
     public LinkedList<BackupMetadata> locate(String snapshotDate) {
-        if (StringUtils.isEmpty(snapshotDate)) return null;
+        if (StringUtils.isEmpty(snapshotDate)) {
+            return null;
+        }
 
         // See if in memory
-        if (backupMetadataMap.containsKey(snapshotDate)) return backupMetadataMap.get(snapshotDate);
+        if (backupMetadataMap.containsKey(snapshotDate)) {
+            return backupMetadataMap.get(snapshotDate);
+        }
 
         LinkedList<BackupMetadata> metadataLinkedList = fetch(snapshotDate);
 
@@ -106,12 +110,14 @@ public abstract class BackupStatusMgr implements IBackupStatusMgr {
     @Override
     public void finish(BackupMetadata backupMetadata) {
         // validate that it has actually finished. If not, then set the status and current date.
-        if (backupMetadata.getStatus() != Status.FINISHED)
+        if (backupMetadata.getStatus() != Status.FINISHED) {
             backupMetadata.setStatus(Status.FINISHED);
+        }
 
-        if (backupMetadata.getCompleted() == null)
+        if (backupMetadata.getCompleted() == null) {
             backupMetadata.setCompleted(
                     Calendar.getInstance(TimeZone.getTimeZone("GMT")).getTime());
+        }
 
         instanceState.setBackupStatus(backupMetadata);
         update(backupMetadata);
@@ -140,7 +146,7 @@ public abstract class BackupStatusMgr implements IBackupStatusMgr {
         Optional<BackupMetadata> searchedData =
                 metadataLinkedList
                         .stream()
-                        .filter(backupMetadata1 -> backupMetadata.equals(backupMetadata1))
+                        .filter(backupMetadata::equals)
                         .findFirst();
         if (!searchedData.isPresent()) {
             metadataLinkedList.addFirst(backupMetadata);
@@ -159,12 +165,15 @@ public abstract class BackupStatusMgr implements IBackupStatusMgr {
     @Override
     public void failed(BackupMetadata backupMetadata) {
         // validate that it has actually failed. If not, then set the status and current date.
-        if (backupMetadata.getCompleted() == null)
+        if (backupMetadata.getCompleted() == null) {
             backupMetadata.setCompleted(
                     Calendar.getInstance(TimeZone.getTimeZone("GMT")).getTime());
+        }
 
         // Set this later to ensure the status
-        if (backupMetadata.getStatus() != Status.FAILED) backupMetadata.setStatus(Status.FAILED);
+        if (backupMetadata.getStatus() != Status.FAILED) {
+            backupMetadata.setStatus(Status.FAILED);
+        }
 
         instanceState.setBackupStatus(backupMetadata);
         update(backupMetadata);
@@ -199,7 +208,9 @@ public abstract class BackupStatusMgr implements IBackupStatusMgr {
                     "Will try to find snapshot for : {}",
                     DateUtil.formatInstant(DateUtil.yyyyMMddHHmm, previousDay));
             List<BackupMetadata> backupsForDate = locate(new Date(previousDay.toEpochMilli()));
-            if (backupsForDate != null) allBackups.addAll(backupsForDate);
+            if (backupsForDate != null) {
+                allBackups.addAll(backupsForDate);
+            }
             previousDay = previousDay.minus(1, ChronoUnit.DAYS);
         } while (!previousDay.isBefore(startDay));
 

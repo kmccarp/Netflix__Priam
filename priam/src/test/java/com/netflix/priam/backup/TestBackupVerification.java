@@ -112,13 +112,13 @@ public class TestBackupVerification {
         List<BackupMetadata> backupVerificationResults =
                 backupVerification.verifyBackupsInRange(
                         BackupVersion.SNAPSHOT_BACKUP, new DateRange(Instant.now(), Instant.now()));
-        Assert.assertFalse(backupVerificationResults.size() > 0);
+        Assert.assertFalse(!backupVerificationResults.isEmpty());
 
         backupVerificationResults =
                 backupVerification.verifyBackupsInRange(
                         BackupVersion.SNAPSHOT_META_SERVICE,
                         new DateRange(Instant.now(), Instant.now()));
-        Assert.assertFalse(backupVerificationResults.size() > 0);
+        Assert.assertFalse(!backupVerificationResults.isEmpty());
     }
 
     private void setUp() throws Exception {

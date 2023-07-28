@@ -90,18 +90,19 @@ public class CronTimer implements TaskTimer {
             throws IllegalArgumentException {
         CronTimer cronTimer = null;
 
-        if (!StringUtils.isEmpty(cronExpression) && cronExpression.equalsIgnoreCase("-1")) {
+        if (!StringUtils.isEmpty(cronExpression) && "-1".equalsIgnoreCase(cronExpression)) {
             logger.info(
                     "Skipping {} as it is disabled via setting {} cron to -1.", jobName, jobName);
         } else {
             if (StringUtils.isEmpty(cronExpression)
-                    || !CronExpression.isValidExpression(cronExpression))
+                    || !CronExpression.isValidExpression(cronExpression)) {
                 throw new IllegalArgumentException(
                         "Invalid CRON expression: "
                                 + cronExpression
                                 + ". Please use -1, if you wish to disable "
                                 + jobName
                                 + " else fix the CRON expression and try again!");
+            }
 
             cronTimer = new CronTimer(jobName, cronExpression);
             logger.info(
