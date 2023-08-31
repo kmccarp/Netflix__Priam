@@ -47,8 +47,10 @@ public class RangeReadInputStream extends InputStream {
         this.remotePath = remotePath;
     }
 
-    public int read(final byte b[], final int off, final int len) throws IOException {
-        if (fileSize > 0 && offset >= fileSize) return -1;
+    public int read(final byte[] b, final int off, final int len) throws IOException {
+        if (fileSize > 0 && offset >= fileSize) {
+            return -1;
+        }
         final long firstByte = offset;
         long curEndByte = firstByte + len;
         curEndByte = curEndByte <= fileSize ? curEndByte : fileSize;
@@ -71,7 +73,9 @@ public class RangeReadInputStream extends InputStream {
                             readTotal += rCnt;
                             incomingOffet += rCnt;
                         }
-                        if (readTotal == 0 && rCnt == -1) return -1;
+                        if (readTotal == 0 && rCnt == -1) {
+                            return -1;
+                        }
                         offset += readTotal;
                         return readTotal;
                     }

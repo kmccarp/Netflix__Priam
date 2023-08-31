@@ -35,6 +35,8 @@ public class FifoQueue<E extends Comparable<E>> extends TreeSet<E> {
 
     public synchronized void adjustAndAdd(E e) {
         add(e);
-        if (capacity < size()) pollFirst();
+        if (capacity < size()) {
+            pollFirst();
+        }
     }
 }

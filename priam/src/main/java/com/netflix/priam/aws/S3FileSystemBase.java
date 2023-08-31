@@ -117,10 +117,12 @@ public abstract class S3FileSystemBase extends AbstractFileSystem {
         List<Rule> rules = lifeConfig.getRules();
 
         if (updateLifecycleRule(config, rules, clusterPath)) {
-            if (rules.size() > 0) {
+            if (!rules.isEmpty()) {
                 lifeConfig.setRules(rules);
                 s3Client.setBucketLifecycleConfiguration(config.getBackupPrefix(), lifeConfig);
-            } else s3Client.deleteBucketLifecycleConfiguration(config.getBackupPrefix());
+            } else {
+                s3Client.deleteBucketLifecycleConfiguration(config.getBackupPrefix());
+            }
         }
     }
 
@@ -149,7 +151,9 @@ public abstract class S3FileSystemBase extends AbstractFileSystem {
     }
 
     private Optional<Rule> getBucketLifecycleRule(List<Rule> rules, String prefix) {
-        if (rules == null || rules.isEmpty()) return Optional.empty();
+        if (rules == null || rules.isEmpty()) {
+            return Optional.empty();
+        }
 
         for (Rule rule : rules) {
             String rulePrefix = "";
@@ -172,7 +176,9 @@ public abstract class S3FileSystemBase extends AbstractFileSystem {
     private boolean updateLifecycleRule(IConfiguration config, List<Rule> rules, String prefix) {
         Optional<Rule> rule = getBucketLifecycleRule(rules, prefix);
         // No need to update the rule as it never existed and retention is not set.
-        if (!rule.isPresent() && config.getBackupRetentionDays() <= 0) return false;
+        if (!rule.isPresent() && config.getBackupRetentionDays() <= 0) {
+            return false;
+        }
 
         // Rule not required as retention days is zero or negative.
         if (rule.isPresent() && config.getBackupRetentionDays() <= 0) {
@@ -252,7 +258,9 @@ public abstract class S3FileSystemBase extends AbstractFileSystem {
 
     @Override
     public void shutdown() {
-        if (executor != null) executor.shutdown();
+        if (executor != null) {
+            executor.shutdown();
+        }
     }
 
     @Override
@@ -262,7 +270,9 @@ public abstract class S3FileSystemBase extends AbstractFileSystem {
 
     @Override
     public void deleteFiles(List<Path> remotePaths) throws BackupRestoreException {
-        if (remotePaths.isEmpty()) return;
+        if (remotePaths.isEmpty()) {
+            return;
+        }
 
         try {
             List<DeleteObjectsRequest.KeyVersion> keys =

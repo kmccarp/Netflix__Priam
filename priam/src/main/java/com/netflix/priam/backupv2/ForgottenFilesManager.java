@@ -42,8 +42,8 @@ import org.slf4j.LoggerFactory;
 public class ForgottenFilesManager {
     private static final Logger logger = LoggerFactory.getLogger(ForgottenFilesManager.class);
 
-    private BackupMetrics backupMetrics;
-    private IConfiguration config;
+    private final BackupMetrics backupMetrics;
+    private final IConfiguration config;
     private static final String TMP_EXT = ".tmp";
 
     private static final Pattern tmpFilePattern =
@@ -75,7 +75,9 @@ public class ForgottenFilesManager {
             }
 
             // If there are no "extra" SSTables in CF data folder, we are done.
-            if (columnfamilyFiles.size() == 0) return;
+            if (columnfamilyFiles.isEmpty()) {
+                return;
+            }
 
             logger.warn(
                     "# of potential forgotten files: {} found for CF: {}",
@@ -153,12 +155,12 @@ public class ForgottenFilesManager {
                     continue;
                 } else if (Files.isSymbolicLink(symbolic_link)) {
                     // Symbolic link exists, is it older than our timeframe?
-                    Instant last_modified_time =
+                    Instant lastModifiedTime =
                             Files.getLastModifiedTime(symbolic_link, LinkOption.NOFOLLOW_LINKS)
                                     .toInstant();
                     if (DateUtil.getInstant()
                             .isAfter(
-                                    last_modified_time.plus(
+                                    lastModifiedTime.plus(
                                             config.getForgottenFileGracePeriodDaysForRead(),
                                             ChronoUnit.DAYS))) {
                         // Eligible for move.

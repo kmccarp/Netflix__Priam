@@ -14,7 +14,7 @@
  * limitations under the License.
  *
  */
-package com.netflix.priam.configSource;
+package com.netflix.priam.configsource;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -98,7 +98,9 @@ public class PropertiesConfigSource extends AbstractConfigSource {
      * @param properties to clone
      */
     private void clone(final Properties properties) {
-        if (properties.isEmpty()) return;
+        if (properties.isEmpty()) {
+            return;
+        }
 
         synchronized (properties) {
             for (final String key : properties.stringPropertyNames()) {
