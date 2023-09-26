@@ -67,17 +67,18 @@ public class MetaV1Proxy implements IMetaProxy {
 
         while (backupfiles.hasNext()) {
             AbstractBackupPath path = backupfiles.next();
-            if (path.getType() == AbstractBackupPath.BackupFileType.META)
+            if (path.getType() == AbstractBackupPath.BackupFileType.META) {
                 // Since there are now meta file for incrementals as well as snapshot, we need to
                 // find the correct one (i.e. the snapshot meta file (meta.json))
-                if (path.getFileName().equalsIgnoreCase("meta.json")) {
+                if ("meta.json".equalsIgnoreCase(path.getFileName())) {
                     metas.add(path);
                 }
+            }
         }
 
         metas.sort(Collections.reverseOrder());
 
-        if (metas.size() == 0) {
+        if (metas.isEmpty()) {
             logger.info(
                     "No meta v1 file found on remote file system for the time period: {}",
                     dateRange);
@@ -118,8 +119,9 @@ public class MetaV1Proxy implements IMetaProxy {
             List<String> remoteListing = new ArrayList<>();
             while (backupfiles.hasNext()) {
                 AbstractBackupPath path = backupfiles.next();
-                if (path.getType() == AbstractBackupPath.BackupFileType.SNAP)
+                if (path.getType() == AbstractBackupPath.BackupFileType.SNAP) {
                     remoteListing.add(path.getRemotePath());
+                }
             }
 
             if (metaFileList.isEmpty() && remoteListing.isEmpty()) {
@@ -137,7 +139,7 @@ public class MetaV1Proxy implements IMetaProxy {
 
             // There could be a scenario that backupfilesystem has more files than meta file. e.g.
             // some leftover objects
-            result.valid = (result.filesInMetaOnly.isEmpty());
+            result.valid = result.filesInMetaOnly.isEmpty();
         } catch (Exception e) {
             logger.error(
                     "Error while processing meta file: " + metaBackupPath, e.getLocalizedMessage());
@@ -155,9 +157,10 @@ public class MetaV1Proxy implements IMetaProxy {
 
     @Override
     public List<String> getSSTFilesFromMeta(Path localMetaPath) throws Exception {
-        if (localMetaPath.toFile().isDirectory() || !localMetaPath.toFile().exists())
+        if (localMetaPath.toFile().isDirectory() || !localMetaPath.toFile().exists()) {
             throw new InvalidPathException(
                     localMetaPath.toString(), "Input path is either directory or do not exist");
+        }
 
         List<String> result = new ArrayList<>();
         JSONParser jsonParser = new JSONParser();

@@ -66,8 +66,8 @@ public class BackupTTLTask extends Task {
     private Map<String, Boolean> filesInMeta = new HashMap<>();
     private List<Path> filesToDelete = new ArrayList<>();
     private static final Lock lock = new ReentrantLock();
-    private final int BATCH_SIZE = 1000;
-    private final Instant start_of_feature = DateUtil.parseInstant("201801010000");
+    private final int batchSize = 1000;
+    private final Instant startOfFeature = DateUtil.parseInstant("201801010000");
     private final int maxWaitMillis;
 
     @Inject
@@ -111,7 +111,9 @@ public class BackupTTLTask extends Task {
         }
 
         // Sleep a random amount but not so long that it will spill into the next token's turn.
-        if (maxWaitMillis > 0) Thread.sleep(new Random().nextInt(maxWaitMillis));
+        if (maxWaitMillis > 0) {
+            Thread.sleep(new Random().nextInt(maxWaitMillis));
+        }
 
         try {
             filesInMeta.clear();
@@ -125,7 +127,7 @@ public class BackupTTLTask extends Task {
                     metaProxy.findMetaFiles(
                             new DateUtil.DateRange(dateToTtl, DateUtil.getInstant()));
 
-            if (metas.size() == 0) {
+            if (metas.isEmpty()) {
                 logger.info("No meta file found and thus cannot run TTL Service");
                 return;
             }
@@ -157,9 +159,9 @@ public class BackupTTLTask extends Task {
             metas =
                     metaProxy.findMetaFiles(
                             new DateUtil.DateRange(
-                                    start_of_feature, dateToTtl.minus(1, ChronoUnit.HOURS)));
+                                    startOfFeature, dateToTtl.minus(1, ChronoUnit.HOURS)));
 
-            if (metas != null && metas.size() != 0) {
+            if (metas != null && !metas.isEmpty()) {
                 logger.info(
                         "Will delete(TTL) {} META files starting from: [{}]",
                         metas.size(),
@@ -202,10 +204,11 @@ public class BackupTTLTask extends Task {
                 if (!filesInMeta.containsKey(abstractBackupPath.getRemotePath())) {
                     deleteFile(abstractBackupPath, false);
                 } else {
-                    if (logger.isDebugEnabled())
+                    if (logger.isDebugEnabled()) {
                         logger.debug(
                                 "Not deleting this key as it is referenced in backups: {}",
                                 abstractBackupPath.getRemotePath());
+                    }
                 }
             }
 
@@ -220,9 +223,11 @@ public class BackupTTLTask extends Task {
 
     private void deleteFile(AbstractBackupPath path, boolean forceClear)
             throws BackupRestoreException {
-        if (path != null) filesToDelete.add(Paths.get(path.getRemotePath()));
+        if (path != null) {
+            filesToDelete.add(Paths.get(path.getRemotePath()));
+        }
 
-        if (forceClear || filesToDelete.size() >= BATCH_SIZE) {
+        if (forceClear || filesToDelete.size() >= batchSize) {
             fileSystem.deleteRemoteFiles(filesToDelete);
             filesToDelete.clear();
         }

@@ -97,7 +97,9 @@ public class MetaData {
     public File createTmpMetaFile() throws IOException {
         File metafile = File.createTempFile("meta", ".json");
         File destFile = new File(metafile.getParent(), "meta.json");
-        if (destFile.exists()) destFile.delete();
+        if (destFile.exists()) {
+            destFile.delete();
+        }
         FileUtils.moveFile(metafile, destFile);
         return destFile;
     }

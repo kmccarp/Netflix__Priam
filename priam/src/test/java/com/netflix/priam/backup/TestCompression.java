@@ -70,8 +70,8 @@ public class TestCompression {
                                     new BufferedOutputStream(new FileOutputStream(zipFileName)));
                     BufferedInputStream source =
                             new BufferedInputStream(
-                                    new FileInputStream(randomContentFile), 2048); ) {
-                byte data[] = new byte[2048];
+                                    new FileInputStream(randomContentFile), 2048) ) {
+                byte[] data = new byte[2048];
                 ZipEntry entry = new ZipEntry(randomContentFile.getName());
                 out.putNextEntry(entry);
                 int count;
@@ -91,7 +91,7 @@ public class TestCompression {
                                 new BufferedOutputStream(
                                         new FileOutputStream(decompressedTempOutput), 2048)) {
                     int c;
-                    byte d[] = new byte[2048];
+                    byte[] d = new byte[2048];
 
                     while ((c = is.read(d, 0, 2048)) != -1) {
                         dest1.write(d, 0, c);

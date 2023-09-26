@@ -58,7 +58,8 @@ public class TokenRetrieverUtils {
         // performance. So we pick three random hosts from the ring and see if they all
         // agree on the IP to be replaced. If not, we don't replace.
         InferredTokenOwnership inferredTokenOwnership = new InferredTokenOwnership();
-        int matchedGossipInstances = 0, reachableInstances = 0;
+        int matchedGossipInstances = 0;
+        int reachableInstances = 0;
         for (PriamInstance instance : eligibleInstances) {
             logger.info("Finding down nodes from ip[{}]; token[{}]", instance.getHostIP(), token);
 
@@ -156,8 +157,12 @@ public class TokenRetrieverUtils {
 
         @Override
         public boolean equals(Object obj) {
-            if (this == obj) return true;
-            if (obj == null || this.getClass() != obj.getClass()) return false;
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null || this.getClass() != obj.getClass()) {
+                return false;
+            }
             TokenInformation tokenInformation = (TokenInformation) obj;
             return this.ipAddress.equalsIgnoreCase(tokenInformation.getIpAddress())
                     && isLive == tokenInformation.isLive;

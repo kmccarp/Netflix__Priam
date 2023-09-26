@@ -128,7 +128,7 @@ public interface IConfiguration {
 
     /** @return Get list of racs to backup. Backup all racs if empty */
     default List<String> getBackupRacs() {
-        return Collections.EMPTY_LIST;
+        return Collections.emptyList();
     }
 
     /**
@@ -769,7 +769,7 @@ public interface IConfiguration {
      * @return A map of extra paramaters.
      */
     default Map<String, String> getExtraEnvParams() {
-        return Collections.EMPTY_MAP;
+        return Collections.emptyMap();
     }
 
     /*
@@ -846,7 +846,7 @@ public interface IConfiguration {
      * @return timeout for uploads to wait to blocking queue
      */
     default long getUploadTimeout() {
-        return (2 * 60 * 60 * 1000L); // 2 minutes.
+        return 2 * 60 * 60 * 1000L; // 2 minutes.
     }
 
     /**
@@ -857,7 +857,7 @@ public interface IConfiguration {
      * @return timeout for downloads to wait to blocking queue
      */
     default long getDownloadTimeout() {
-        return (10 * 60 * 60 * 1000L); // 10 minutes.
+        return 10 * 60 * 60 * 1000L; // 10 minutes.
     }
 
     /** @return tombstone_warn_threshold in C* yaml */
@@ -1096,7 +1096,7 @@ public interface IConfiguration {
      * @return true to use private IPs for seeds and insertion into the Token DB false otherwise.
      */
     default boolean usePrivateIP() {
-        return getSnitch().equals("org.apache.cassandra.locator.GossipingPropertyFileSnitch");
+        return "org.apache.cassandra.locator.GossipingPropertyFileSnitch".equals(getSnitch());
     }
 
     /** @return true to check is thrift listening on the rpc_port. */

@@ -79,7 +79,9 @@ public class TestBackupVerificationTask {
         public List<BackupMetadata> verifyBackupsInRange(
                 BackupVersion backupVersion, DateRange dateRange)
                 throws UnsupportedTypeException, IllegalArgumentException {
-            if (throwError) throw new IllegalArgumentException("DummyError");
+            if (throwError) {
+                throw new IllegalArgumentException("DummyError");
+            }
             return verifiedBackups;
         }
 
@@ -87,7 +89,9 @@ public class TestBackupVerificationTask {
         public Optional<BackupVerificationResult> verifyLatestBackup(
                 BackupVersion backupVersion, boolean force, DateRange dateRange)
                 throws UnsupportedTypeException, IllegalArgumentException {
-            if (throwError) throw new IllegalArgumentException("DummyError");
+            if (throwError) {
+                throw new IllegalArgumentException("DummyError");
+            }
             return results.isEmpty() ? Optional.empty() : Optional.of(results.get(0));
         }
     }
@@ -98,7 +102,7 @@ public class TestBackupVerificationTask {
     public void throwError() {
         MockBackupVerification.shouldThrow(true);
         Assertions.assertThrows(
-                IllegalArgumentException.class, () -> backupVerificationService.execute());
+                IllegalArgumentException.class, backupVerificationService::execute);
     }
 
     @Test
@@ -120,7 +124,7 @@ public class TestBackupVerificationTask {
         MockBackupVerification.shouldThrow(false);
         MockBackupVerification.setVerifiedBackups(getInvalidBackupMetadata());
         Assertions.assertThrows(
-                NullPointerException.class, () -> backupVerificationService.execute());
+                NullPointerException.class, backupVerificationService::execute);
     }
 
     @Test

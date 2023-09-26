@@ -15,7 +15,7 @@
  *
  */
 
-package com.netflix.priam.configSource;
+package com.netflix.priam.configsource;
 
 import com.google.common.collect.ImmutableList;
 import java.util.List;

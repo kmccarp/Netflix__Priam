@@ -141,12 +141,12 @@ public class CassandraOperations implements ICassandraOperations {
                         "Exception in fetching c* jmx tool .  Msg: {}", e.getLocalizedMessage(), e);
                 throw e;
             }
-            String gossipInfoLines[] = nodeTool.getGossipInfo().split("/");
+            String[] gossipInfoLines = nodeTool.getGossipInfo().split("/");
             Arrays.stream(gossipInfoLines)
                     .forEach(
                             gossipInfoLine -> {
                                 Map<String, String> gossipMap = new HashMap<>();
-                                String gossipInfoSubLines[] = gossipInfoLine.split("\\r?\\n");
+                                String[] gossipInfoSubLines = gossipInfoLine.split("\\r?\\n");
                                 if (gossipInfoSubLines.length
                                         > 2) // Random check for existence of some lines
                                 {
@@ -156,23 +156,23 @@ public class CassandraOperations implements ICassandraOperations {
                                     }
 
                                     for (String gossipInfoSubLine : gossipInfoSubLines) {
-                                        String gossipLineEntry[] = gossipInfoSubLine.split(":");
+                                        String[] gossipLineEntry = gossipInfoSubLine.split(":");
                                         if (gossipLineEntry.length == 2) {
                                             gossipMap.put(
                                                     gossipLineEntry[0].trim().toUpperCase(),
                                                     gossipLineEntry[1].trim());
                                         } else if (gossipLineEntry.length == 3) {
-                                            if (gossipLineEntry[0]
-                                                    .trim()
-                                                    .equalsIgnoreCase("STATUS")) {
+                                            if ("STATUS"
+                                                    .equalsIgnoreCase(gossipLineEntry[0]
+                                                    .trim())) {
                                                 // Special handling for STATUS as C* puts first
                                                 // token in STATUS or "true".
                                                 gossipMap.put(
                                                         gossipLineEntry[0].trim().toUpperCase(),
                                                         gossipLineEntry[2].split(",")[0].trim());
-                                            } else if (gossipLineEntry[0]
-                                                    .trim()
-                                                    .equalsIgnoreCase("TOKENS")) {
+                                            } else if ("TOKENS"
+                                                    .equalsIgnoreCase(gossipLineEntry[0]
+                                                    .trim())) {
                                                 // Special handling for tokens as it is always
                                                 // "hidden".
                                                 try {

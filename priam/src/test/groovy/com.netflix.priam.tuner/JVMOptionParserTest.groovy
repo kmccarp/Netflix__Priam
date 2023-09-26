@@ -14,13 +14,9 @@ class JVMOptionParserTest extends Specification{
         JVMOption.parse(jvmOption).toJVMOptionString() == result
 
         where:
-        jvmOption || result
-        "#-XX:+PrintGCDetails" || "#-XX:+PrintGCDetails"
-        "#-XX:NumberOfGCLogFiles=10" || "#-XX:NumberOfGCLogFiles=10"
-        "-XX+UseCMSInitiatingOccupancyOnly" || "-XX+UseCMSInitiatingOccupancyOnly"
-        "#-Dcassandra.available_processors=number_of_processors" || "#-Dcassandra.available_processors=number_of_processors"
+        jvmOption || result"#-XX:+PrintGCDetails""#-XX:NumberOfGCLogFiles=10""-XX+UseCMSInitiatingOccupancyOnly""#-Dcassandra.available_processors=number_of_processors"
         "###-XX:+PrintGCDetails" || "#-XX:+PrintGCDetails"
-        "#-Dcassandra.join_ring=true|false" || "#-Dcassandra.join_ring=true|false"
+        "#-Dcassandra.join_ring=true|false"
     }
 
     def "JMVOptionParsing for value #jvmOption is #result"(){
@@ -40,13 +36,7 @@ class JVMOptionParserTest extends Specification{
         JVMOption.parse(jvmOption).isHeapJVMOption() == result
 
         where:
-        jvmOption || result
-        "#-Xms20G" || true
-        "#-Xmx20G" || true
-        "#-Xmn20G" || true
-        "-Xms20G" || true
-        "-Xmx20G" || true
-        "-Xmn20G" || true
-        "#-Xmdf20G" || false
+        jvmOption || resulttruetruetruetruetruetrue
+        "#-Xmdf20G"
     }
 }

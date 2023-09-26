@@ -47,7 +47,9 @@ public class PriamConfigurationPersisterTest {
         fakeConfiguration = (FakeConfiguration) injector.getInstance(IConfiguration.class);
         fakeConfiguration.fakeProperties.put("priam_test_config", folder.getRoot().getPath());
 
-        if (persister == null) persister = injector.getInstance(PriamConfigurationPersister.class);
+        if (persister == null) {
+            persister = injector.getInstance(PriamConfigurationPersister.class);
+        }
     }
 
     @After

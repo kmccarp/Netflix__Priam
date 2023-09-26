@@ -33,9 +33,11 @@ public class StreamingTest {
     @Test
     public void testFifoAddAndRemove() {
         FifoQueue<Long> queue = new FifoQueue<>(10);
-        for (long i = 0; i < 100; i++) queue.adjustAndAdd(i);
+        for (long i = 0; i < 100; i++) {
+            queue.adjustAndAdd(i);
+        }
         Assert.assertEquals(10, queue.size());
-        Assert.assertEquals(new Long(90), queue.first());
+        Assert.assertEquals(Long.valueOf(90), queue.first());
     }
 
     @Test
