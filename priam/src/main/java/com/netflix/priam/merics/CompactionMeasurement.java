@@ -24,7 +24,8 @@ import javax.inject.Singleton;
 /** Measurement class for scheduled compactions Created by aagrawal on 2/28/18. */
 @Singleton
 public class CompactionMeasurement implements IMeasurement {
-    private final Counter failure, success;
+    private final Counter failure;
+    private final Counter success;
 
     @Inject
     public CompactionMeasurement(Registry registry) {

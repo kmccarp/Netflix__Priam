@@ -55,25 +55,32 @@ public class TestAbstractFileSystem {
 
     @Before
     public void setBackupMetrics() {
-        if (injector == null) injector = Guice.createInjector(new BRTestModule());
+        if (injector == null) {
+            injector = Guice.createInjector(new BRTestModule());
+        }
 
-        if (configuration == null) configuration = injector.getInstance(IConfiguration.class);
+        if (configuration == null) {
+            configuration = injector.getInstance(IConfiguration.class);
+        }
 
-        if (backupNotificationMgr == null)
+        if (backupNotificationMgr == null) {
             backupNotificationMgr = injector.getInstance(BackupNotificationMgr.class);
+        }
 
         backupMetrics = injector.getInstance(BackupMetrics.class);
         Provider<AbstractBackupPath> pathProvider = injector.getProvider(AbstractBackupPath.class);
 
-        if (failureFileSystem == null)
+        if (failureFileSystem == null) {
             failureFileSystem =
                     new FailureFileSystem(
                             configuration, backupMetrics, backupNotificationMgr, pathProvider);
+        }
 
-        if (myFileSystem == null)
+        if (myFileSystem == null) {
             myFileSystem =
                     new MyFileSystem(
                             configuration, backupMetrics, backupNotificationMgr, pathProvider);
+        }
 
         BackupFileUtils.cleanupDir(Paths.get(configuration.getDataFileLocation()));
     }
@@ -244,8 +251,9 @@ public class TestAbstractFileSystem {
         // 1. Give 1000 dummy files to download. File download takes some random time to download.
         int totalFiles = 1000;
         List<Future<Path>> futureList = new ArrayList<>();
-        for (int i = 0; i < totalFiles; i++)
+        for (int i = 0; i < totalFiles; i++) {
             futureList.add(myFileSystem.asyncDownloadFile(getDummyPath(Paths.get("" + i)), 2));
+        }
 
         // Ensure processing is finished.
         for (Future future1 : futureList) {

@@ -52,11 +52,11 @@ public class AWSSnsNotificationService implements INotificationService {
             InstanceInfo instanceInfo) {
         this.configuration = config;
         this.backupMetrics = backupMetrics;
-        String ec2_region = instanceInfo.getRegion();
+        String ec2Region = instanceInfo.getRegion();
         snsClient =
                 AmazonSNSClient.builder()
                         .withCredentials(iamCredential.getAwsCredentialProvider())
-                        .withRegion(ec2_region)
+                        .withRegion(ec2Region)
                         .build();
     }
 

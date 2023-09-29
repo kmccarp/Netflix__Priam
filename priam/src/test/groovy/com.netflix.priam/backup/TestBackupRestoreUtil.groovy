@@ -29,27 +29,8 @@ class TestBackupRestoreUtil extends Specification {
         new BackupRestoreUtil(configIncludeFilter, configExcludeFilter).isFiltered(keyspace, columnfamily) == result
 
         where:
-        configIncludeFilter | configExcludeFilter | keyspace | columnfamily || result
-        null                | null                | "defg"   | "gh"         || false
-        "abc.*"             | null                | "abc"    | "cd"         || false
-        "abc.*"             | null                | "ab"     | "cd"         || true
-        null                | "abc.de"            | "abc"    | "def"        || false
-        null                | "abc.de"            | "abc"    | "de"         || true
-        "abc.*,def.*"       | null                | "abc"    | "cd"         || false
-        "abc.*,def.*"       | null                | "def"    | "ab"         || false
-        "abc.*,def.*"       | null                | "ab"     | "cd"         || true
-        "abc.*,def.*"       | null                | "df"     | "ab"         || true
-        null                | "abc.de,fg.hi"      | "abc"    | "def"        || false
-        null                | "abc.de,fg.hi"      | "abc"    | "de"         || true
-        null                | "abc.de,fg.hi"      | "fg"     | "hijk"       || false
-        null                | "abc.de,fg.hi"      | "fg"     | "hi"         || true
-        "abc.*"             | "ab.ab"             | "ab"     | "cd"         || true
-        "abc.*"             | "ab.ab"             | "ab"     | "ab"         || true
-        "abc.*"             | "abc.ab"            | "abc"    | "ab"         || true
-        "abc.*"             | "abc.ab"            | "abc"    | "cd"         || false
-        "abc.cd"            | "abc.*"             | "abc"    | "cd"         || true
-        "abc.*"             | "abc.*"             | "abc"    | "cd"         || true
-        "abc.*,def.*"       | "abc.*"             | "def"    | "ab"         || false
+        configIncludeFilter | configExcludeFilter | keyspace | columnfamily || resultnull                | null                | "defg"   | "gh""abc.*"             | null                | "abc"    | "cd"truenull                | "abc.de"            | "abc"    | "def"true"abc.*,def.*"       | null                | "abc"    | "cd""abc.*,def.*"       | null                | "def"    | "ab"truetruenull                | "abc.de,fg.hi"      | "abc"    | "def"truenull                | "abc.de,fg.hi"      | "fg"     | "hijk"truetruetruetrue"abc.*"             | "abc.ab"            | "abc"    | "cd"truetrue
+        "abc.*,def.*"       | "abc.*"             | "def"    | "ab"
     }
 
 

@@ -90,7 +90,9 @@ public class PriamServer implements IService {
         createDirectories();
 
         // Do not start Priam if you are out of service.
-        if (instanceIdentity.getInstance().isOutOfService()) return;
+        if (instanceIdentity.getInstance().isOutOfService()) {
+            return;
+        }
 
         // start to schedule jobs
         scheduler.start();
@@ -103,10 +105,13 @@ public class PriamServer implements IService {
             restoreContext.restore();
         } else { // no restores needed
             logger.info("No restore needed, task not scheduled");
-            if (!config.doesCassandraStartManually()) cassProcess.start(true); // Start cassandra.
-            else
+            if (!config.doesCassandraStartManually()) {
+                cassProcess.start(true);
+            } // Start cassandra.
+            else {
                 logger.info(
                         "config.doesCassandraStartManually() is set to True, hence Cassandra needs to be started manually ...");
+            }
         }
 
         /*
