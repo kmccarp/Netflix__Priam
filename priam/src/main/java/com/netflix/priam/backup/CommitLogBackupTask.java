@@ -41,8 +41,9 @@ public class CommitLogBackupTask extends AbstractBackup {
         try {
             logger.debug("Checking for any archived commitlogs");
             // double-check the permission
-            if (config.isBackingUpCommitLogs())
+            if (config.isBackingUpCommitLogs()) {
                 clBackup.upload(config.getCommitLogBackupRestoreFromDirs(), null);
+            }
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
         }
@@ -54,9 +55,12 @@ public class CommitLogBackupTask extends AbstractBackup {
     }
 
     public static TaskTimer getTimer(IConfiguration config) {
-        if (config.isBackingUpCommitLogs())
-            return new SimpleTimer(JOBNAME, 60L * 1000); // every 1 min
-        else return null;
+        if (config.isBackingUpCommitLogs()) {
+            return new SimpleTimer(JOBNAME, 60L * 1000);
+        } // every 1 min
+        else {
+            return null;
+        }
     }
 
     @Override

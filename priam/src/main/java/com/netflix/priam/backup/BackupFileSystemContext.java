@@ -19,7 +19,8 @@ import javax.inject.Named;
 
 public class BackupFileSystemContext implements IFileSystemContext {
 
-    private IBackupFileSystem fs = null, encryptedFs = null;
+    private final IBackupFileSystem fs;
+    private final IBackupFileSystem encryptedFs;
 
     @Inject
     public BackupFileSystemContext(
