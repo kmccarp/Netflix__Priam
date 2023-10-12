@@ -40,7 +40,9 @@ public class RestoreContext {
     }
 
     public void restore() throws Exception {
-        if (!isRestoreEnabled()) return;
+        if (!isRestoreEnabled()) {
+            return;
+        }
 
         // Restore is required.
         if (StringUtils.isEmpty(config.getRestoreSourceType()) && !config.isRestoreEncrypted()) {
@@ -62,23 +64,19 @@ public class RestoreContext {
                 return;
             }
 
-            switch (sourceType) {
-                case AWSCROSSACCT:
-                    scheduler.addTask(
-                            AwsCrossAccountCryptographyRestoreStrategy.JOBNAME,
-                            AwsCrossAccountCryptographyRestoreStrategy.class,
-                            AwsCrossAccountCryptographyRestoreStrategy.getTimer());
-                    logger.info(
-                            "Scheduled task " + AwsCrossAccountCryptographyRestoreStrategy.JOBNAME);
-                    break;
-
-                case GOOGLE:
-                    scheduler.addTask(
-                            GoogleCryptographyRestoreStrategy.JOBNAME,
-                            GoogleCryptographyRestoreStrategy.class,
-                            GoogleCryptographyRestoreStrategy.getTimer());
-                    logger.info("Scheduled task " + GoogleCryptographyRestoreStrategy.JOBNAME);
-                    break;
+            if (sourceType == com.netflix.priam.restore.RestoreContext$SourceType.AWSCROSSACCT) {
+                scheduler.addTask(
+                        AwsCrossAccountCryptographyRestoreStrategy.JOBNAME,
+                        AwsCrossAccountCryptographyRestoreStrategy.class,
+                        AwsCrossAccountCryptographyRestoreStrategy.getTimer());
+                logger.info(
+                        "Scheduled task " + AwsCrossAccountCryptographyRestoreStrategy.JOBNAME);
+            } else if (sourceType == com.netflix.priam.restore.RestoreContext$SourceType.GOOGLE) {
+                scheduler.addTask(
+                        GoogleCryptographyRestoreStrategy.JOBNAME,
+                        GoogleCryptographyRestoreStrategy.class,
+                        GoogleCryptographyRestoreStrategy.getTimer());
+                logger.info("Scheduled task " + GoogleCryptographyRestoreStrategy.JOBNAME);
             }
         }
     }
@@ -98,9 +96,10 @@ public class RestoreContext {
         public static SourceType lookup(
                 String sourceType, boolean acceptNullOrEmpty, boolean acceptIllegalValue)
                 throws UnsupportedTypeException {
-            if (StringUtils.isEmpty(sourceType))
-                if (acceptNullOrEmpty) return null;
-                else {
+            if (StringUtils.isEmpty(sourceType)) {
+                if (acceptNullOrEmpty) {
+                    return null;
+                } else {
                     String message =
                             String.format(
                                     "%s is not a supported SourceType. Supported values are %s",
@@ -108,6 +107,7 @@ public class RestoreContext {
                     logger.error(message);
                     throw new UnsupportedTypeException(message);
                 }
+            }
 
             try {
                 return SourceType.valueOf(sourceType.toUpperCase());
@@ -134,7 +134,9 @@ public class RestoreContext {
             StringBuilder supportedValues = new StringBuilder();
             boolean first = true;
             for (SourceType type : SourceType.values()) {
-                if (!first) supportedValues.append(",");
+                if (!first) {
+                    supportedValues.append(",");
+                }
                 supportedValues.append(type);
                 first = false;
             }

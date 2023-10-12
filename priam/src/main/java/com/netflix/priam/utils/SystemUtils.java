@@ -46,7 +46,9 @@ public class SystemUtils {
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
             DataInputStream d = new DataInputStream((FilterInputStream) conn.getContent());
             int c;
-            while ((c = d.read(b, 0, b.length)) != -1) bos.write(b, 0, c);
+            while ((c = d.read(b, 0, b.length)) != -1) {
+                bos.write(b, 0, c);
+            }
             String return_ = new String(bos.toByteArray(), Charsets.UTF_8);
             logger.info("Calling URL API: {} returns: {}", url, return_);
             conn.disconnect();
@@ -64,8 +66,9 @@ public class SystemUtils {
      * @throws IOException If there is any error encountered during cleanup.
      */
     public static void cleanupDir(String dirPath, List<String> childdirs) throws IOException {
-        if (childdirs == null || childdirs.size() == 0) FileUtils.cleanDirectory(new File(dirPath));
-        else {
+        if (childdirs == null || childdirs.isEmpty()) {
+            FileUtils.cleanDirectory(new File(dirPath));
+        } else {
             for (String cdir : childdirs) FileUtils.cleanDirectory(new File(dirPath + "/" + cdir));
         }
     }
@@ -114,7 +117,7 @@ public class SystemUtils {
     }
 
     public static String toBase64(byte[] md5) {
-        byte encoded[] = Base64.encodeBase64(md5, false);
+        byte[] encoded = Base64.encodeBase64(md5, false);
         return new String(encoded);
     }
 }

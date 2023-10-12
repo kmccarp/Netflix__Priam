@@ -55,7 +55,7 @@ public class StandardTunerTest {
     private final InstanceInfo instanceInfo;
     private final IBackupRestoreConfig backupRestoreConfig;
     private final File target = new File("/tmp/priam_test.yaml");
-    private IConfiguration config;
+    private final IConfiguration config;
 
     public StandardTunerTest() {
         Injector injector = Guice.createInjector(new BRTestModule());
@@ -64,7 +64,9 @@ public class StandardTunerTest {
         this.backupRestoreConfig = injector.getInstance(BackupRestoreConfig.class);
         this.config = injector.getInstance(IConfiguration.class);
         File targetDir = new File(config.getYamlLocation()).getParentFile();
-        if (!targetDir.exists()) targetDir.mkdirs();
+        if (!targetDir.exists()) {
+            targetDir.mkdirs();
+        }
     }
 
     @Test

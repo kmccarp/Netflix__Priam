@@ -84,8 +84,11 @@ public class BackupRestoreUtil {
             DateUtil.DateRange dateRange,
             IMetaProxy metaProxy) {
         Instant snapshotTime;
-        if (metaProxy instanceof MetaV2Proxy) snapshotTime = latestValidMetaFile.getLastModified();
-        else snapshotTime = latestValidMetaFile.getTime().toInstant();
+        if (metaProxy instanceof MetaV2Proxy) {
+            snapshotTime = latestValidMetaFile.getLastModified();
+        } else {
+            snapshotTime = latestValidMetaFile.getTime().toInstant();
+        }
         DateUtil.DateRange incrementalDateRange =
                 new DateUtil.DateRange(snapshotTime, dateRange.getEndTime());
         List<AbstractBackupPath> incrementalPaths = new ArrayList<>();
@@ -95,7 +98,9 @@ public class BackupRestoreUtil {
 
     public static Map<String, List<String>> getFilter(String inputFilter)
             throws IllegalArgumentException {
-        if (StringUtils.isEmpty(inputFilter)) return null;
+        if (StringUtils.isEmpty(inputFilter)) {
+            return null;
+        }
         final Map<String, List<String>> columnFamilyFilter = new HashMap<>();
         String[] filters = inputFilter.split(",");
         for (String cfFilter : filters) {
@@ -103,11 +108,14 @@ public class BackupRestoreUtil {
                 String[] filter = cfFilter.split("\\.");
                 String keyspaceName = filter[0];
                 String columnFamilyName = filter[1];
-                if (columnFamilyName.contains("-"))
+                if (columnFamilyName.contains("-")) {
                     columnFamilyName = columnFamilyName.substring(0, columnFamilyName.indexOf("-"));
+                }
                 List<String> existingCfs =
                         columnFamilyFilter.getOrDefault(keyspaceName, new ArrayList<>());
-                if (!columnFamilyName.equalsIgnoreCase("*")) existingCfs.add(columnFamilyName);
+                if (!"*".equalsIgnoreCase(columnFamilyName)) {
+                    existingCfs.add(columnFamilyName);
+                }
                 columnFamilyFilter.put(keyspaceName, existingCfs);
             } else {
                 throw new IllegalArgumentException(
@@ -125,20 +133,26 @@ public class BackupRestoreUtil {
      * @return true if directory should be filter from processing; otherwise, false.
      */
     public final boolean isFiltered(String keyspace, String columnFamilyDir) {
-        if (StringUtils.isEmpty(keyspace) || StringUtils.isEmpty(columnFamilyDir)) return false;
+        if (StringUtils.isEmpty(keyspace) || StringUtils.isEmpty(columnFamilyDir)) {
+            return false;
+        }
         String columnFamilyName = columnFamilyDir.split("-")[0];
         if (FILTER_COLUMN_FAMILY.containsKey(keyspace)
-                && FILTER_COLUMN_FAMILY.get(keyspace).contains(columnFamilyName)) return true;
-        if (excludeFilter != null)
+                && FILTER_COLUMN_FAMILY.get(keyspace).contains(columnFamilyName)) {
+            return true;
+        }
+        if (excludeFilter != null) {
             if (excludeFilter.containsKey(keyspace)
                     && (excludeFilter.get(keyspace).isEmpty()
-                            || excludeFilter.get(keyspace).contains(columnFamilyName))) {
+                    || excludeFilter.get(keyspace).contains(columnFamilyName))) {
                 return true;
             }
-        if (includeFilter != null)
+        }
+        if (includeFilter != null) {
             return !(includeFilter.containsKey(keyspace)
                     && (includeFilter.get(keyspace).isEmpty()
-                            || includeFilter.get(keyspace).contains(columnFamilyName)));
+                    || includeFilter.get(keyspace).contains(columnFamilyName)));
+        }
         return false;
     }
 }

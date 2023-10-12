@@ -31,7 +31,7 @@ import org.slf4j.LoggerFactory;
 public class PgpCryptography implements IFileCryptography {
     private static final Logger logger = LoggerFactory.getLogger(PgpCryptography.class);
 
-    private IConfiguration config;
+    private final IConfiguration config;
 
     static {
         // tell the JVM the security provider is PGP
@@ -107,10 +107,12 @@ public class PgpCryptography implements IFileCryptography {
 
         PGPEncryptedDataList encryptedDataList;
         // the first object might be a PGP marker packet.
-        if (o instanceof PGPEncryptedDataList) encryptedDataList = (PGPEncryptedDataList) o;
-        else
+        if (o instanceof PGPEncryptedDataList) {
+            encryptedDataList = (PGPEncryptedDataList) o;
+        } else {
             // first object was a marker, the real data is the next one.
             encryptedDataList = (PGPEncryptedDataList) inPgpReader.nextObject();
+        }
 
         // get the iterator so we can iterate through all the encrypted data.
         Iterator encryptedDataIterator = encryptedDataList.getEncryptedDataObjects();
@@ -138,11 +140,12 @@ public class PgpCryptography implements IFileCryptography {
                         ex);
             }
         }
-        if (privateKey == null)
+        if (privateKey == null) {
             throw new IllegalStateException(
                     "decryption exception:  object: "
                             + objectName
                             + ", Private key for message not found.");
+        }
 
         // finally, lets decrypt the object
         InputStream decryptInputStream = encryptedDataStreamHandle.getDataStream(privateKey, "BC");
@@ -233,11 +236,13 @@ public class PgpCryptography implements IFileCryptography {
         public byte[] next() {
             try {
 
-                byte buffer[] = new byte[2048];
+                byte[] buffer = new byte[2048];
                 int count;
                 while ((count = encryptedSrc.read(buffer, 0, buffer.length)) != -1) {
                     pgout.write(buffer, 0, count);
-                    if (bos.size() >= MAX_CHUNK) return returnSafe();
+                    if (bos.size() >= MAX_CHUNK) {
+                        return returnSafe();
+                    }
                 }
                 // flush remaining data in buffer and close resources.
                 return done();
@@ -284,8 +289,8 @@ public class PgpCryptography implements IFileCryptography {
     public class EncryptedInputStream extends InputStream {
 
         private final InputStream srcHandle; // handle to the source stream
-        private ByteArrayOutputStream bos = null; // Handle to encrypted stream
-        private int bosOff = 0; // current position within encrypted stream
+        private ByteArrayOutputStream bos; // Handle to encrypted stream
+        private int bosOff; // current position within encrypted stream
         private OutputStream
                 pgpBosWrapper; // wrapper around the buffer which will contain the encrypted data.
         private OutputStream encryptedOsWrapper; // handle to the encrypted data
@@ -354,7 +359,7 @@ public class PgpCryptography implements IFileCryptography {
          * @param max number of bytes to store in buffer
          */
         @Override
-        public synchronized int read(byte b[], int off, int len) throws IOException {
+        public synchronized int read(byte[] b, int off, int len) throws IOException {
             if (this.bosOff < this.bos.size()) {
                 // if here, you still have data in the encrypted stream, lets give it to the client
                 return copyToBuff(b, off, len);
