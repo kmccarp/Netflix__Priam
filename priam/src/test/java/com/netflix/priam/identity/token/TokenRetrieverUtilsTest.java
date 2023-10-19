@@ -22,7 +22,7 @@ public class TokenRetrieverUtilsTest {
     private static final String APP = "testapp";
     private static final String STATUS_URL_FORMAT = "http://%s:8080/Priam/REST/v1/cassadmin/status";
 
-    private ImmutableSet<PriamInstance> instances =
+    private final ImmutableSet<PriamInstance> instances =
             ImmutableSet.copyOf(
                     IntStream.range(0, 6)
                             .<PriamInstance>mapToObj(
@@ -30,7 +30,7 @@ public class TokenRetrieverUtilsTest {
                                             newMockPriamInstance(
                                                     APP,
                                                     "us-east",
-                                                    (e < 3) ? "az1" : "az2",
+                                                    e < 3 ? "az1" : "az2",
                                                     e,
                                                     String.format("fakeInstance-%d", e),
                                                     String.format("127.0.0.%d", e),
@@ -38,13 +38,13 @@ public class TokenRetrieverUtilsTest {
                                                     String.valueOf(e)))
                             .collect(Collectors.toList()));
 
-    private Map<String, String> tokenToEndpointMap =
+    private final Map<String, String> tokenToEndpointMap =
             IntStream.range(0, 6)
                     .mapToObj(e -> Integer.valueOf(e))
                     .collect(
                             Collectors.toMap(
                                     e -> String.valueOf(e), e -> String.format("127.0.0.%s", e)));
-    private List<String> liveInstances =
+    private final List<String> liveInstances =
             IntStream.range(0, 6)
                     .mapToObj(e -> String.format("127.0.0.%d", e))
                     .collect(Collectors.toList());
@@ -55,7 +55,7 @@ public class TokenRetrieverUtilsTest {
         List<String> myliveInstances =
                 liveInstances
                         .stream()
-                        .filter(x -> !x.equalsIgnoreCase("127.0.0.4"))
+                        .filter(x -> !"127.0.0.4".equalsIgnoreCase(x))
                         .collect(Collectors.toList());
 
         new Expectations() {
@@ -77,7 +77,7 @@ public class TokenRetrieverUtilsTest {
         List<String> myliveInstances =
                 liveInstances
                         .stream()
-                        .filter(x -> !x.equalsIgnoreCase("127.0.0.4"))
+                        .filter(x -> !"127.0.0.4".equalsIgnoreCase(x))
                         .collect(Collectors.toList());
 
         new Expectations() {
@@ -123,7 +123,7 @@ public class TokenRetrieverUtilsTest {
                         .mapToObj(String::valueOf)
                         .collect(
                                 Collectors.toMap(
-                                        Function.identity(), (i) -> tokenToEndpointMap.get(i)));
+                                        Function.identity(), tokenToEndpointMap::get));
         Map<String, String> alteredMap = new HashMap<>(myTokenToEndpointMap);
         alteredMap.put("1", "1.2.3.4");
 

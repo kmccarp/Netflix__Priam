@@ -44,11 +44,14 @@ public class NamedThreadPoolExecutor extends ThreadPoolExecutor {
 
         public void rejectedExecution(Runnable task, ThreadPoolExecutor executor) {
             while (true) {
-                if (executor.isShutdown())
+                if (executor.isShutdown()) {
                     throw new RejectedExecutionException("ThreadPoolExecutor has shut down");
+                }
 
                 try {
-                    if (queue.offer(task, 1000, TimeUnit.MILLISECONDS)) break;
+                    if (queue.offer(task, 1000, TimeUnit.MILLISECONDS)) {
+                        break;
+                    }
                 } catch (InterruptedException e) {
                     // NOP
                 }

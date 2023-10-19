@@ -42,10 +42,10 @@ import org.junit.Test;
 
 /** Created by aagrawal on 1/1/19. */
 public class TestForgottenFileManager {
-    private ForgottenFilesManager forgottenFilesManager;
-    private TestBackupUtils testBackupUtils;
-    private ForgottenFilesConfiguration configuration;
-    private List<Path> allFiles = new ArrayList<>();
+    private final ForgottenFilesManager forgottenFilesManager;
+    private final TestBackupUtils testBackupUtils;
+    private final ForgottenFilesConfiguration configuration;
+    private final List<Path> allFiles = new ArrayList<>();
     private Instant snapshotInstant;
     private Path snapshotDir;
 
@@ -203,9 +203,9 @@ public class TestForgottenFileManager {
         cfFiles =
                 FileUtils.listFiles(new File(allFiles.get(0).getParent().toString()), null, false);
         Assert.assertEquals(6, cfFiles.size());
-        int temp_file_name = 1;
+        int tempFileName = 1;
         for (File file : cfFiles) {
-            file.getName().equals(allFiles.get(temp_file_name++).getFileName().toString());
+            file.getName().equals(allFiles.get(tempFileName++).getFileName().toString());
         }
 
         // Snapshot is untouched.

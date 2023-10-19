@@ -69,7 +69,7 @@ public class BackupVerificationTask extends Task {
     @Override
     public void execute() throws Exception {
         // Ensure that backup version 2.0 is actually enabled.
-        if (backupRestoreConfig.getSnapshotMetaServiceCronExpression().equals("-1")) {
+        if ("-1".equals(backupRestoreConfig.getSnapshotMetaServiceCronExpression())) {
             logger.info("Skipping backup verification. V2 backups are not enabled.");
             return;
         }

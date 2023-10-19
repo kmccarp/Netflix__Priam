@@ -51,7 +51,9 @@ public class JVMOptionTunerTest {
                         .filter(returncode -> (returncode != 0))
                         .count();
 
-        if (failedVerification > 0) throw new Exception("Failed validation for CMS");
+        if (failedVerification > 0) {
+            throw new Exception("Failed validation for CMS");
+        }
     }
 
     @Test
@@ -73,7 +75,9 @@ public class JVMOptionTunerTest {
                         .filter(returncode -> (returncode != 0))
                         .count();
 
-        if (failedVerification > 0) throw new Exception("Failed validation for G1GC");
+        if (failedVerification > 0) {
+            throw new Exception("Failed validation for G1GC");
+        }
     }
 
     @Test

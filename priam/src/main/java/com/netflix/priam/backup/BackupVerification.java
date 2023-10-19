@@ -58,11 +58,10 @@ public class BackupVerification {
     }
 
     public IMetaProxy getMetaProxy(BackupVersion backupVersion) {
-        switch (backupVersion) {
-            case SNAPSHOT_BACKUP:
-                return metaV1Proxy;
-            case SNAPSHOT_META_SERVICE:
-                return metaV2Proxy;
+        if (backupVersion == com.netflix.priam.backup.BackupVersion.SNAPSHOT_BACKUP) {
+            return metaV1Proxy;
+        } else if (backupVersion == com.netflix.priam.backup.BackupVersion.SNAPSHOT_META_SERVICE) {
+            return metaV2Proxy;
         }
 
         return null;

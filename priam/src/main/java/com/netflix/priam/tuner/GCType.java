@@ -54,9 +54,10 @@ public enum GCType {
     public static GCType lookup(
             String gcType, boolean acceptNullOrEmpty, boolean acceptIllegalValue)
             throws UnsupportedTypeException {
-        if (StringUtils.isEmpty(gcType))
-            if (acceptNullOrEmpty) return null;
-            else {
+        if (StringUtils.isEmpty(gcType)) {
+            if (acceptNullOrEmpty) {
+                return null;
+            } else {
                 String message =
                         String.format(
                                 "%s is not a supported GC Type. Supported values are %s",
@@ -64,6 +65,7 @@ public enum GCType {
                 logger.error(message);
                 throw new UnsupportedTypeException(message);
             }
+        }
 
         try {
             return GCType.valueOf(gcType.toUpperCase());
@@ -90,7 +92,9 @@ public enum GCType {
         StringBuilder supportedValues = new StringBuilder();
         boolean first = true;
         for (GCType type : GCType.values()) {
-            if (!first) supportedValues.append(",");
+            if (!first) {
+                supportedValues.append(",");
+            }
             supportedValues.append(type);
             first = false;
         }

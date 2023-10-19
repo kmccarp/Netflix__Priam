@@ -34,8 +34,11 @@ public class TestDoublingLogic {
     @Test
     public void testSkip() {
         List<String> nodes = new ArrayList<>();
-        for (int i = 0; i < NODES_PER_RACS; i++)
-            for (int j = 0; j < RACS; j++) nodes.add("RAC-" + j);
+        for (int i = 0; i < NODES_PER_RACS; i++) {
+            for (int j = 0; j < RACS; j++) {
+                nodes.add("RAC-" + j);
+            }
+        }
         // printNodes(nodes);
 
         List<String> newNodes = nodes;
@@ -60,8 +63,11 @@ public class TestDoublingLogic {
         String temp = "";
         int count = 0;
         for (String node : newNodes) {
-            if (temp.equals(node)) count++;
-            else count = 0;
+            if (temp.equals(node)) {
+                count++;
+            } else {
+                count = 0;
+            }
 
             if (count == 2) {
                 System.out.println("Found an issue.....");
@@ -73,11 +79,14 @@ public class TestDoublingLogic {
         // compare if they are the same set...
         boolean test = true;
         for (int i = 0; i < nodes.size(); i++) {
-            if (!newNodes.get(i).equals(nodes.get(i))) test = false;
+            if (!newNodes.get(i).equals(nodes.get(i))) {
+                test = false;
+            }
         }
-        if (test)
+        if (test) {
             throw new RuntimeException(
                     "Awesome we are back to the natural order... No need to test more");
+        }
     }
 
     private List<String> doubleNodes(List<String> nodes) {
@@ -98,7 +107,9 @@ public class TestDoublingLogic {
                 return_.put(i + 3, return_.get(i));
             }
         }
-        for (int i = 0; i < nodes.size() * 2; i++) lst.add(return_.get(i));
+        for (int i = 0; i < nodes.size() * 2; i++) {
+            lst.add(return_.get(i));
+        }
 
         return lst;
     }

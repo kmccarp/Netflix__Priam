@@ -34,8 +34,8 @@ import org.slf4j.LoggerFactory;
 public class ClearCredential implements ICredential {
     private static final Logger logger = LoggerFactory.getLogger(ClearCredential.class);
     private static final String CRED_FILE = "/etc/awscredential.properties";
-    private final String AWS_ACCESS_ID;
-    private final String AWS_KEY;
+    private static final String AWS_ACCESS_ID;
+    private static final String AWS_KEY;
 
     public ClearCredential() {
         FileInputStream fis = null;
