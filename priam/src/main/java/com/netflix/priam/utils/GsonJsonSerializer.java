@@ -114,7 +114,7 @@ public class GsonJsonSerializer {
         }
 
         private long getEpoch(Instant value) {
-            return (value == null) ? null : value.toEpochMilli();
+            return value == null ? null : value.toEpochMilli();
         }
 
         @Override
@@ -134,7 +134,7 @@ public class GsonJsonSerializer {
     static class PathTypeAdapter extends TypeAdapter<Path> {
         @Override
         public void write(JsonWriter out, Path value) throws IOException {
-            String fileName = (value != null) ? value.toFile().getName() : null;
+            String fileName = value != null ? value.toFile().getName() : null;
             out.value(fileName);
         }
 

@@ -62,7 +62,7 @@ public class LocalInstanceInfo implements InstanceInfo {
 
     @Override
     public InstanceEnvironment getInstanceEnvironment() {
-        return (getVpcId() == null) ? InstanceEnvironment.CLASSIC : InstanceEnvironment.VPC;
+        return getVpcId() == null ? InstanceEnvironment.CLASSIC : InstanceEnvironment.VPC;
     }
 
     @Override

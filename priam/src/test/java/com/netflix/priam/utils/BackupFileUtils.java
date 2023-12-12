@@ -28,12 +28,13 @@ import org.apache.commons.io.FileUtils;
 /** Created by aagrawal on 9/23/18. */
 public class BackupFileUtils {
     public static void cleanupDir(Path dir) {
-        if (dir.toFile().exists())
+        if (dir.toFile().exists()) {
             try {
                 FileUtils.cleanDirectory(dir.toFile());
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
     }
 
     public static void generateDummyFiles(
@@ -46,7 +47,9 @@ public class BackupFileUtils {
             boolean cleanup)
             throws Exception {
         // Clean the dummy directory
-        if (cleanup) cleanupDir(dummyDir);
+        if (cleanup) {
+            cleanupDir(dummyDir);
+        }
 
         for (int i = 1; i <= noOfKeyspaces; i++) {
             String keyspaceName = "sample" + i;

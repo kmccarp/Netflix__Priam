@@ -76,10 +76,11 @@ public class AWSMembership implements IMembership {
             ImmutableSet.Builder<String> instanceIds = ImmutableSet.builder();
             for (AutoScalingGroup asg : res.getAutoScalingGroups()) {
                 for (Instance ins : asg.getInstances())
-                    if (!(ins.getLifecycleState().equalsIgnoreCase("Terminating")
-                            || ins.getLifecycleState().equalsIgnoreCase("shutting-down")
-                            || ins.getLifecycleState().equalsIgnoreCase("Terminated")))
+                    if (!("Terminating".equalsIgnoreCase(ins.getLifecycleState())
+                            || "shutting-down".equalsIgnoreCase(ins.getLifecycleState())
+                            || "Terminated".equalsIgnoreCase(ins.getLifecycleState()))) {
                         instanceIds.add(ins.getInstanceId());
+                    }
             }
             if (logger.isInfoEnabled()) {
                 logger.info(
@@ -91,7 +92,9 @@ public class AWSMembership implements IMembership {
             }
             return instanceIds.build();
         } finally {
-            if (client != null) client.shutdown();
+            if (client != null) {
+                client.shutdown();
+            }
         }
     }
 
@@ -112,7 +115,9 @@ public class AWSMembership implements IMembership {
             logger.info("Query on ASG returning {} instances", size);
             return size;
         } finally {
-            if (client != null) client.shutdown();
+            if (client != null) {
+                client.shutdown();
+            }
         }
     }
 
@@ -133,10 +138,11 @@ public class AWSMembership implements IMembership {
             ImmutableSet.Builder<String> instanceIds = ImmutableSet.builder();
             for (AutoScalingGroup asg : res.getAutoScalingGroups()) {
                 for (Instance ins : asg.getInstances())
-                    if (!(ins.getLifecycleState().equalsIgnoreCase("Terminating")
-                            || ins.getLifecycleState().equalsIgnoreCase("shutting-down")
-                            || ins.getLifecycleState().equalsIgnoreCase("Terminated")))
+                    if (!("Terminating".equalsIgnoreCase(ins.getLifecycleState())
+                            || "shutting-down".equalsIgnoreCase(ins.getLifecycleState())
+                            || "Terminated".equalsIgnoreCase(ins.getLifecycleState()))) {
                         instanceIds.add(ins.getInstanceId());
+                    }
             }
             if (logger.isInfoEnabled()) {
                 logger.info(
@@ -146,7 +152,9 @@ public class AWSMembership implements IMembership {
             }
             return instanceIds.build();
         } finally {
-            if (client != null) client.shutdown();
+            if (client != null) {
+                client.shutdown();
+            }
         }
     }
 
@@ -197,7 +205,9 @@ public class AWSMembership implements IMembership {
             }
 
         } finally {
-            if (client != null) client.shutdown();
+            if (client != null) {
+                client.shutdown();
+            }
         }
     }
 
@@ -229,7 +239,9 @@ public class AWSMembership implements IMembership {
                     instanceInfo.getVpcId());
             return "";
         } finally {
-            if (client != null) client.shutdown();
+            if (client != null) {
+                client.shutdown();
+            }
         }
     }
 
@@ -269,7 +281,9 @@ public class AWSMembership implements IMembership {
             }
 
         } finally {
-            if (client != null) client.shutdown();
+            if (client != null) {
+                client.shutdown();
+            }
         }
     }
 
@@ -289,8 +303,9 @@ public class AWSMembership implements IMembership {
                 DescribeSecurityGroupsResult result = client.describeSecurityGroups(req);
                 for (SecurityGroup group : result.getSecurityGroups())
                     for (IpPermission perm : group.getIpPermissions())
-                        if (perm.getFromPort() == from && perm.getToPort() == to)
+                        if (perm.getFromPort() == from && perm.getToPort() == to) {
                             ipPermissions.addAll(perm.getIpRanges());
+                        }
 
                 logger.debug("Fetch current permissions for classic env of running instance");
             } else {
@@ -310,15 +325,18 @@ public class AWSMembership implements IMembership {
                 DescribeSecurityGroupsResult result = client.describeSecurityGroups(req);
                 for (SecurityGroup group : result.getSecurityGroups())
                     for (IpPermission perm : group.getIpPermissions())
-                        if (perm.getFromPort() == from && perm.getToPort() == to)
+                        if (perm.getFromPort() == from && perm.getToPort() == to) {
                             ipPermissions.addAll(perm.getIpRanges());
+                        }
 
                 logger.debug("Fetch current permissions for vpc env of running instance");
             }
 
             return ipPermissions.build();
         } finally {
-            if (client != null) client.shutdown();
+            if (client != null) {
+                client.shutdown();
+            }
         }
     }
 
@@ -339,7 +357,9 @@ public class AWSMembership implements IMembership {
             ureq.setDesiredCapacity(asg.getMinSize() + 1);
             client.updateAutoScalingGroup(ureq);
         } finally {
-            if (client != null) client.shutdown();
+            if (client != null) {
+                client.shutdown();
+            }
         }
     }
 

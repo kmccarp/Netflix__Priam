@@ -46,7 +46,9 @@ public class DateUtil {
      * @return date formatted in yyyyMMdd
      */
     public static String formatyyyyMMdd(Date date) {
-        if (date == null) return null;
+        if (date == null) {
+            return null;
+        }
         return DateUtils.formatDate(date, yyyyMMdd);
     }
 
@@ -57,7 +59,9 @@ public class DateUtil {
      * @return date formatted in yyyyMMddHHmm
      */
     public static String formatyyyyMMddHHmm(Date date) {
-        if (date == null) return null;
+        if (date == null) {
+            return null;
+        }
         return DateUtils.formatDate(date, yyyyMMddHHmm);
     }
 
@@ -79,7 +83,9 @@ public class DateUtil {
      * @return the parsed date or null if input could not be parsed
      */
     public static Date getDate(String date) {
-        if (StringUtils.isEmpty(date)) return null;
+        if (StringUtils.isEmpty(date)) {
+            return null;
+        }
         return DateUtils.parseDate(date, patterns);
     }
 
@@ -90,7 +96,9 @@ public class DateUtil {
      * @return converted date to LocalDateTime
      */
     public static LocalDateTime convert(Date date) {
-        if (date == null) return null;
+        if (date == null) {
+            return null;
+        }
         return date.toInstant().atZone(defaultZoneId).toLocalDateTime();
     }
 
@@ -101,7 +109,9 @@ public class DateUtil {
      * @return date formatted in yyyyMMdd
      */
     public static String formatyyyyMMdd(LocalDateTime date) {
-        if (date == null) return null;
+        if (date == null) {
+            return null;
+        }
         return date.format(DateTimeFormatter.ofPattern(yyyyMMdd));
     }
 
@@ -112,7 +122,9 @@ public class DateUtil {
      * @return date formatted in yyyyMMddHHmm
      */
     public static String formatyyyyMMddHHmm(LocalDateTime date) {
-        if (date == null) return null;
+        if (date == null) {
+            return null;
+        }
         return date.format(DateTimeFormatter.ofPattern(yyyyMMddHHmm));
     }
 
@@ -123,12 +135,16 @@ public class DateUtil {
      * @return the parsed LocalDateTime or null if input could not be parsed
      */
     public static LocalDateTime getLocalDateTime(String date) {
-        if (StringUtils.isEmpty(date)) return null;
+        if (StringUtils.isEmpty(date)) {
+            return null;
+        }
 
         try {
             LocalDateTime localDateTime =
                     LocalDateTime.parse(date, DateTimeFormatter.ofPattern(yyyyMMddHHmm));
-            if (localDateTime != null) return localDateTime;
+            if (localDateTime != null) {
+                return localDateTime;
+            }
         } catch (DateTimeParseException e) {
             // Try the date only.
             try {
@@ -160,7 +176,9 @@ public class DateUtil {
      * @return The formatted instant based on the pattern. Null, if pattern or instant is null.
      */
     public static String formatInstant(String pattern, Instant instant) {
-        if (instant == null || StringUtils.isEmpty(pattern)) return null;
+        if (instant == null || StringUtils.isEmpty(pattern)) {
+            return null;
+        }
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern).withZone(utcZoneId);
         return formatter.format(instant);
@@ -172,9 +190,11 @@ public class DateUtil {
      * @param dateTime DateTime string that needs to be parsed.
      * @return Instant object depicting the date/time.
      */
-    public static final Instant parseInstant(String dateTime) {
+    public static Instant parseInstant(String dateTime) {
         LocalDateTime localDateTime = getLocalDateTime(dateTime);
-        if (localDateTime == null) return null;
+        if (localDateTime == null) {
+            return null;
+        }
         return localDateTime.atZone(utcZoneId).toInstant();
     }
 
@@ -188,7 +208,7 @@ public class DateUtil {
         }
 
         public DateRange(String daterange) {
-            if (StringUtils.isBlank(daterange) || daterange.equalsIgnoreCase("default")) {
+            if (StringUtils.isBlank(daterange) || "default".equalsIgnoreCase(daterange)) {
                 endTime = getInstant();
                 startTime = endTime.minus(1, ChronoUnit.DAYS);
             } else {
@@ -199,11 +219,15 @@ public class DateUtil {
         }
 
         public String match() {
-            if (startTime == null || endTime == null) return StringUtils.EMPTY;
+            if (startTime == null || endTime == null) {
+                return StringUtils.EMPTY;
+            }
             String sString = startTime.toEpochMilli() + "";
             String eString = endTime.toEpochMilli() + "";
             int diff = StringUtils.indexOfDifference(sString, eString);
-            if (diff < 0) return sString;
+            if (diff < 0) {
+                return sString;
+            }
             return sString.substring(0, diff);
         }
 
