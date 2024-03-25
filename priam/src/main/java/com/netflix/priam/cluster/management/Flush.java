@@ -68,8 +68,9 @@ public class Flush extends IClusterManagement<String> {
                 throw new IllegalArgumentException("Keyspace [" + keyspace + "] does not exist.");
             }
 
-            if (SchemaConstant.isSystemKeyspace(keyspace)) // no need to flush system keyspaces.
-            continue;
+            if (SchemaConstant.isSystemKeyspace(keyspace)) { // no need to flush system keyspaces.
+                continue;
+            }
 
             try {
                 cassandraOperations.forceKeyspaceFlush(keyspace);
@@ -89,7 +90,7 @@ public class Flush extends IClusterManagement<String> {
         // == get value from property
         String raw = this.config.getFlushKeyspaces();
         if (!StringUtils.isEmpty(raw)) {
-            String k[] = raw.split(",");
+            String[] k = raw.split(",");
             for (int i = 0; i < k.length; i++) {
                 this.keyspaces.add(i, k[i]);
             }

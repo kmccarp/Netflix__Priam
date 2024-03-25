@@ -34,8 +34,8 @@ import org.slf4j.LoggerFactory;
 public class ClearCredential implements ICredential {
     private static final Logger logger = LoggerFactory.getLogger(ClearCredential.class);
     private static final String CRED_FILE = "/etc/awscredential.properties";
-    private final String AWS_ACCESS_ID;
-    private final String AWS_KEY;
+    private final String awsAccessId;
+    private final String awsKey;
 
     public ClearCredential() {
         FileInputStream fis = null;
@@ -43,11 +43,11 @@ public class ClearCredential implements ICredential {
             fis = new FileInputStream(CRED_FILE);
             final Properties props = new Properties();
             props.load(fis);
-            AWS_ACCESS_ID =
+            awsAccessId =
                     props.getProperty("AWSACCESSID") != null
                             ? props.getProperty("AWSACCESSID").trim()
                             : "";
-            AWS_KEY = props.getProperty("AWSKEY") != null ? props.getProperty("AWSKEY").trim() : "";
+            awsKey = props.getProperty("AWSKEY") != null ? props.getProperty("AWSKEY").trim() : "";
         } catch (Exception e) {
             logger.error("Exception with credential file ", e);
             throw new RuntimeException("Problem reading credential file. Cannot start.", e);
@@ -59,7 +59,7 @@ public class ClearCredential implements ICredential {
     public AWSCredentialsProvider getAwsCredentialProvider() {
         return new AWSCredentialsProvider() {
             public AWSCredentials getCredentials() {
-                return new BasicAWSCredentials(AWS_ACCESS_ID, AWS_KEY);
+                return new BasicAWSCredentials(awsAccessId, awsKey);
             }
 
             public void refresh() {

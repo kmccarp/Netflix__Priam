@@ -35,14 +35,17 @@ public class DataFetcher {
             conn.setConnectTimeout(1000);
             conn.setReadTimeout(10000);
             conn.setRequestMethod("GET");
-            if (conn.getResponseCode() != 200)
+            if (conn.getResponseCode() != 200) {
                 throw new RuntimeException("Unable to get data for URL " + url);
+            }
 
             byte[] b = new byte[2048];
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
             responseStream = new DataInputStream((FilterInputStream) conn.getContent());
             int c = 0;
-            while ((c = responseStream.read(b, 0, b.length)) != -1) bos.write(b, 0, c);
+            while ((c = responseStream.read(b, 0, b.length)) != -1) {
+                bos.write(b, 0, c);
+            }
             String return_ = new String(bos.toByteArray(), Charsets.UTF_8);
             logger.info("Calling URL API: {} returns: {}", url, return_);
             conn.disconnect();
@@ -51,7 +54,9 @@ public class DataFetcher {
             throw new RuntimeException(ex);
         } finally {
             try {
-                if (responseStream != null) responseStream.close();
+                if (responseStream != null) {
+                    responseStream.close();
+                }
             } catch (Exception e) {
                 logger.warn("Failed to close response stream from priam", e);
             }

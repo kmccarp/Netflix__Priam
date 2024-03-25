@@ -87,10 +87,13 @@ public class PriamConfigurationPersister extends Task {
             structuredPathTmpWriter.writeValue(output, structuredConfiguration);
 
             // Atomically swap out the new config for the old config.
-            if (!output.renameTo(structuredPath.toFile()))
+            if (!output.renameTo(structuredPath.toFile())) {
                 logger.error("Failed to persist structured Priam configuration");
+            }
         } finally {
-            if (tempPath != null) Files.deleteIfExists(tempPath);
+            if (tempPath != null) {
+                Files.deleteIfExists(tempPath);
+            }
         }
     }
 

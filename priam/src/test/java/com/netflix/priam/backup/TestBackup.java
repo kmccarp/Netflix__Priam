@@ -117,12 +117,16 @@ public class TestBackup {
     public void testSkippingEmptyFiles() throws Exception {
         filesystem.cleanup();
         File tmp = new File("target/data/");
-        if (tmp.exists()) cleanup(tmp);
+        if (tmp.exists()) {
+            cleanup(tmp);
+        }
         File emptyFile =
                 new File(
                         "target/data/Keyspace1/Standard1/backups/Keyspace1-Standard1-ia-1-Data.db");
         File parent = emptyFile.getParentFile();
-        if (!parent.exists()) parent.mkdirs();
+        if (!parent.exists()) {
+            parent.mkdirs();
+        }
         Assert.assertTrue(emptyFile.createNewFile());
         IncrementalBackup backup = injector.getInstance(IncrementalBackup.class);
         backup.execute();
@@ -134,7 +138,9 @@ public class TestBackup {
             throws Exception {
         filesystem.cleanup();
         File tmp = new File("target/data/");
-        if (tmp.exists()) cleanup(tmp);
+        if (tmp.exists()) {
+            cleanup(tmp);
+        }
         // Generate "data"
         generateIncrementalFiles();
         Set<String> systemfiles = new HashSet<>();
@@ -154,8 +160,9 @@ public class TestBackup {
             File file = new File(systemFilePath);
             genTestFile(file);
             // Not cluster specific columns should be backed up
-            if (systemFilePath.contains("schema_columns"))
+            if (systemFilePath.contains("schema_columns")) {
                 expectedFiles.add(file.getAbsolutePath());
+            }
         }
         IncrementalBackup backup = injector.getInstance(IncrementalBackup.class);
         backup.execute();
@@ -166,7 +173,9 @@ public class TestBackup {
 
     private static void generateIncrementalFiles() {
         File tmp = new File("target/data/");
-        if (tmp.exists()) cleanup(tmp);
+        if (tmp.exists()) {
+            cleanup(tmp);
+        }
         // Setup
         Set<String> files = new HashSet<>();
         files.add("target/data/Keyspace1/Standard1/backups/Keyspace1-Standard1-ia-1-Data.db");
@@ -185,9 +194,13 @@ public class TestBackup {
     private static void genTestFile(File file) {
         try {
             File parent = file.getParentFile();
-            if (!parent.exists()) parent.mkdirs();
+            if (!parent.exists()) {
+                parent.mkdirs();
+            }
             BufferedOutputStream bos1 = new BufferedOutputStream(new FileOutputStream(file));
-            for (long i = 0; i < (5L * 1024); i++) bos1.write((byte) 8);
+            for (long i = 0; i < (5L * 1024); i++) {
+                bos1.write((byte)8);
+            }
             bos1.flush();
             bos1.close();
         } catch (Exception e) {
@@ -206,7 +219,9 @@ public class TestBackup {
         @Mock
         public void takeSnapshot(String snapshotName, String columnFamily, String... keyspaces) {
             File tmp = new File("target/data/");
-            if (tmp.exists()) cleanup(tmp);
+            if (tmp.exists()) {
+                cleanup(tmp);
+            }
             // Setup
             Set<String> files = new HashSet<>();
             files.add(
@@ -224,8 +239,9 @@ public class TestBackup {
             for (String filePath : files) {
                 File file = new File(filePath);
                 genTestFile(file);
-                if (!filePath.contains("Keyspace1-Standard1-ia-6-Data.db")) // skip
-                expectedFiles.add(file.getAbsolutePath());
+                if (!filePath.contains("Keyspace1-Standard1-ia-6-Data.db")) { // skip
+                    expectedFiles.add(file.getAbsolutePath());
+                }
             }
         }
 

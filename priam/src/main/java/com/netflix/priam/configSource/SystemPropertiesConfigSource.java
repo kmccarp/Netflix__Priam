@@ -41,7 +41,9 @@ public final class SystemPropertiesConfigSource extends AbstractConfigSource {
         Properties systemProps = System.getProperties();
 
         for (final String key : systemProps.stringPropertyNames()) {
-            if (!key.startsWith(PriamConfiguration.PRIAM_PRE)) continue;
+            if (!key.startsWith(PriamConfiguration.PRIAM_PRE)) {
+                continue;
+            }
             final String value = systemProps.getProperty(key);
             if (value != null && !BLANK.equals(value)) {
                 data.put(key, value);
